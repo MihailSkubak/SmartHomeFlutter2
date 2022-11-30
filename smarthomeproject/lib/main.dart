@@ -26,9 +26,15 @@ void main() async {
   runApp(MyApp(socket: socket));
 }
 
-connectSocket(String command) async {
+connectSocket(String command, String typeDevice) async {
   try {
-    Socket socked = await Socket.connect('192.168.0.119', 80);
+    String ipDevice = '';
+    if (typeDevice == '119') {
+      ipDevice = '192.168.0.119';
+    } else if (typeDevice == '145') {
+      ipDevice = '192.168.0.145';
+    }
+    Socket socked = await Socket.connect(ipDevice, 80);
     socked.write(command);
     try {
       socked.listen(handleClient);
@@ -51,7 +57,7 @@ void handleClient(Uint8List data) {
 
   // Show what the client said
   if (kDebugMode) {
-    print("client listen  : ${String.fromCharCodes(data).trim()}");
+    print("client listen : ${String.fromCharCodes(data).trim()}");
   }
   /*widget.channel.close();
     connectSocket();*/
@@ -111,19 +117,38 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextButton(
-                child: const Text("On", style: TextStyle(fontSize: 20.0)),
+                child: const Text("On119", style: TextStyle(fontSize: 20.0)),
                 onPressed: () {
                   setState(() {
-                    connectSocket("/RELE=ON0");
+                    connectSocket("/RELE=ON0", '119');
                     //widget.channel.write("/RELE=ON0");
                   });
                 },
               ),
               TextButton(
-                child: const Text("Off", style: TextStyle(fontSize: 20.0)),
+                child: const Text("Off119", style: TextStyle(fontSize: 20.0)),
                 onPressed: () {
                   setState(() {
-                    connectSocket("/RELE=OFF0");
+                    connectSocket("/RELE=OFF0", '119');
+                    //widget.channel.write("/RELE=OFF0");
+                  });
+                },
+              ),
+              ///////////
+              TextButton(
+                child: const Text("On145", style: TextStyle(fontSize: 20.0)),
+                onPressed: () {
+                  setState(() {
+                    connectSocket("/RELE=ON0", '145');
+                    //widget.channel.write("/RELE=ON0");
+                  });
+                },
+              ),
+              TextButton(
+                child: const Text("Off145", style: TextStyle(fontSize: 20.0)),
+                onPressed: () {
+                  setState(() {
+                    connectSocket("/RELE=OFF0", '145');
                     //widget.channel.write("/RELE=OFF0");
                   });
                 },
