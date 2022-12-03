@@ -105,7 +105,15 @@ class MainPageState extends State<MainPage> {
                                     ],
                                   );
                                 });
-                            widget.smartDeviceList.add(writeC.text.toString());
+                            if (!widget.smartDeviceList
+                                .contains(writeC.text.toString())) {
+                              widget.smartDeviceList
+                                  .add(writeC.text.toString());
+                              SmartDevice(widget.smartDeviceList.last)
+                                  .getData();
+                              await sendCommand(
+                                  "", SmartDevice(widget.smartDeviceList.last));
+                            }
                           } else {
                             showDialog(
                                 context: context,
@@ -151,6 +159,7 @@ class MainPageState extends State<MainPage> {
                                   );
                                 });
                           }
+                          setState(() {});
                         },
                       ),
                     ],

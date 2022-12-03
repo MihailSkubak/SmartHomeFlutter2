@@ -21,18 +21,18 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
             children: [
               TextButton(
                 child: const Text("On", style: TextStyle(fontSize: 20.0)),
-                onPressed: () {
+                onPressed: () async {
+                  await sendCommand("/RELE=ON0", widget.sd);
                   setState(() {
-                    sendCommand("/RELE=ON0", widget.sd);
                     //widget.channel.write("/RELE=ON0");
                   });
                 },
               ),
               TextButton(
                 child: const Text("Off", style: TextStyle(fontSize: 20.0)),
-                onPressed: () {
+                onPressed: () async {
+                  await sendCommand("/RELE=OFF0", widget.sd);
                   setState(() {
-                    sendCommand("/RELE=OFF0", widget.sd);
                     //widget.channel.write("/RELE=OFF0");
                   });
                 },

@@ -1,31 +1,8 @@
+import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 
-/*connectSocket(String command, String typeDevice) async {
-  try {
-    String ipDevice = '';
-    if (typeDevice == '119') {
-      ipDevice = '192.168.0.119';
-    } else if (typeDevice == '145') {
-      ipDevice = '192.168.0.145';
-    }
-    Socket socked = await Socket.connect(ipDevice, 80);
-    socked.write(command);
-    try {
-      socked.listen(handleClient);
-    } catch (e) {
-      if (kDebugMode) {
-        print("Already read!");
-      }
-    }
-  } catch (e) {
-    if (kDebugMode) {
-      print("Error! can not connect WS connectWs $e");
-    }
-  }
-}*/
 connectSocket(String ipDevice) async {
   try {
     Socket socked = await Socket.connect('192.168.0.$ipDevice', 80);
@@ -42,6 +19,14 @@ sendCommand(String command, SmartDevice sd) async {
   try {
     Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
     socked.write(command);
+    try {
+      handleClient(socked, sd);
+    } catch (e) {
+      if (kDebugMode) {
+        print("Already read!");
+      }
+      socked.close();
+    }
   } catch (e) {
     if (kDebugMode) {
       print("Error! can not connect WS connectWs $e");
@@ -49,17 +34,41 @@ sendCommand(String command, SmartDevice sd) async {
   }
 }
 
-void handleClient(Uint8List data) {
-  // Show the address and port of the client
-  /*print('Connection from '
-        '${socket.remoteAddress.address}:${socket.remotePort}');*/
+getDataFromDevice(SmartDevice sd) async {
+  //int timerPeriod = 0;
+  Timer.periodic(const Duration(milliseconds: 30000), (timer) async {
+    //timerPeriod = 30000;
+    try {
+      Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
+      try {
+        handleClient(socked, sd);
+        //socked.close();
+      } catch (e) {
+        if (kDebugMode) {
+          print("Already read!");
+        }
+        socked.close();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error! can not connect WS connectWs $e");
+      }
+    }
+  });
+}
 
-  // Show what the client said
-  if (kDebugMode) {
-    print("client listen : ${String.fromCharCodes(data).trim()}");
-  }
-  /*widget.channel.close();
-    connectSocket();*/
-  // Send acknowledgement to client
-  //socket.write("Hello from simple server!\n");
+void handleClient(Socket client, SmartDevice sd) {
+  String reply = '';
+  client.listen((data) {
+    if (kDebugMode) {
+      print("client listen : ${String.fromCharCodes(data).trim()}");
+      reply = String.fromCharCodes(data).trim();
+      print("Reply: $reply");
+    }
+  }, onDone: () {
+    if (kDebugMode) {
+      print("server done");
+      client.close();
+    }
+  });
 }
