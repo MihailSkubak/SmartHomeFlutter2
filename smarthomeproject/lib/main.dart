@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/firstPageWidget.dart';
+import 'package:provider/provider.dart';
 
 void main() {
+  return runApp(ChangeNotifierProvider<ThemeNotifier>(
+    create: (_) => ThemeNotifier(),
+    child: const MyApp(),
+  ));
   // modify with your true address/port
   //Socket socket = await Socket.connect('192.168.0.119', 80);
-  runApp(const MyApp());
+  //runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +18,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Smart Home',
-      home: MainPage(),
-    );
+    return Consumer<ThemeNotifier>(
+        builder: (context, theme, _) => MaterialApp(
+              theme: theme.getTheme(),
+              debugShowCheckedModeBanner: false,
+              title: 'Smart Home',
+              home: MainPage(),
+            ));
   }
 }
