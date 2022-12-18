@@ -3,6 +3,7 @@ import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 import 'package:smarthomeproject/widgets/settingsPageWidget.dart';
 import 'package:smarthomeproject/widgets/widgetListFirstPage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
 class MainPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text('Smart Home'),
+            title: Text('smart-home.label'.tr()),
             leading: const Icon(
               Icons.home,
               size: 45,
