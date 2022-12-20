@@ -53,6 +53,7 @@ class SettingsPageState extends State<SettingsPage> {
                     leading: const Icon(
                       Icons.dark_mode,
                       size: 30,
+                      color: Colors.blue,
                     ),
                     trailing: CupertinoSwitch(
                       value: theme.switchValueTheme(),
@@ -70,8 +71,9 @@ class SettingsPageState extends State<SettingsPage> {
                   ListTile(
                       title: Text('language.label'.tr()),
                       leading: const Icon(
-                        Icons.dark_mode,
+                        Icons.language_outlined,
                         size: 30,
+                        color: Colors.blue,
                       ),
                       trailing: DropdownButton<String>(
                         //dropdownColor:

@@ -32,37 +32,37 @@ class StorageManager {
 
 class ThemeNotifier with ChangeNotifier {
   final darkTheme = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
-    primarySwatch: Colors.blue,
-    primaryColor: Colors.black,
-    brightness: Brightness.dark,
-    backgroundColor: const Color(0xFF212121),
-    accentColor: Colors.white,
-    accentIconTheme: const IconThemeData(color: Colors.black),
-    dividerColor: Colors.black12,
-  );
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+      primarySwatch: Colors.blue,
+      primaryColor: Colors.black,
+      brightness: Brightness.dark,
+      backgroundColor: const Color(0xFF212121),
+      accentColor: Colors.white,
+      //accentIconTheme: const IconThemeData(color: Colors.black),
+      dividerColor: Colors.black12,
+      iconTheme: const IconThemeData(color: Colors.blue));
 
   final lightTheme = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
-    primarySwatch: Colors.blue,
-    primaryColor: Colors.white,
-    brightness: Brightness.light,
-    backgroundColor: const Color(0xFFE5E5E5),
-    accentColor: Colors.black,
-    accentIconTheme: const IconThemeData(color: Colors.white),
-    dividerColor: Colors.white54,
-  );
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+      primarySwatch: Colors.blue,
+      primaryColor: Colors.white,
+      brightness: Brightness.light,
+      backgroundColor: const Color(0xFFE5E5E5),
+      accentColor: Colors.black,
+      //accentIconTheme: const IconThemeData(color: Colors.blue),
+      dividerColor: Colors.white54,
+      iconTheme: const IconThemeData(color: Colors.blue));
 
   ThemeData _themeData = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
-    primarySwatch: Colors.blue,
-    primaryColor: Colors.white,
-    brightness: Brightness.light,
-    backgroundColor: const Color(0xFFE5E5E5),
-    accentColor: Colors.black,
-    accentIconTheme: const IconThemeData(color: Colors.white),
-    dividerColor: Colors.white54,
-  );
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+      primarySwatch: Colors.blue,
+      primaryColor: Colors.white,
+      brightness: Brightness.light,
+      backgroundColor: const Color(0xFFE5E5E5),
+      accentColor: Colors.black,
+      //accentIconTheme: const IconThemeData(color: Colors.white),
+      dividerColor: Colors.white54,
+      iconTheme: const IconThemeData(color: Colors.blue));
   ThemeData getTheme() => _themeData;
 
   ThemeNotifier() {
