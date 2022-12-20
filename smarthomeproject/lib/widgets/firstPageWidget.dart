@@ -39,10 +39,10 @@ class MainPageState extends State<MainPage> {
                         //backgroundColor: Colors.white,
 
                         ///darkModeOn ? Colors.grey[900] : Colors.white,
-                        title: const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Write IP adress device!',
+                            'write-the-name-of-device.label'.tr(),
                             //style: TextStyle(color: Colors.blue),
                           ),
                         ),
@@ -60,8 +60,8 @@ class MainPageState extends State<MainPage> {
                                 color: Colors.white,
                               ),
                             ),
-                            child: const Text('Cancel',
-                                style: TextStyle(color: Colors.white)),
+                            child: Text('cancel.label'.tr(),
+                                style: const TextStyle(color: Colors.white)),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -73,9 +73,9 @@ class MainPageState extends State<MainPage> {
                                 color: Colors.white,
                               ),
                             ),
-                            child: const Text(
-                              "Ok",
-                              style: TextStyle(color: Colors.white),
+                            child: Text(
+                              "ok.label".tr(),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {
                               connected =
@@ -86,8 +86,8 @@ class MainPageState extends State<MainPage> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         //darkModeOn ? Colors.grey[900] : Colors.white,
-                                        title:
-                                            const Text('Device is connected!'),
+                                        title: Text(
+                                            'device-is-connected.label'.tr()),
                                         actions: <Widget>[
                                           TextButton(
                                             style: TextButton.styleFrom(
@@ -96,9 +96,9 @@ class MainPageState extends State<MainPage> {
                                                 color: Colors.white,
                                               ),
                                             ),
-                                            child: const Text(
-                                              'Ok',
-                                              style: TextStyle(
+                                            child: Text(
+                                              'ok.label'.tr(),
+                                              style: const TextStyle(
                                                   color: Colors.white),
                                             ),
                                             onPressed: () {
@@ -126,8 +126,9 @@ class MainPageState extends State<MainPage> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         //darkModeOn ? Colors.grey[900] : Colors.white,
-                                        title: const Text(
-                                            'Device is not connected! Do you want to repeat?'),
+                                        title: Text(
+                                            'device-is-not-connected-Do-you-want-to-repeat.label'
+                                                .tr()),
                                         actions: <Widget>[
                                           TextButton(
                                             style: TextButton.styleFrom(
@@ -136,9 +137,9 @@ class MainPageState extends State<MainPage> {
                                                 color: Colors.white,
                                               ),
                                             ),
-                                            child: const Text(
-                                              'No',
-                                              style: TextStyle(
+                                            child: Text(
+                                              'no.label'.tr(),
+                                              style: const TextStyle(
                                                   color: Colors.white),
                                             ),
                                             onPressed: () {
@@ -153,9 +154,9 @@ class MainPageState extends State<MainPage> {
                                                 color: Colors.white,
                                               ),
                                             ),
-                                            child: const Text(
-                                              'Yes',
-                                              style: TextStyle(
+                                            child: Text(
+                                              'yes.label'.tr(),
+                                              style: const TextStyle(
                                                   color: Colors.white),
                                             ),
                                             onPressed: () {

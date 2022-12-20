@@ -3,5 +3,55 @@
     "label": "Inteligentny Dom", 
     "originalLabel": "Smart Home", 
     "comment": "Smart Home" 
+  },
+  "write-the-name-of-device": {
+    "label": "Wpisz nazwę urządzenia!", 
+    "originalLabel": "Write the name of device!", 
+    "comment": "Write the name of device!" 
+  },
+  "cancel": { 
+    "label": "Anuluj", 
+    "originalLabel": "Cancel", 
+    "comment": "Cancel" 
+  },
+  "ok": { 
+    "label": "Ok", 
+    "originalLabel": "Ok", 
+    "comment": "Ok" 
+  },
+  "device-is-connected": { 
+    "label": "Urządzenie jest podłączone!", 
+    "originalLabel": "device-is-connected", 
+    "comment": "device-is-connected" 
+  },
+  "device-is-not-connected-Do-you-want-to-repeat": { 
+    "label": "Urządzenie nie jest podłączone! Czy chcesz spróbować jeszcze raz?", 
+    "originalLabel": "device-is-not-connected-Do-you-want-to-repeat", 
+    "comment": "device-is-not-connected-Do-you-want-to-repeat" 
+  },
+  "no": { 
+    "label": "Nie", 
+    "originalLabel": "no", 
+    "comment": "no" 
+  },
+  "yes": { 
+    "label": "Tak", 
+    "originalLabel": "Yes", 
+    "comment": "Yes" 
+  },
+  "settings": {
+    "label": "Ustawienia", 
+    "originalLabel": "settings", 
+    "comment": "settings"
+  },
+  "theme": {
+    "label": "Motyw", 
+    "originalLabel": "theme", 
+    "comment": "theme" 
+  },
+  "language": {
+    "label": "Język", 
+    "originalLabel": "language", 
+    "comment": "language" 
   }
 }

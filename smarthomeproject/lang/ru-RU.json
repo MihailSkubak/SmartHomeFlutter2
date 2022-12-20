@@ -3,5 +3,55 @@
       "label": "Умный Дом", 
       "originalLabel": "Smart Home", 
       "comment": "Smart Home" 
+    },
+    "write-the-name-of-device": {
+      "label": "Напишите название устройства!", 
+      "originalLabel": "Write the name of device!", 
+      "comment": "Write the name of device!" 
+    },
+    "cancel": { 
+      "label": "Отмена", 
+      "originalLabel": "Cancel", 
+      "comment": "Cancel" 
+    },
+    "ok": { 
+      "label": "Ok", 
+      "originalLabel": "Ok", 
+      "comment": "Ok" 
+    },
+    "device-is-connected": { 
+      "label": "Устройство подключено!", 
+      "originalLabel": "device-is-connected", 
+      "comment": "device-is-connected" 
+    },
+    "device-is-not-connected-Do-you-want-to-repeat": { 
+      "label": "Устройство не подключено! Вы хотите повторить?", 
+      "originalLabel": "device-is-not-connected-Do-you-want-to-repeat", 
+      "comment": "device-is-not-connected-Do-you-want-to-repeat" 
+    },
+    "no": { 
+      "label": "Нет", 
+      "originalLabel": "no", 
+      "comment": "no" 
+    },
+    "yes": { 
+      "label": "Да", 
+      "originalLabel": "Yes", 
+      "comment": "Yes" 
+    },
+    "settings": {
+      "label": "Настройки", 
+      "originalLabel": "settings", 
+      "comment": "settings"
+    },
+    "theme": {
+      "label": "Тема", 
+      "originalLabel": "theme", 
+      "comment": "theme" 
+    },
+    "language": {
+      "label": "Язык", 
+      "originalLabel": "language", 
+      "comment": "language" 
     }
   }

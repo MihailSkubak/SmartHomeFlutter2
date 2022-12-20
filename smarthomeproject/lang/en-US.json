@@ -3,5 +3,55 @@
     "label": "Smart Home", 
     "originalLabel": "Smart Home", 
     "comment": "Smart Home" 
+  },
+  "write-the-name-of-device": {
+    "label": "Write the name of device!", 
+    "originalLabel": "Write the name of device!", 
+    "comment": "Write the name of device!" 
+  },
+  "cancel": { 
+    "label": "Cancel", 
+    "originalLabel": "Cancel", 
+    "comment": "Cancel" 
+  },
+  "ok": { 
+    "label": "Ok", 
+    "originalLabel": "Ok", 
+    "comment": "Ok" 
+  },
+  "device-is-connected": { 
+    "label": "Device is connected!", 
+    "originalLabel": "device-is-connected", 
+    "comment": "device-is-connected" 
+  },
+  "device-is-not-connected-Do-you-want-to-repeat": { 
+    "label": "Device is not connected! Do you want to repeat?", 
+    "originalLabel": "device-is-not-connected-Do-you-want-to-repeat", 
+    "comment": "device-is-not-connected-Do-you-want-to-repeat" 
+  },
+  "no": { 
+    "label": "No", 
+    "originalLabel": "no", 
+    "comment": "no" 
+  },
+  "yes": { 
+    "label": "Yes", 
+    "originalLabel": "Yes", 
+    "comment": "Yes" 
+  },
+  "settings": {
+    "label": "Settings", 
+    "originalLabel": "settings", 
+    "comment": "settings"
+  },
+  "theme": {
+    "label": "Theme", 
+    "originalLabel": "theme", 
+    "comment": "theme" 
+  },
+  "language": {
+    "label": "Language", 
+    "originalLabel": "language", 
+    "comment": "language" 
   }
 }

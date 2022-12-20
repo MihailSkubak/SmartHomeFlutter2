@@ -36,7 +36,7 @@ class SettingsPageState extends State<SettingsPage> {
             theme: theme.getTheme(),
             home: Scaffold(
                 appBar: AppBar(
-                    title: const Text('Settings'),
+                    title: Text('settings.label'.tr()),
                     leading: IconButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -49,7 +49,7 @@ class SettingsPageState extends State<SettingsPage> {
                 body: SingleChildScrollView(
                     child: Column(children: <Widget>[
                   ListTile(
-                    title: const Text('Theme'),
+                    title: Text('theme.label'.tr()),
                     leading: const Icon(
                       Icons.dark_mode,
                       size: 30,
@@ -68,7 +68,7 @@ class SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   ListTile(
-                      title: const Text('Lang'),
+                      title: Text('language.label'.tr()),
                       leading: const Icon(
                         Icons.dark_mode,
                         size: 30,
