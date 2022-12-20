@@ -32,7 +32,8 @@ class StorageManager {
 
 class ThemeNotifier with ChangeNotifier {
   final darkTheme = ThemeData(
-    primarySwatch: Colors.grey,
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+    primarySwatch: Colors.blue,
     primaryColor: Colors.black,
     brightness: Brightness.dark,
     backgroundColor: const Color(0xFF212121),
@@ -42,7 +43,8 @@ class ThemeNotifier with ChangeNotifier {
   );
 
   final lightTheme = ThemeData(
-    primarySwatch: Colors.grey,
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+    primarySwatch: Colors.blue,
     primaryColor: Colors.white,
     brightness: Brightness.light,
     backgroundColor: const Color(0xFFE5E5E5),
@@ -52,7 +54,8 @@ class ThemeNotifier with ChangeNotifier {
   );
 
   ThemeData _themeData = ThemeData(
-    primarySwatch: Colors.grey,
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
+    primarySwatch: Colors.blue,
     primaryColor: Colors.white,
     brightness: Brightness.light,
     backgroundColor: const Color(0xFFE5E5E5),

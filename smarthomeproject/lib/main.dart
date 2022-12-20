@@ -59,7 +59,9 @@ class MyApp extends StatelessWidget {
               },
               debugShowCheckedModeBanner: false,
               title: 'Smart Home',
-              home: MainPage(),
+              home: MainPage(
+                theme: theme,
+              ),
             ));
   }
 }

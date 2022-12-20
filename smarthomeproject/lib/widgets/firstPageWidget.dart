@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
+import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/settingsPageWidget.dart';
 import 'package:smarthomeproject/widgets/widgetListFirstPage.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,8 +9,8 @@ import 'package:easy_localization/easy_localization.dart';
 // ignore: must_be_immutable
 class MainPage extends StatefulWidget {
   final List<String> smartDeviceList = [];
-
-  MainPage({super.key});
+  ThemeNotifier theme;
+  MainPage({super.key, required this.theme});
   @override
   MainPageState createState() => MainPageState();
 }
@@ -20,6 +21,8 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            /*backgroundColor:
+                widget.theme.switchValueTheme() ? Colors.blue : Colors.red,*/
             title: Text('smart-home.label'.tr()),
             leading: const Icon(
               Icons.home,
