@@ -26,8 +26,8 @@ class MainPageState extends State<MainPage> {
         for (int i = 0; i < globals.rememberDevice.length; i++) {
           if (await connectSocket(globals.rememberDevice[i])) {
             widget.smartDeviceList.add(globals.rememberDevice[i]);
-            SmartDevice(widget.smartDeviceList.last).getData();
-            await sendCommand("", SmartDevice(widget.smartDeviceList.last));
+            /*SmartDevice(widget.smartDeviceList.last).getData();
+            await sendCommand("", SmartDevice(widget.smartDeviceList.last));*/
             setState(() {});
           }
         }
@@ -147,10 +147,10 @@ class MainPageState extends State<MainPage> {
                                     .contains(writeC.text.toString())) {
                                   widget.smartDeviceList
                                       .add(writeC.text.toString());
-                                  SmartDevice(widget.smartDeviceList.last)
+                                  /*SmartDevice(widget.smartDeviceList.last)
                                       .getData();
                                   await sendCommand("",
-                                      SmartDevice(widget.smartDeviceList.last));
+                                      SmartDevice(widget.smartDeviceList.last));*/
                                 }
                               } else {
                                 showDialog(
