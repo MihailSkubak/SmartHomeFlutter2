@@ -20,6 +20,9 @@ void main() async {
       globals.savedLocale = const Locale('ru', 'RU');
     }
   }
+  if (sharedPrefs.getStringList('key-remember-device') != null) {
+    globals.rememberDevice = sharedPrefs.getStringList('key-remember-device')!;
+  }
   return runApp(ChangeNotifierProvider<ThemeNotifier>(
       create: (_) => ThemeNotifier(),
       child: EasyLocalization(

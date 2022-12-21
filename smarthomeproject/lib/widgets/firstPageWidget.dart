@@ -5,6 +5,8 @@ import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/settingsPageWidget.dart';
 import 'package:smarthomeproject/widgets/widgetListFirstPage.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class MainPage extends StatefulWidget {
@@ -17,8 +19,26 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   final _scrollController = ScrollController();
+
+  void startRememberDevice() async {
+    if (globals.onceDoneConnectingToDevice) {
+      if (globals.rememberDevice.isNotEmpty) {
+        for (int i = 0; i < globals.rememberDevice.length; i++) {
+          if (await connectSocket(globals.rememberDevice[i])) {
+            widget.smartDeviceList.add(globals.rememberDevice[i]);
+            SmartDevice(widget.smartDeviceList.last).getData();
+            await sendCommand("", SmartDevice(widget.smartDeviceList.last));
+            setState(() {});
+          }
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    startRememberDevice();
+    globals.onceDoneConnectingToDevice = false;
     return Scaffold(
         appBar: AppBar(
             /*backgroundColor:
@@ -114,6 +134,15 @@ class MainPageState extends State<MainPage> {
                                         ],
                                       );
                                     });
+                                if (!globals.rememberDevice
+                                    .contains(writeC.text.toString())) {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  globals.rememberDevice
+                                      .add(writeC.text.toString());
+                                  prefs.setStringList('key-remember-device',
+                                      globals.rememberDevice);
+                                }
                                 if (!widget.smartDeviceList
                                     .contains(writeC.text.toString())) {
                                   widget.smartDeviceList
