@@ -53,5 +53,25 @@
     "label": "Language", 
     "originalLabel": "language", 
     "comment": "language" 
+  },
+  "Lost-connection-to-device": {
+    "label": "Lost connection to device ", 
+    "originalLabel": "Lost connection to device", 
+    "comment": "Lost connection to device" 
+  },
+  "Try-to-connect-to-the-device": {
+    "label": " Try to connect to the device!", 
+    "originalLabel": "Try to connect to the device!", 
+    "comment": "Try to connect to the device!"
+  },
+  "disconnected":{
+    "label": " Disconnected", 
+    "originalLabel": "disconnected", 
+    "comment": "disconnected" 
+  },
+  "connected":{
+    "label": " Connected", 
+    "originalLabel": "connected", 
+    "comment": "connected" 
   }
 }

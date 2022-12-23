@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
+import 'package:smarthomeproject/widgets/customDialog.dart';
 
 connectSocket(String ipDevice) async {
   try {
@@ -34,25 +35,47 @@ sendCommand(String command, SmartDevice sd) async {
   }
 }
 
-getDataFromDevice(SmartDevice sd) async {
+getDataFromDevice(SmartDevice sd, context) {
   //int timerPeriod = 0;
-  Timer.periodic(const Duration(milliseconds: 30000), (timer) async {
-    //timerPeriod = 30000;
-    try {
-      Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
+  Timer.periodic(const Duration(milliseconds: 5000), (timer) async {
+    //30000
+    if (sd.connected) {
+      //timerPeriod = 30000;
       try {
-        handleClient(socked, sd);
-        //socked.close();
+        Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
+        try {
+          sd.connected = true;
+          sd.breakConnect = 0;
+          handleClient(socked, sd);
+          //socked.close();
+        } catch (e) {
+          if (kDebugMode) {
+            print("Already read!");
+          }
+          socked.close();
+        }
       } catch (e) {
         if (kDebugMode) {
-          print("Already read!");
+          print('Lost Connected!!!');
         }
-        socked.close();
+        //timer.cancel();
+        if (sd.breakConnect == 1) {
+          timer.cancel();
+          sd.connected = false;
+          sd.breakConnect = 0;
+          if (sd.showDialogLostConnect) {
+            sd.showDialogLostConnect = false;
+            lostDevice(sd, context);
+          }
+        } else {
+          sd.breakConnect++;
+        }
       }
-    } catch (e) {
+    } else {
       if (kDebugMode) {
-        print("Error! can not connect WS connectWs $e");
+        print('Disconnected!!!');
       }
+      timer.cancel();
     }
   });
 }

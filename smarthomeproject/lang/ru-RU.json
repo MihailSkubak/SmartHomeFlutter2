@@ -53,5 +53,25 @@
       "label": "Язык", 
       "originalLabel": "language", 
       "comment": "language" 
+    },
+    "Lost-connection-to-device": {
+      "label": "Потеряно подключение к устройству ", 
+      "originalLabel": "Lost connection to device", 
+      "comment": "Lost connection to device" 
+    },
+    "Try-to-connect-to-the-device": {
+      "label": " Попробуйте подключиться к устройству!", 
+      "originalLabel": "Try to connect to the device!", 
+      "comment": "Try to connect to the device!"
+    },
+    "disconnected":{
+      "label": " Отключиться", 
+      "originalLabel": "disconnected", 
+      "comment": "disconnected" 
+    },
+    "connected":{
+      "label": " Подключиться", 
+      "originalLabel": "connected", 
+      "comment": "connected" 
     }
   }

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
+import 'package:smarthomeproject/widgets/customDialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
@@ -27,39 +29,115 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
   @override
   void initState() {
     super.initState();
-    widget.sd.getData(widget.sd);
+    //widget.sd.lostConnect = false;
+    widget.sd.showDialogLostConnect = true;
+    getDataFromDevice(widget.sd, context);
     sendCommand("", widget.sd);
+  }
+
+  PopupMenuItem _buildPopupMenuItem(String title, IconData iconData) {
+    return PopupMenuItem(
+      onTap: () {
+        if (!widget.sd.connected) {
+          setState(() {
+            widget.sd.connected = true;
+            //widget.sd.lostConnect = false;
+            widget.sd.showDialogLostConnect = true;
+          });
+          getDataFromDevice(widget.sd, context);
+          sendCommand("", widget.sd);
+        } else {
+          setState(() {
+            widget.sd.connected = false;
+          });
+        }
+      },
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            color: widget.sd.connected ? Colors.red : Colors.blue,
+          ),
+          Text(title),
+        ],
+      ),
+    );
+  }
+
+  var detail;
+  void getDetails(details) {
+    detail = details;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Card(
-          elevation: 5,
-          child: ExpansionTile(
-            title: Text(widget.sd.nameDevice),
-            children: [
-              Text("Temperatura : ${widget.sd.temperatura.toString()}"),
-              TextButton(
-                child: const Text("On", style: TextStyle(fontSize: 20.0)),
-                onPressed: () async {
-                  await sendCommand("/RELE=ON0", widget.sd);
-                  setState(() {
-                    //widget.channel.write("/RELE=ON0");
-                  });
-                },
-              ),
-              TextButton(
-                child: const Text("Off", style: TextStyle(fontSize: 20.0)),
-                onPressed: () async {
-                  await sendCommand("/RELE=OFF0", widget.sd);
-                  setState(() {
-                    //widget.channel.write("/RELE=OFF0");
-                  });
-                },
-              ),
-            ],
-          ))
+      GestureDetector(
+          onTapDown: (details) => getDetails(details),
+          onLongPress: () {
+            //TabDownDetails details;
+            /*RenderBox renderBox =
+                stationKey.currentContext?.findRenderObject() as RenderBox;
+            Offset offset = renderBox.localToGlobal(Offset.zero);*/
+            /*PopupMenuButton(
+              itemBuilder: (ctx) => [
+                _buildPopupMenuItem(
+                    widget.sd.connected ? 'Connected' : 'Disconnected',
+                    Icons.wifi),
+              ],
+            );*/
+            showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(
+                    detail.globalPosition.dx + 65,
+                    detail.globalPosition.dy + 0,
+                    detail.globalPosition.dx + 65,
+                    detail.globalPosition.dy + 0),
+                items: [
+                  _buildPopupMenuItem(
+                      widget.sd.connected
+                          ? 'disconnected.label'.tr()
+                          : 'connected.label'.tr(),
+                      Icons.wifi)
+                ]);
+          },
+          child: Card(
+              elevation: 5,
+              child: ExpansionTile(
+                leading: const Icon(
+                  Icons.maps_home_work_sharp,
+                  size: 45,
+                ),
+                title: Text(widget.sd.nameDevice),
+                subtitle: Row(children: [
+                  Icon(
+                    Icons.wifi,
+                    size: 20,
+                    color: widget.sd.connected ? Colors.blue : Colors.red,
+                  ),
+                ]),
+                children: [
+                  Text("Temperatura : ${widget.sd.temperatura.toString()}"),
+                  TextButton(
+                    child: const Text("On", style: TextStyle(fontSize: 20.0)),
+                    onPressed: () async {
+                      await sendCommand("/RELE=ON0", widget.sd);
+                      setState(() {
+                        //widget.channel.write("/RELE=ON0");
+                      });
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("Off", style: TextStyle(fontSize: 20.0)),
+                    onPressed: () async {
+                      await sendCommand("/RELE=OFF0", widget.sd);
+                      setState(() {
+                        //widget.channel.write("/RELE=OFF0");
+                      });
+                    },
+                  ),
+                ],
+              )))
     ]);
   }
 }
