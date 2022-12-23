@@ -228,26 +228,40 @@ class MainPageState extends State<MainPage> {
                 ),
               )
             ]),
-        body: SingleChildScrollView(
-            child: Column(children: <Widget>[
-          ListView.builder(
-              //key: Key('builder ${_selected.toString()}'), //attention
-              //padding: EdgeInsets.only(left: 13.0, right: 13.0, bottom: 25.0),
-              shrinkWrap: true,
-              //physics: NeverScrollableScrollPhysics(),
-              itemCount: globals.smartDeviceList.length,
-              scrollDirection: Axis.vertical,
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                return ListDeviceWidget(
-                  sd: globals.objectSmartDevice.isNotEmpty
-                      ? globals.objectSmartDevice.length > index
-                          ? globals.objectSmartDevice[index]
-                          : SmartDevice(globals.smartDeviceList[index])
-                      : SmartDevice(globals.smartDeviceList[index]),
-                );
-              })
-        ])));
+        body: globals.smartDeviceList.isNotEmpty
+            ? SingleChildScrollView(
+                child: Column(children: <Widget>[
+                ListView.builder(
+                    //key: Key('builder ${_selected.toString()}'), //attention
+                    //padding: EdgeInsets.only(left: 13.0, right: 13.0, bottom: 25.0),
+                    shrinkWrap: true,
+                    //physics: NeverScrollableScrollPhysics(),
+                    itemCount: globals.smartDeviceList.length,
+                    scrollDirection: Axis.vertical,
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      return ListDeviceWidget(
+                        sd: globals.objectSmartDevice.isNotEmpty
+                            ? globals.objectSmartDevice.length > index
+                                ? globals.objectSmartDevice[index]
+                                : SmartDevice(globals.smartDeviceList[index])
+                            : SmartDevice(globals.smartDeviceList[index]),
+                      );
+                    })
+              ]))
+            : Center(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                const Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Colors.blue,
+                ),
+                Text(
+                  'no-found-devices.label'.tr(),
+                  style: const TextStyle(color: Colors.grey),
+                )
+              ])));
   }
 
   @override

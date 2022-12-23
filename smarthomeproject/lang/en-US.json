@@ -73,5 +73,10 @@
     "label": " Connected", 
     "originalLabel": "connected", 
     "comment": "connected" 
+  },
+  "no-found-devices":{
+    "label": " No found devices!", 
+    "originalLabel": "no-found-devices", 
+    "comment": "no-found-devices" 
   }
 }

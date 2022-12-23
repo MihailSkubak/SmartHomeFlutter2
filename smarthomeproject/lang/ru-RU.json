@@ -73,5 +73,10 @@
       "label": " Подключиться", 
       "originalLabel": "connected", 
       "comment": "connected" 
+    },
+    "no-found-devices":{
+      "label": " Не найдено устройств!", 
+      "originalLabel": "no-found-devices", 
+      "comment": "no-found-devices" 
     }
   }

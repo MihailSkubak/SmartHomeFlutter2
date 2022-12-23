@@ -73,5 +73,10 @@
     "label": " Połącz się", 
     "originalLabel": "connected", 
     "comment": "connected" 
+  },
+  "no-found-devices":{
+    "label": " Nie znaleziono urządzeń!", 
+    "originalLabel": "no-found-devices", 
+    "comment": "no-found-devices" 
   }
 }
