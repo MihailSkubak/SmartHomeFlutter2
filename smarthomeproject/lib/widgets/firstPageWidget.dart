@@ -1,16 +1,19 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/settingsPageWidget.dart';
 import 'package:smarthomeproject/widgets/widgetListFirstPage.dart';
+// ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class MainPage extends StatefulWidget {
-  //final List<String> smartDeviceList = [];
   ThemeNotifier theme;
   MainPage({super.key, required this.theme});
   @override
@@ -26,8 +29,6 @@ class MainPageState extends State<MainPage> {
         for (int i = 0; i < globals.rememberDevice.length; i++) {
           if (await connectSocket(globals.rememberDevice[i])) {
             globals.smartDeviceList.add(globals.rememberDevice[i]);
-            /*SmartDevice(widget.smartDeviceList.last).getData();
-            await sendCommand("", SmartDevice(widget.smartDeviceList.last));*/
             setState(() {});
           }
         }
@@ -51,22 +52,16 @@ class MainPageState extends State<MainPage> {
             actions: <Widget>[
               IconButton(
                 onPressed: () {
-                  //setState(() {
                   TextEditingController writeC = TextEditingController();
                   bool connected = false;
-                  //writeC.text = _dev.bluetoothPassword;
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        //backgroundColor: Colors.white,
-
-                        ///darkModeOn ? Colors.grey[900] : Colors.white,
                         title: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'write-the-name-of-device.label'.tr(),
-                            //style: TextStyle(color: Colors.blue),
                           ),
                         ),
                         content: TextField(
@@ -108,7 +103,6 @@ class MainPageState extends State<MainPage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        //darkModeOn ? Colors.grey[900] : Colors.white,
                                         title: Text(
                                             'device-is-connected.label'.tr()),
                                         actions: <Widget>[
@@ -147,17 +141,12 @@ class MainPageState extends State<MainPage> {
                                     .contains(writeC.text.toString())) {
                                   globals.smartDeviceList
                                       .add(writeC.text.toString());
-                                  /*SmartDevice(widget.smartDeviceList.last)
-                                      .getData();
-                                  await sendCommand("",
-                                      SmartDevice(widget.smartDeviceList.last));*/
                                 }
                               } else {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        //darkModeOn ? Colors.grey[900] : Colors.white,
                                         title: Text(
                                             'device-is-not-connected-Do-you-want-to-repeat.label'
                                                 .tr()),
@@ -206,7 +195,6 @@ class MainPageState extends State<MainPage> {
                       );
                     },
                   );
-                  //});
                 },
                 icon: const Icon(
                   Icons.search,
@@ -232,10 +220,7 @@ class MainPageState extends State<MainPage> {
             ? SingleChildScrollView(
                 child: Column(children: <Widget>[
                 ListView.builder(
-                    //key: Key('builder ${_selected.toString()}'), //attention
-                    //padding: EdgeInsets.only(left: 13.0, right: 13.0, bottom: 25.0),
                     shrinkWrap: true,
-                    //physics: NeverScrollableScrollPhysics(),
                     itemCount: globals.smartDeviceList.length,
                     scrollDirection: Axis.vertical,
                     controller: _scrollController,
@@ -266,7 +251,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    //widget.channel.close();
     super.dispose();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
@@ -37,6 +38,7 @@ class ThemeNotifier with ChangeNotifier {
       primaryColor: Colors.black,
       brightness: Brightness.dark,
       backgroundColor: const Color(0xFF212121),
+      // ignore: deprecated_member_use
       accentColor: Colors.white,
       //accentIconTheme: const IconThemeData(color: Colors.black),
       dividerColor: Colors.black12,
@@ -48,6 +50,7 @@ class ThemeNotifier with ChangeNotifier {
       primaryColor: Colors.white,
       brightness: Brightness.light,
       backgroundColor: const Color(0xFFE5E5E5),
+      // ignore: deprecated_member_use
       accentColor: Colors.black,
       //accentIconTheme: const IconThemeData(color: Colors.blue),
       dividerColor: Colors.white54,
@@ -59,6 +62,7 @@ class ThemeNotifier with ChangeNotifier {
       primaryColor: Colors.white,
       brightness: Brightness.light,
       backgroundColor: const Color(0xFFE5E5E5),
+      // ignore: deprecated_member_use
       accentColor: Colors.black,
       //accentIconTheme: const IconThemeData(color: Colors.white),
       dividerColor: Colors.white54,

@@ -1,9 +1,10 @@
+// ignore_for_file: file_names
+
 class SmartDevice {
   final String nameDevice;
   SmartDevice(this.nameDevice);
 
   bool connected = true;
-  //bool lostConnect = false;
   bool showDialogLostConnect = true;
   int breakConnect = 0;
   double temperatura = 0;

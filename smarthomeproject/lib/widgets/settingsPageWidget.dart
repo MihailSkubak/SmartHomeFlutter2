@@ -1,10 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
 import '../theme/theme.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
+// ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {

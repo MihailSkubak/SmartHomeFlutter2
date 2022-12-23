@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/firstPageWidget.dart';
+// ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
+// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
 

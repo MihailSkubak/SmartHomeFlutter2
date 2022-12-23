@@ -6,6 +6,7 @@ import 'package:smarthomeproject/widgets/customDialog.dart';
 
 connectSocket(String ipDevice) async {
   try {
+    // ignore: unused_local_variable
     Socket socked = await Socket.connect('192.168.0.$ipDevice', 80);
     return true;
   } catch (e) {
@@ -36,18 +37,14 @@ sendCommand(String command, SmartDevice sd) async {
 }
 
 getDataFromDevice(SmartDevice sd, context) {
-  //int timerPeriod = 0;
   Timer.periodic(const Duration(milliseconds: 20000), (timer) async {
-    //30000
     if (sd.connected) {
-      //timerPeriod = 30000;
       try {
         Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
         try {
           sd.connected = true;
           sd.breakConnect = 0;
           handleClient(socked, sd);
-          //socked.close();
         } catch (e) {
           if (kDebugMode) {
             print("Already read!");
@@ -58,7 +55,6 @@ getDataFromDevice(SmartDevice sd, context) {
         if (kDebugMode) {
           print('Lost Connected!!!');
         }
-        //timer.cancel();
         if (sd.breakConnect == 1) {
           timer.cancel();
           sd.connected = false;

@@ -1,9 +1,10 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'package:smarthomeproject/algorytm/order.dart';
+// ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 
-//void searchSmartDevice(BuildContext context) {
 void lostDevice(SmartDevice sd, BuildContext context) {
   showDialog(
       context: context,

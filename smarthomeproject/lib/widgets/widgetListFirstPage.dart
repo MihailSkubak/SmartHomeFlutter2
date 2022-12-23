@@ -1,8 +1,10 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
-import 'package:smarthomeproject/widgets/customDialog.dart';
+// ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
 
@@ -32,7 +34,6 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     if (!globals.objectSmartDevice.contains(widget.sd)) {
       globals.objectSmartDevice.add(widget.sd);
     }
-    //widget.sd.lostConnect = false;
     widget.sd.showDialogLostConnect = true;
     getDataFromDevice(widget.sd, context);
     sendCommand("", widget.sd);
@@ -44,7 +45,6 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
         if (!widget.sd.connected) {
           setState(() {
             widget.sd.connected = true;
-            //widget.sd.lostConnect = false;
             widget.sd.showDialogLostConnect = true;
           });
           getDataFromDevice(widget.sd, context);
@@ -67,6 +67,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     );
   }
 
+  // ignore: prefer_typing_uninitialized_variables
   var detail;
   void getDetails(details) {
     detail = details;
@@ -78,17 +79,6 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
       GestureDetector(
           onTapDown: (details) => getDetails(details),
           onLongPress: () {
-            //TabDownDetails details;
-            /*RenderBox renderBox =
-                stationKey.currentContext?.findRenderObject() as RenderBox;
-            Offset offset = renderBox.localToGlobal(Offset.zero);*/
-            /*PopupMenuButton(
-              itemBuilder: (ctx) => [
-                _buildPopupMenuItem(
-                    widget.sd.connected ? 'Connected' : 'Disconnected',
-                    Icons.wifi),
-              ],
-            );*/
             showMenu(
                 context: context,
                 position: RelativeRect.fromLTRB(
@@ -125,18 +115,14 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {
                       await sendCommand("/RELE=ON0", widget.sd);
-                      setState(() {
-                        //widget.channel.write("/RELE=ON0");
-                      });
+                      setState(() {});
                     },
                   ),
                   TextButton(
                     child: const Text("Off", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {
                       await sendCommand("/RELE=OFF0", widget.sd);
-                      setState(() {
-                        //widget.channel.write("/RELE=OFF0");
-                      });
+                      setState(() {});
                     },
                   ),
                 ],
