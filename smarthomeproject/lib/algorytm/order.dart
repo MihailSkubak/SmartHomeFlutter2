@@ -37,7 +37,7 @@ sendCommand(String command, SmartDevice sd) async {
 
 getDataFromDevice(SmartDevice sd, context) {
   //int timerPeriod = 0;
-  Timer.periodic(const Duration(milliseconds: 5000), (timer) async {
+  Timer.periodic(const Duration(milliseconds: 20000), (timer) async {
     //30000
     if (sd.connected) {
       //timerPeriod = 30000;

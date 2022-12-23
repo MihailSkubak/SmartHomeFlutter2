@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 import 'package:smarthomeproject/widgets/customDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
@@ -29,6 +29,9 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
   @override
   void initState() {
     super.initState();
+    if (!globals.objectSmartDevice.contains(widget.sd)) {
+      globals.objectSmartDevice.add(widget.sd);
+    }
     //widget.sd.lostConnect = false;
     widget.sd.showDialogLostConnect = true;
     getDataFromDevice(widget.sd, context);

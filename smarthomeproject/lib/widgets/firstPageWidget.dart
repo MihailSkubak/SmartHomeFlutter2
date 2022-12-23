@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class MainPage extends StatefulWidget {
-  final List<String> smartDeviceList = [];
+  //final List<String> smartDeviceList = [];
   ThemeNotifier theme;
   MainPage({super.key, required this.theme});
   @override
@@ -25,7 +25,7 @@ class MainPageState extends State<MainPage> {
       if (globals.rememberDevice.isNotEmpty) {
         for (int i = 0; i < globals.rememberDevice.length; i++) {
           if (await connectSocket(globals.rememberDevice[i])) {
-            widget.smartDeviceList.add(globals.rememberDevice[i]);
+            globals.smartDeviceList.add(globals.rememberDevice[i]);
             /*SmartDevice(widget.smartDeviceList.last).getData();
             await sendCommand("", SmartDevice(widget.smartDeviceList.last));*/
             setState(() {});
@@ -143,9 +143,9 @@ class MainPageState extends State<MainPage> {
                                   prefs.setStringList('key-remember-device',
                                       globals.rememberDevice);
                                 }
-                                if (!widget.smartDeviceList
+                                if (!globals.smartDeviceList
                                     .contains(writeC.text.toString())) {
-                                  widget.smartDeviceList
+                                  globals.smartDeviceList
                                       .add(writeC.text.toString());
                                   /*SmartDevice(widget.smartDeviceList.last)
                                       .getData();
@@ -235,12 +235,16 @@ class MainPageState extends State<MainPage> {
               //padding: EdgeInsets.only(left: 13.0, right: 13.0, bottom: 25.0),
               shrinkWrap: true,
               //physics: NeverScrollableScrollPhysics(),
-              itemCount: widget.smartDeviceList.length,
+              itemCount: globals.smartDeviceList.length,
               scrollDirection: Axis.vertical,
               controller: _scrollController,
               itemBuilder: (context, index) {
                 return ListDeviceWidget(
-                  sd: SmartDevice(widget.smartDeviceList[index]),
+                  sd: globals.objectSmartDevice.isNotEmpty
+                      ? globals.objectSmartDevice.length > index
+                          ? globals.objectSmartDevice[index]
+                          : SmartDevice(globals.smartDeviceList[index])
+                      : SmartDevice(globals.smartDeviceList[index]),
                 );
               })
         ])));
