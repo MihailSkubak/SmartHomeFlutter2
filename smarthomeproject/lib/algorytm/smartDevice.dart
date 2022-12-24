@@ -13,4 +13,6 @@ class SmartDevice {
   int weather = 0;
   int motor0 = 0;
   List<int> releAll = [];
+  bool isListening = false;
+  String textSpeech = '';
 }

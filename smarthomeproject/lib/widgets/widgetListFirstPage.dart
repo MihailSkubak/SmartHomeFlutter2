@@ -7,6 +7,9 @@ import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
+import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
+// ignore: depend_on_referenced_packages, import_of_legacy_library_into_null_safe
+import 'package:avatar_glow/avatar_glow.dart';
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
@@ -125,6 +128,30 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       setState(() {});
                     },
                   ),
+                  Text(widget.sd.textSpeech),
+                  AvatarGlow(
+                    animate: widget.sd.isListening,
+                    glowColor: widget.sd.isListening ? Colors.blue : Colors.red,
+                    endRadius: 75.0,
+                    //duration: const Duration(milliseconds: 2000),
+                    //repeatPauseDuration: const Duration(milliseconds: 100),
+                    repeat: true,
+                    child: FloatingActionButton(
+                      backgroundColor:
+                          widget.sd.isListening ? Colors.blue : Colors.red,
+                      onPressed: () {
+                        setState(() {
+                          listenSpeak(widget.sd, (value) {
+                            widget.sd.textSpeech = value;
+                          }, (value) {
+                            widget.sd.isListening = value;
+                          });
+                        });
+                      },
+                      child: Icon(
+                          widget.sd.isListening ? Icons.mic : Icons.mic_off),
+                    ),
+                  )
                 ],
               )))
     ]);
