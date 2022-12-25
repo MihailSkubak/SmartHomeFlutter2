@@ -10,6 +10,8 @@ import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
 import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
 // ignore: depend_on_referenced_packages, import_of_legacy_library_into_null_safe
 import 'package:avatar_glow/avatar_glow.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
@@ -42,7 +44,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     sendCommand("", widget.sd);
   }
 
-  PopupMenuItem _buildPopupMenuItem(String title, IconData iconData) {
+  PopupMenuItem _buildPopupMenuItemConnect(String title, IconData iconData) {
     return PopupMenuItem(
       onTap: () {
         if (!widget.sd.connected) {
@@ -70,6 +72,22 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     );
   }
 
+  PopupMenuItem _buildPopupMenuItemRenameDevice(
+      String title, IconData iconData) {
+    return PopupMenuItem(
+      onTap: () {},
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            color: Colors.blue,
+          ),
+          Text(title),
+        ],
+      ),
+    );
+  }
+
   // ignore: prefer_typing_uninitialized_variables
   var detail;
   void getDetails(details) {
@@ -90,11 +108,13 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                     detail.globalPosition.dx + 65,
                     detail.globalPosition.dy + 0),
                 items: [
-                  _buildPopupMenuItem(
+                  _buildPopupMenuItemConnect(
                       widget.sd.connected
                           ? 'disconnected.label'.tr()
                           : 'connected.label'.tr(),
-                      Icons.wifi)
+                      Icons.wifi),
+                  _buildPopupMenuItemRenameDevice('rename-device.label'.tr(),
+                      Icons.drive_file_rename_outline_rounded)
                 ]);
           },
           child: Card(
@@ -108,12 +128,74 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                 subtitle: Row(children: [
                   Icon(
                     Icons.wifi,
-                    size: 20,
+                    size: 22,
                     color: widget.sd.connected ? Colors.blue : Colors.red,
                   ),
+                  Row(children: [
+                    const Icon(
+                      Icons.thermostat,
+                      size: 20,
+                      color: Colors.blue,
+                    ),
+                    Text('${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
+                  ]),
+                  Row(children: [
+                    const Icon(
+                      Icons.water_drop,
+                      size: 20,
+                      color: Colors.blue,
+                    ),
+                    Text('${widget.sd.humidity.toStringAsFixed(1)} %')
+                  ]),
                 ]),
                 children: [
-                  Text("Temperatura : ${widget.sd.temperatura.toString()}"),
+                  Container(
+                      height: 1,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.yellow[100],
+                          border: const Border(
+                            top: BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ))),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(children: [
+                        const Icon(
+                          Icons.speed_rounded,
+                          size: 30,
+                          color: Colors.blue,
+                        ),
+                        Text(' ${widget.sd.pressure}${'mm.label'.tr()}')
+                      ]),
+                      Row(children: [
+                        widget.sd.weather > 0 && widget.sd.temperatura <= 1.5
+                            ? SvgPicture.asset(
+                                'images/snowflake.svg',
+                                color: Colors.blue,
+                                height: 25,
+                                width: 25,
+                              )
+                            : Icon(
+                                widget.sd.weather > 0 &&
+                                        widget.sd.temperatura > 1.5
+                                    ? Icons.cloudy_snowing
+                                    : widget.sd.weather < 0
+                                        ? Icons.wb_sunny_rounded
+                                        : Icons.cloud_sync_rounded,
+                                size: 30,
+                                color: Colors.blue,
+                              ),
+                        Text(' ${widget.sd.weather.toString()} %')
+                      ]),
+                    ],
+                  ),
                   TextButton(
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {

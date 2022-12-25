@@ -78,5 +78,15 @@
       "label": " Не найдено устройств!", 
       "originalLabel": "no-found-devices", 
       "comment": "no-found-devices" 
+    },
+    "mm":{
+      "label": " мм", 
+      "originalLabel": "mm", 
+      "comment": "mm" 
+    },
+    "rename-device":{
+      "label": "Переименовать устройство", 
+      "originalLabel": "Rename device", 
+      "comment": "Rename device" 
     }
   }

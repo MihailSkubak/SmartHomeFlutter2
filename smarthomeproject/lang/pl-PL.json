@@ -78,5 +78,15 @@
     "label": " Nie znaleziono urządzeń!", 
     "originalLabel": "no-found-devices", 
     "comment": "no-found-devices" 
+  },
+  "mm":{
+    "label": " mm", 
+    "originalLabel": "mm", 
+    "comment": "mm" 
+  },
+  "rename-device":{
+    "label": "Zmień nazwę urządzenia", 
+    "originalLabel": "Rename device", 
+    "comment": "Rename device" 
   }
 }
