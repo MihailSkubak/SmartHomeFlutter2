@@ -84,6 +84,8 @@ void handleClient(Socket client, SmartDevice sd) {
       reply = String.fromCharCodes(data).trim();
       print("Reply: $reply");
       if (reply.length > 10) {
+        sd.releAll = [];
+        sd.motor = [];
         if (sd.nameDevice == '145') {
           bool start = false;
           String out = '';
@@ -137,6 +139,21 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
+              /*if (index == 3) {
+                if (sd.onceReadListChoice) {
+                  if (sd.listChoiceRele.isEmpty) {
+                    for (int i = 0; i < sd.releAll.length; i++) {
+                      sd.listChoiceRele.add(false);
+                    }
+                  }
+                  if (sd.listChoiceMotor.isEmpty) {
+                    for (int i = 0; i < sd.motor.length; i++) {
+                      sd.listChoiceMotor.add(false);
+                    }
+                  }
+                  sd.onceReadListChoice = false;
+                }
+              }*/
               out = '';
               start = false;
               index++;
@@ -191,11 +208,11 @@ void handleClient(Socket client, SmartDevice sd) {
               if (index == 4) {
                 try {
                   out = out.substring(3);
-                  if (out == '/M=OFF0') sd.motor0 = 0;
-                  if (out == '/M=ON0') sd.motor0 = 1;
-                  if (out == 'non') sd.motor0 = 2;
+                  if (out == '/M=OFF0') sd.motor.add(0);
+                  if (out == '/M=ON0') sd.motor.add(1);
+                  if (out == 'non') sd.motor.add(2);
                 } catch (e) {
-                  sd.motor0 = 2;
+                  sd.motor.add(2);
                 }
               }
               if (index == 5) {
@@ -358,6 +375,21 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
+              /*if (index == 20) {
+                if (sd.onceReadListChoice) {
+                  if (sd.listChoiceRele.isEmpty) {
+                    for (int i = 0; i < sd.releAll.length; i++) {
+                      sd.listChoiceRele.add(false);
+                    }
+                  }
+                  if (sd.listChoiceMotor.isEmpty) {
+                    for (int i = 0; i < sd.motor.length; i++) {
+                      sd.listChoiceMotor.add(false);
+                    }
+                  }
+                  sd.onceReadListChoice = false;
+                }
+              }*/
               out = '';
               start = false;
               index++;

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
@@ -12,6 +13,11 @@ import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smarthomeproject/widgets/customDialog.dart';
+// ignore: depend_on_referenced_packages
+import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages, import_of_legacy_library_into_null_safe
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
@@ -22,6 +28,7 @@ class ListDeviceWidget extends StatefulWidget {
 }
 
 class ListDeviceWidgetState extends State<ListDeviceWidget> {
+  final _scrollController = ScrollController();
   ListDeviceWidgetState() {
     Timer.periodic(const Duration(milliseconds: 1000), (timer) async {
       if (mounted) {
@@ -33,6 +40,28 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     setState(() {});
   }
 
+  void startListChoiseCheck() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-listChoiseMain.name') !=
+        null) {
+      widget.sd.listChoiseMainName = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-listChoiseMain.name')!;
+    }
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-listChoiseMain.type') !=
+        null) {
+      widget.sd.listChoiseMainType = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-listChoiseMain.type')!;
+    }
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-listChoiseMain.number') !=
+        null) {
+      widget.sd.listChoiseMainNumber = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-listChoiseMain.number')!;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +71,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     widget.sd.showDialogLostConnect = true;
     getDataFromDevice(widget.sd, context);
     sendCommand("", widget.sd);
+    startListChoiseCheck();
   }
 
   PopupMenuItem _buildPopupMenuItemConnect(String title, IconData iconData) {
@@ -196,6 +226,239 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       ]),
                     ],
                   ),
+                  Column(children: <Widget>[
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.sd.releAll.isEmpty
+                            ? 0
+                            : widget.sd.listChoiseMainName.isEmpty
+                                ? 1
+                                : widget.sd.listChoiseMainName.length >= 6
+                                    ? widget.sd.listChoiseMainName.length
+                                    : widget.sd.listChoiseMainName.length + 1,
+                        scrollDirection: Axis.vertical,
+                        controller: _scrollController,
+                        itemBuilder: (context, index) {
+                          return index == widget.sd.listChoiseMainName.length
+                              ? Card(
+                                  elevation: 5,
+                                  child: ListTile(
+                                    title: const Center(
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      listChoiceDialog(widget.sd, context);
+                                    },
+                                  ),
+                                )
+                              : Card(
+                                  elevation: 5,
+                                  child: Container(
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5))),
+                                      clipBehavior: Clip.hardEdge,
+                                      child: Slidable(
+                                          key: Key(widget
+                                              .sd.listChoiseMainName[index]),
+                                          actionPane:
+                                              const SlidableScrollActionPane(),
+                                          secondaryActions: [
+                                            IconSlideAction(
+                                              caption: "delete.label".tr(),
+                                              color: Colors.red,
+                                              icon: Icons.delete,
+                                              onTap: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            "are-you-sure-you-want-to-delete-this-item.label"
+                                                                .tr()),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors.blue,
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              'no.label'.tr(),
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors.blue,
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              'yes.label'.tr(),
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              setState(() {
+                                                                widget.sd
+                                                                    .listChoiseMainName
+                                                                    .removeAt(
+                                                                        index);
+                                                                widget.sd
+                                                                    .listChoiseMainType
+                                                                    .removeAt(
+                                                                        index);
+                                                                widget.sd
+                                                                    .listChoiseMainNumber
+                                                                    .removeAt(
+                                                                        index);
+                                                              });
+                                                              SharedPreferences
+                                                                  prefs =
+                                                                  await SharedPreferences
+                                                                      .getInstance();
+                                                              prefs.setStringList(
+                                                                  '${widget.sd.nameDevice}-listChoiseMain.name',
+                                                                  widget.sd
+                                                                      .listChoiseMainName);
+                                                              prefs.setStringList(
+                                                                  '${widget.sd.nameDevice}-listChoiseMain.type',
+                                                                  widget.sd
+                                                                      .listChoiseMainType);
+                                                              prefs.setStringList(
+                                                                  '${widget.sd.nameDevice}-listChoiseMain.number',
+                                                                  widget.sd
+                                                                      .listChoiseMainNumber);
+                                                              // ignore: use_build_context_synchronously
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                            )
+                                          ],
+                                          child: ListTile(
+                                            title: Text(widget
+                                                .sd.listChoiseMainName[index]),
+                                            leading: const Icon(
+                                              Icons.lightbulb,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                            trailing: CupertinoSwitch(
+                                              value: widget.sd.listChoiseMainType[index] ==
+                                                      'rele'
+                                                  ? widget.sd.releAll[
+                                                              int.tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] ==
+                                                          1
+                                                      ? true
+                                                      : false
+                                                  : widget.sd.motor[int.tryParse(
+                                                              widget.sd.listChoiseMainNumber[
+                                                                  index])!] ==
+                                                          1
+                                                      ? true
+                                                      : false,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (value) {
+                                                    if (widget.sd
+                                                                .listChoiseMainType[
+                                                            index] ==
+                                                        'rele') {
+                                                      widget.sd.releAll[
+                                                          int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])!] = 1;
+                                                      if (int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])! >=
+                                                          10) {
+                                                        sendCommand(
+                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                            widget.sd);
+                                                      } else {
+                                                        sendCommand(
+                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                            widget.sd);
+                                                      }
+                                                    } else {
+                                                      widget.sd.motor[
+                                                          int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])!] = 1;
+                                                      sendCommand(
+                                                          "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                          widget.sd);
+                                                    }
+                                                  } else {
+                                                    if (widget.sd
+                                                                .listChoiseMainType[
+                                                            index] ==
+                                                        'rele') {
+                                                      widget.sd.releAll[
+                                                          int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])!] = 0;
+                                                      if (int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])! >=
+                                                          10) {
+                                                        sendCommand(
+                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                            widget.sd);
+                                                      } else {
+                                                        sendCommand(
+                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                            widget.sd);
+                                                      }
+                                                    } else {
+                                                      widget.sd.motor[
+                                                          int.tryParse(widget.sd
+                                                                  .listChoiseMainNumber[
+                                                              index])!] = 0;
+                                                      sendCommand(
+                                                          "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                          widget.sd);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                          ))),
+                                );
+                        })
+                  ]),
                   TextButton(
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {

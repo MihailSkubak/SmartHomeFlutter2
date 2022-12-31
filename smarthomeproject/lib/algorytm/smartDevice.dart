@@ -11,8 +11,22 @@ class SmartDevice {
   double humidity = 0;
   int pressure = 0;
   int weather = 0;
-  int motor0 = 0;
+  List<int> motor = [];
   List<int> releAll = [];
   bool isListening = false;
   String textSpeech = '';
+  bool onceReadListChoice = true;
+  //List<bool> listChoiceRele = [];
+  //List<bool> listChoiceMotor = [];
+  //List<listChoice> listChoiseMain = [];
+  List<String> listChoiseMainName = [];
+  List<String> listChoiseMainType = [];
+  List<String> listChoiseMainNumber = [];
 }
+
+/*class listChoice {
+  String name;
+  String type;
+  int? number;
+  listChoice(this.name, this.type, this.number);
+}*/

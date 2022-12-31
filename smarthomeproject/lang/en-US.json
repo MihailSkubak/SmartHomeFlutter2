@@ -88,5 +88,45 @@
     "label": "Rename device", 
     "originalLabel": "Rename device", 
     "comment": "Rename device" 
+  },
+  "name":{
+    "label": "Name", 
+    "originalLabel": "Name", 
+    "comment": "Name" 
+  },
+  "number":{
+    "label": "Number", 
+    "originalLabel": "number", 
+    "comment": "number" 
+  },
+  "add-item":{
+    "label": "Add item", 
+    "originalLabel": "Add item", 
+    "comment": "Add item" 
+  },
+  "this-item-is-already-selected":{
+    "label": "This item is already selected!", 
+    "originalLabel": "This item is already selected!", 
+    "comment": "This item is already selected!" 
+  },
+  "wrong-values-entered":{
+    "label": "Wrong values entered!", 
+    "originalLabel": "Wrong values entered", 
+    "comment": "Wrong values entered" 
+  },
+  "element-does-not-exist":{
+    "label": "Element does not exist!", 
+    "originalLabel": "element does not exist", 
+    "comment": "element does not exist" 
+  },
+  "are-you-sure-you-want-to-delete-this-item":{
+    "label": "Are you sure you want to delete this item?", 
+    "originalLabel": "Are you sure you want to delete this item?", 
+    "comment": "Are you sure you want to delete this item?" 
+  },
+  "delete":{
+    "label": "Delete", 
+    "originalLabel": "delete", 
+    "comment": "delete" 
   }
 }
