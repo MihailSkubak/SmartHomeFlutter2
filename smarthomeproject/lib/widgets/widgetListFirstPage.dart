@@ -60,6 +60,13 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
       widget.sd.listChoiseMainNumber = sharedPrefs
           .getStringList('${widget.sd.nameDevice}-listChoiseMain.number')!;
     }
+    if (sharedPrefs.getString('${widget.sd.nameDevice}-nameDeviceClient') !=
+        null) {
+      widget.sd.nameDeviceClient =
+          sharedPrefs.getString('${widget.sd.nameDevice}-nameDeviceClient')!;
+    } else {
+      widget.sd.nameDeviceClient = widget.sd.nameDevice;
+    }
   }
 
   @override
@@ -105,7 +112,76 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
   PopupMenuItem _buildPopupMenuItemRenameDevice(
       String title, IconData iconData) {
     return PopupMenuItem(
-      onTap: () {},
+      onTap: () {
+        TextEditingController writeC = TextEditingController();
+        writeC.text = widget.sd.nameDeviceClient;
+        if (writeC.text == '') {
+          writeC.text = widget.sd.nameDevice;
+        }
+        Future.delayed(
+            const Duration(seconds: 0),
+            () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'write-the-name-of-device.label'.tr(),
+                        ),
+                      ),
+                      content: TextField(
+                        decoration:
+                            InputDecoration(labelText: "name.label".tr()),
+                        controller: writeC,
+                        keyboardType: TextInputType.text,
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            //Theme.of(context).iconTheme.color,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Text('cancel.label'.tr(),
+                              style: const TextStyle(color: Colors.white)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Text('ok.label'.tr(),
+                              style: const TextStyle(color: Colors.white)),
+                          onPressed: () async {
+                            setState(() {
+                              if (writeC.text == '') {
+                                widget.sd.nameDeviceClient =
+                                    widget.sd.nameDevice;
+                              } else {
+                                widget.sd.nameDeviceClient =
+                                    writeC.text.toString();
+                              }
+                            });
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString(
+                                '${widget.sd.nameDevice}-nameDeviceClient',
+                                widget.sd.nameDeviceClient);
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          },
+                        )
+                      ]);
+                }));
+      },
       child: Row(
         children: [
           Icon(
@@ -154,7 +230,26 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                   Icons.maps_home_work_sharp,
                   size: 45,
                 ),
-                title: Text(widget.sd.nameDevice),
+                title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.sd.nameDeviceClient,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Visibility(
+                          visible:
+                              widget.sd.nameDeviceClient != widget.sd.nameDevice
+                                  ? true
+                                  : false,
+                          child: Text(
+                            widget.sd.nameDevice,
+                            style: const TextStyle(color: Colors.grey),
+                          ))
+                    ]),
                 subtitle: Row(children: [
                   Icon(
                     Icons.wifi,
@@ -251,7 +346,8 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                       ),
                                     ),
                                     onTap: () {
-                                      listChoiceDialog(widget.sd, context);
+                                      listChoiceDialog(
+                                          widget.sd, context, false, 0);
                                     },
                                   ),
                                 )
@@ -455,6 +551,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                 });
                                               },
                                             ),
+                                            onLongPress: () {
+                                              listChoiceDialog(widget.sd,
+                                                  context, true, index);
+                                            },
                                           ))),
                                 );
                         })

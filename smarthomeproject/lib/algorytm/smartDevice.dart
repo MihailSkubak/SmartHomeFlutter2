@@ -5,6 +5,7 @@ class SmartDevice {
   SmartDevice(this.nameDevice);
 
   bool connected = true;
+  String nameDeviceClient = '';
   bool showDialogLostConnect = true;
   int breakConnect = 0;
   double temperatura = 0;

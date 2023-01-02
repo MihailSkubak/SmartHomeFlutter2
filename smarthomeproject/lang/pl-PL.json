@@ -9,6 +9,11 @@
     "originalLabel": "Write the name of device!", 
     "comment": "Write the name of device!" 
   },
+  "write-the-number-of-device":{
+    "label": "Wpisz numer urządzenia!", 
+    "originalLabel": "Write the IP number of device!", 
+    "comment": "Write the IP number of device!" 
+  },
   "cancel": { 
     "label": "Anuluj", 
     "originalLabel": "Cancel", 
@@ -128,5 +133,10 @@
     "label": "Usuń", 
     "originalLabel": "delete", 
     "comment": "delete" 
+  },
+  "edit-item":{
+    "label": "Edytować element", 
+    "originalLabel": "edit item", 
+    "comment": "edit item" 
   }
 }

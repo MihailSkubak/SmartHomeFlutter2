@@ -35,9 +35,14 @@ void lostDevice(SmartDevice sd, BuildContext context) {
       });
 }
 
-void listChoiceDialog(SmartDevice sd, BuildContext context) {
+void listChoiceDialog(
+    SmartDevice sd, BuildContext context, bool change, int index) {
   TextEditingController writeC = TextEditingController();
   TextEditingController writeC2 = TextEditingController();
+  if (change) {
+    writeC.text = sd.listChoiseMainName[index];
+    writeC2.text = sd.listChoiseMainNumber[index];
+  }
   bool radioButtonRele = false;
   bool radioButtonMotor = false;
   showDialog(
@@ -45,7 +50,9 @@ void listChoiceDialog(SmartDevice sd, BuildContext context) {
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, StateSetter setState) {
           return AlertDialog(
-            title: Text("add-item.label".tr()),
+            title: change
+                ? Text("edit-item.label".tr())
+                : Text("add-item.label".tr()),
             content: SingleChildScrollView(
                 child: SizedBox(
                     height: 200,
@@ -217,28 +224,58 @@ void listChoiceDialog(SmartDevice sd, BuildContext context) {
                             if (sd.listChoiseMainType[i] == 'rele') {
                               if (sd.listChoiseMainNumber[i] ==
                                   writeC2.text.toString()) {
-                                isExist = true;
+                                if (change) {
+                                  if (sd.listChoiseMainNumber[i] ==
+                                      index.toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
                               }
                             }
                           }
                           if (!isExist) {
-                            sd.listChoiseMainName.add(writeC.text.toString());
-                            sd.listChoiseMainType.add('rele');
-                            sd.listChoiseMainNumber
-                                .add(writeC2.text.toString());
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.name',
-                                sd.listChoiseMainName);
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.type',
-                                sd.listChoiseMainType);
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.number',
-                                sd.listChoiseMainNumber);
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
+                            if (change) {
+                              sd.listChoiseMainName[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainType[index] = 'rele';
+                              sd.listChoiseMainNumber[index] =
+                                  writeC2.text.toString();
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('rele');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
                           } else {
                             showDialog(
                                 context: context,
@@ -324,28 +361,58 @@ void listChoiceDialog(SmartDevice sd, BuildContext context) {
                             if (sd.listChoiseMainType[i] == 'motor') {
                               if (sd.listChoiseMainNumber[i] ==
                                   writeC2.text.toString()) {
-                                isExist = true;
+                                if (change) {
+                                  if (sd.listChoiseMainNumber[i] ==
+                                      index.toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
                               }
                             }
                           }
                           if (!isExist) {
-                            sd.listChoiseMainName.add(writeC.text.toString());
-                            sd.listChoiseMainType.add('motor');
-                            sd.listChoiseMainNumber
-                                .add(writeC2.text.toString());
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.name',
-                                sd.listChoiseMainName);
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.type',
-                                sd.listChoiseMainType);
-                            prefs.setStringList(
-                                '${sd.nameDevice}-listChoiseMain.number',
-                                sd.listChoiseMainNumber);
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
+                            if (change) {
+                              sd.listChoiseMainName[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainType[index] = 'motor';
+                              sd.listChoiseMainNumber[index] =
+                                  writeC2.text.toString();
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('motor');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
                           } else {
                             showDialog(
                                 context: context,

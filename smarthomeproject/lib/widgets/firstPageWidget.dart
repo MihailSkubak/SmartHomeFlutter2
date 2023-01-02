@@ -61,7 +61,7 @@ class MainPageState extends State<MainPage> {
                         title: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'write-the-name-of-device.label'.tr(),
+                            'write-the-number-of-device.label'.tr(),
                           ),
                         ),
                         content: TextField(
