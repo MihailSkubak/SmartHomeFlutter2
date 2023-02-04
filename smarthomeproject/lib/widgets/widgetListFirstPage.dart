@@ -13,6 +13,7 @@ import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smarthomeproject/widgets/controlPage.dart';
 import 'package:smarthomeproject/widgets/customDialog.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
@@ -317,7 +318,9 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                 size: 30,
                                 color: Colors.blue,
                               ),
-                        Text(' ${widget.sd.weather.toString()} %')
+                        widget.sd.weather < 0
+                            ? Text(' ${(widget.sd.weather * -1).toString()} %')
+                            : Text(' ${widget.sd.weather.toString()} %')
                       ]),
                     ],
                   ),
@@ -559,7 +562,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                 );
                         })
                   ]),
-                  TextButton(
+                  /*TextButton(
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {
                       await sendCommand("/RELE=ON0", widget.sd);
@@ -573,30 +576,86 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       setState(() {});
                     },
                   ),
-                  Text(widget.sd.textSpeech),
-                  AvatarGlow(
-                    animate: widget.sd.isListening,
-                    glowColor: widget.sd.isListening ? Colors.blue : Colors.red,
-                    endRadius: 75.0,
-                    //duration: const Duration(milliseconds: 2000),
-                    //repeatPauseDuration: const Duration(milliseconds: 100),
-                    repeat: true,
-                    child: FloatingActionButton(
-                      backgroundColor:
-                          widget.sd.isListening ? Colors.blue : Colors.red,
-                      onPressed: () {
-                        setState(() {
-                          listenSpeak(widget.sd, (value) {
-                            widget.sd.textSpeech = value;
-                          }, (value) {
-                            widget.sd.isListening = value;
-                          });
-                        });
-                      },
-                      child: Icon(
-                          widget.sd.isListening ? Icons.mic : Icons.mic_off),
-                    ),
-                  )
+                  Text(widget.sd.textSpeech),*/
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.zero,
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ControlPage(
+                                        sd: widget.sd,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Column(children: <Widget>[
+                                  Container(
+                                    height: 35,
+                                    padding: const EdgeInsets.only(top: 0),
+                                    child: SvgPicture.asset(
+                                      'images/control.svg',
+                                      color: Colors.blue,
+                                      height: 35,
+                                      width: 35,
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.only(top: 0),
+                                      child: Text(
+                                        "control.label".tr(), // zmiana nazwy
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 14),
+                                      )),
+                                ]))),
+                        AvatarGlow(
+                          animate: widget.sd.isListening,
+                          glowColor:
+                              widget.sd.isListening ? Colors.blue : Colors.red,
+                          endRadius: 75.0,
+                          repeat: true,
+                          child: FloatingActionButton(
+                            backgroundColor: widget.sd.isListening
+                                ? Colors.blue
+                                : Colors.red,
+                            onPressed: () {
+                              setState(() {
+                                listenSpeak(widget.sd, (value) {
+                                  widget.sd.textSpeech = value;
+                                }, (value) {
+                                  widget.sd.isListening = value;
+                                });
+                              });
+                            },
+                            child: Icon(widget.sd.isListening
+                                ? Icons.mic
+                                : Icons.mic_off),
+                          ),
+                        ),
+                        Container(
+                            padding: EdgeInsets.zero,
+                            child: InkWell(
+                                onTap: () {},
+                                child: Column(children: <Widget>[
+                                  const Icon(
+                                    Icons.published_with_changes_sharp,
+                                    size: 35,
+                                    color: Colors.blue,
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.only(top: 0),
+                                      child: Text(
+                                        "calibration.label"
+                                            .tr(), // zmiana nazwy
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 14),
+                                      )),
+                                ]))),
+                      ])
                 ],
               )))
     ]);

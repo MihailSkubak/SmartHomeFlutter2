@@ -138,5 +138,15 @@
     "label": "Edytować element", 
     "originalLabel": "edit item", 
     "comment": "edit item" 
+  },
+  "control":{
+    "label": "Regulowanie", 
+    "originalLabel": "control", 
+    "comment": "control"
+  },
+  "calibration":{
+    "label": "Kalibrowanie", 
+    "originalLabel": "calibration", 
+    "comment": "calibration"
   }
 }

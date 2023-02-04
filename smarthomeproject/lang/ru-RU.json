@@ -138,5 +138,15 @@
       "label": "Редактировать элемент", 
       "originalLabel": "edit item", 
       "comment": "edit item" 
+    },
+    "control":{
+      "label": "Управление", 
+      "originalLabel": "control", 
+      "comment": "control"
+    },
+    "calibration":{
+      "label": "Калибровка", 
+      "originalLabel": "calibration", 
+      "comment": "calibration"
     }
   }
