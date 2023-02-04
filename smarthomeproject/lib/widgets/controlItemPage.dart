@@ -6,7 +6,7 @@ import 'package:smarthomeproject/algorytm/smartDevice.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme.dart';
 
-class ControlItemPage extends StatelessWidget {
+class ControlItemPage extends StatefulWidget {
   final SmartDevice sd;
   final int indexItem;
   final String nameItem;
@@ -15,17 +15,21 @@ class ControlItemPage extends StatelessWidget {
       required this.sd,
       required this.indexItem,
       required this.nameItem});
+  @override
+  ControlItemPageState createState() => ControlItemPageState();
+}
 
+class ControlItemPageState extends State<ControlItemPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(
         builder: (context, theme, _) => MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: theme.getTheme(),
-              title: nameItem,
+              title: widget.nameItem,
               home: Scaffold(
                 appBar: AppBar(
-                    title: Text(nameItem),
+                    title: Text(widget.nameItem),
                     leading: IconButton(
                       onPressed: () {
                         Navigator.pop(context);

@@ -13,6 +13,7 @@ import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smarthomeproject/widgets/calibrationPage.dart';
 import 'package:smarthomeproject/widgets/controlPage.dart';
 import 'package:smarthomeproject/widgets/customDialog.dart';
 // ignore: depend_on_referenced_packages
@@ -639,7 +640,16 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                         Container(
                             padding: EdgeInsets.zero,
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CalibrationPage(
+                                        sd: widget.sd,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: Column(children: <Widget>[
                                   const Icon(
                                     Icons.published_with_changes_sharp,

@@ -148,5 +148,10 @@
     "label": "Calibration", 
     "originalLabel": "calibration", 
     "comment": "calibration"
+  },
+  "no-found-curtains":{
+    "label": " No found curtains", 
+    "originalLabel": "no found curtains", 
+    "comment": "no found curtains"
   }
 }

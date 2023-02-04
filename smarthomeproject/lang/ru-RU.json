@@ -148,5 +148,10 @@
       "label": "Калибровка", 
       "originalLabel": "calibration", 
       "comment": "calibration"
+    },
+    "no-found-curtains":{
+      "label": " Шторы не найдены", 
+      "originalLabel": "no found curtains", 
+      "comment": "no found curtains"
     }
   }
