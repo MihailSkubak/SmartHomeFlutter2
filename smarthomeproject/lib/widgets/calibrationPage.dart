@@ -8,6 +8,10 @@ import 'package:provider/provider.dart';
 import '../theme/theme.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
+// ignore: depend_on_referenced_packages, import_of_legacy_library_into_null_safe
+import 'package:flutter_slidable/flutter_slidable.dart';
+// ignore: depend_on_referenced_packages
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CalibrationPage extends StatefulWidget {
   final SmartDevice sd;
@@ -102,7 +106,182 @@ class CalibrationPageState extends State<CalibrationPage> {
                                         ),
                                       );
                                     })
-                            : const Text('data'),
+                            //Calibration voice
+                            : Column(children: <Widget>[
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: widget
+                                            .sd.nameCommandVoice.isEmpty
+                                        ? 1
+                                        : widget.sd.nameCommandVoice.length + 1,
+                                    scrollDirection: Axis.vertical,
+                                    controller: _scrollController,
+                                    itemBuilder: (context, index) {
+                                      return index ==
+                                              widget.sd.nameCommandVoice.length
+                                          ? Card(
+                                              elevation: 5,
+                                              child: ListTile(
+                                                title: const Center(
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 30,
+                                                    color: Colors.blue,
+                                                  ),
+                                                ),
+                                                onTap: () {},
+                                              ),
+                                            )
+                                          : Card(
+                                              elevation: 5,
+                                              child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          5))),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  child: Slidable(
+                                                      key: Key(widget.sd
+                                                              .nameCommandVoice[
+                                                          index]),
+                                                      actionPane:
+                                                          const SlidableScrollActionPane(),
+                                                      secondaryActions: [
+                                                        IconSlideAction(
+                                                          caption:
+                                                              "delete.label"
+                                                                  .tr(),
+                                                          color: Colors.red,
+                                                          icon: Icons.delete,
+                                                          onTap: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "are-you-sure-you-want-to-delete-this-command.label"
+                                                                            .tr()),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              Colors.blue,
+                                                                          textStyle:
+                                                                              const TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          'no.label'
+                                                                              .tr(),
+                                                                          style:
+                                                                              const TextStyle(color: Colors.white),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                      ),
+                                                                      TextButton(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              Colors.blue,
+                                                                          textStyle:
+                                                                              const TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          'yes.label'
+                                                                              .tr(),
+                                                                          style:
+                                                                              const TextStyle(color: Colors.white),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          setState(
+                                                                              () {
+                                                                            widget.sd.nameCommandVoice.removeAt(index);
+                                                                            widget.sd.typeCommandVoice.removeAt(index);
+                                                                            widget.sd.numberCommandVoice.removeAt(index);
+                                                                            widget.sd.onOffCommandVoice.removeAt(index);
+                                                                          });
+                                                                          SharedPreferences
+                                                                              prefs =
+                                                                              await SharedPreferences.getInstance();
+                                                                          prefs.setStringList(
+                                                                              '${widget.sd.nameDevice}-nameCommandVoice',
+                                                                              widget.sd.nameCommandVoice);
+                                                                          prefs.setStringList(
+                                                                              '${widget.sd.nameDevice}-typeCommandVoice',
+                                                                              widget.sd.typeCommandVoice);
+                                                                          prefs.setStringList(
+                                                                              '${widget.sd.nameDevice}-numberCommandVoice',
+                                                                              widget.sd.numberCommandVoice);
+                                                                          prefs.setStringList(
+                                                                              '${widget.sd.nameDevice}-onOffCommandVoice',
+                                                                              widget.sd.onOffCommandVoice);
+                                                                          // ignore: use_build_context_synchronously
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                });
+                                                          },
+                                                        )
+                                                      ],
+                                                      child: ListTile(
+                                                        title: Text(
+                                                            widget.sd
+                                                                    .nameCommandVoice[
+                                                                index],
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis),
+                                                        subtitle: Text(
+                                                            '${widget.sd.typeCommandVoice[index]}: ${widget.sd.numberCommandVoice[index]}'),
+                                                        leading: const Icon(
+                                                          Icons
+                                                              .record_voice_over,
+                                                          size: 30,
+                                                          color: Colors.blue,
+                                                        ),
+                                                        trailing: widget.sd
+                                                                        .onOffCommandVoice[
+                                                                    index] ==
+                                                                'on'
+                                                            ? Text(
+                                                                'on.label'.tr(),
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .green))
+                                                            : Text(
+                                                                'off.label'
+                                                                    .tr(),
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .red)),
+                                                        onLongPress: () {},
+                                                      ))),
+                                            );
+                                    }),
+                              ])
                       ],
                     ),
                   )),

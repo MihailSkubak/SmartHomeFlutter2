@@ -17,17 +17,21 @@ class SmartDevice {
   bool isListening = false;
   String textSpeech = '';
   bool onceReadListChoice = true;
-  //List<bool> listChoiceRele = [];
-  //List<bool> listChoiceMotor = [];
-  //List<listChoice> listChoiseMain = [];
+  //value for first page list
   List<String> listChoiseMainName = [];
   List<String> listChoiseMainType = [];
   List<String> listChoiseMainNumber = [];
+  // list for voice
+  List<String> nameCommandVoice = ['Включи свет в комнате'];
+  List<String> typeCommandVoice = ['Rele'];
+  List<String> numberCommandVoice = ['3'];
+  List<String> onOffCommandVoice = ['on'];
 }
 
-/*class listChoice {
+/*class ListCommandForVoice {
   String name;
   String type;
   int? number;
-  listChoice(this.name, this.type, this.number);
+  bool commandOnOrOff;
+  ListCommandForVoice(this.name, this.type, this.number, this.commandOnOrOff);
 }*/

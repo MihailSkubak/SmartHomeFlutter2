@@ -153,5 +153,20 @@
       "label": " Шторы не найдены", 
       "originalLabel": "no found curtains", 
       "comment": "no found curtains"
+    },
+    "are-you-sure-you-want-to-delete-this-command":{
+      "label": "Вы уверены, что хотите удалить эту команду?", 
+      "originalLabel": "Are you sure you want to delete this command?", 
+      "comment": "Are you sure you want to delete this command?"
+    },
+    "on":{
+      "label": "Включить", 
+      "originalLabel": "Turn on", 
+      "comment": "Turn on"
+    },
+    "off":{
+      "label": "Выключить", 
+      "originalLabel": "Turn off", 
+      "comment": "Turn off"
     }
   }

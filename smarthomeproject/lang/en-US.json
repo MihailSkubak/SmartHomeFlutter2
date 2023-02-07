@@ -153,5 +153,20 @@
     "label": " No found curtains", 
     "originalLabel": "no found curtains", 
     "comment": "no found curtains"
+  },
+  "are-you-sure-you-want-to-delete-this-command":{
+    "label": "Are you sure you want to delete this command?", 
+    "originalLabel": "Are you sure you want to delete this command?", 
+    "comment": "Are you sure you want to delete this command?"
+  },
+  "on":{
+    "label": "Turn on", 
+    "originalLabel": "Turn on", 
+    "comment": "Turn on"
+  },
+  "off":{
+    "label": "Turn off", 
+    "originalLabel": "Turn off", 
+    "comment": "Turn off"
   }
 }

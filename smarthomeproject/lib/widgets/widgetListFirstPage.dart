@@ -576,8 +576,8 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       await sendCommand("/RELE=OFF0", widget.sd);
                       setState(() {});
                     },
-                  ),
-                  Text(widget.sd.textSpeech),*/
+                  ),*/
+                  Text(widget.sd.textSpeech),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -623,7 +623,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                             backgroundColor: widget.sd.isListening
                                 ? Colors.blue
                                 : Colors.red,
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 listenSpeak(widget.sd, (value) {
                                   widget.sd.textSpeech = value;
@@ -631,6 +631,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                   widget.sd.isListening = value;
                                 });
                               });
+                              if (widget.sd.nameCommandVoice
+                                    .contains(widget.sd.textSpeech)) {
+                                  await sendCommand("/RELE=ON0", widget.sd);
+                                }
                             },
                             child: Icon(widget.sd.isListening
                                 ? Icons.mic
