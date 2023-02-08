@@ -1,10 +1,12 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
+import 'package:smarthomeproject/widgets/customDialog.dart';
 import '../theme/theme.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
@@ -24,6 +26,50 @@ class CalibrationPage extends StatefulWidget {
 class CalibrationPageState extends State<CalibrationPage> {
   final _scrollController = ScrollController();
   int choiseCalibration = 0;
+
+  CalibrationPageState() {
+    Timer.periodic(const Duration(milliseconds: 1000), (timer) async {
+      if (mounted) {
+        refreshPage(context);
+      }
+    });
+  }
+  refreshPage(BuildContext context) {
+    setState(() {});
+  }
+
+  void startListVoiceCommandCheck() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    if (sharedPrefs.getStringList('${widget.sd.nameDevice}-nameCommandVoice') !=
+        null) {
+      widget.sd.nameCommandVoice = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-nameCommandVoice')!;
+    }
+    if (sharedPrefs.getStringList('${widget.sd.nameDevice}-typeCommandVoice') !=
+        null) {
+      widget.sd.typeCommandVoice = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-typeCommandVoice')!;
+    }
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-numberCommandVoice') !=
+        null) {
+      widget.sd.numberCommandVoice = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-numberCommandVoice')!;
+    }
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-onOffCommandVoice') !=
+        null) {
+      widget.sd.onOffCommandVoice = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-onOffCommandVoice')!;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startListVoiceCommandCheck();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(
@@ -129,7 +175,13 @@ class CalibrationPageState extends State<CalibrationPage> {
                                                     color: Colors.blue,
                                                   ),
                                                 ),
-                                                onTap: () {},
+                                                onTap: () {
+                                                  listCommandVoiceDialog(
+                                                      widget.sd,
+                                                      context,
+                                                      false,
+                                                      0);
+                                                },
                                               ),
                                             )
                                           : Card(
@@ -277,7 +329,13 @@ class CalibrationPageState extends State<CalibrationPage> {
                                                                 style: const TextStyle(
                                                                     color: Colors
                                                                         .red)),
-                                                        onLongPress: () {},
+                                                        onTap: () {
+                                                          listCommandVoiceDialog(
+                                                              widget.sd,
+                                                              context,
+                                                              true,
+                                                              index);
+                                                        },
                                                       ))),
                                             );
                                     }),

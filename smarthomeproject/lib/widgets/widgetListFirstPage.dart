@@ -631,10 +631,68 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                   widget.sd.isListening = value;
                                 });
                               });
-                              if (widget.sd.nameCommandVoice
-                                    .contains(widget.sd.textSpeech)) {
-                                  await sendCommand("/RELE=ON0", widget.sd);
+                              for (int i = 0;
+                                  i < widget.sd.nameCommandVoice.length;
+                                  i++) {
+                                if (widget.sd.nameCommandVoice[i] ==
+                                    widget.sd.textSpeech) {
+                                  if (widget.sd.typeCommandVoice[i] == 'Rele') {
+                                    if (int.tryParse(
+                                            widget.sd.numberCommandVoice[i])! >
+                                        9) {
+                                      if (widget.sd.onOffCommandVoice[i] ==
+                                          'off') {
+                                        await sendCommand(
+                                            "/RELE=OFFF${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      } else {
+                                        await sendCommand(
+                                            "/RELE=ONN${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      }
+                                    } else {
+                                      if (widget.sd.onOffCommandVoice[i] ==
+                                          'off') {
+                                        await sendCommand(
+                                            "/RELE=OFF${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      } else {
+                                        await sendCommand(
+                                            "/RELE=ON${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      }
+                                    }
+                                  }
+                                  if (widget.sd.typeCommandVoice[i] ==
+                                      'Motor') {
+                                    if (int.tryParse(
+                                            widget.sd.numberCommandVoice[i])! >
+                                        9) {
+                                      if (widget.sd.onOffCommandVoice[i] ==
+                                          'off') {
+                                        await sendCommand(
+                                            "/M=OFFF${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      } else {
+                                        await sendCommand(
+                                            "/M=ONN${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      }
+                                    } else {
+                                      if (widget.sd.onOffCommandVoice[i] ==
+                                          'off') {
+                                        await sendCommand(
+                                            "/M=OFF${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      } else {
+                                        await sendCommand(
+                                            "/M=ON${widget.sd.numberCommandVoice[i]}",
+                                            widget.sd);
+                                      }
+                                    }
+                                  }
                                 }
+                              }
                             },
                             child: Icon(widget.sd.isListening
                                 ? Icons.mic

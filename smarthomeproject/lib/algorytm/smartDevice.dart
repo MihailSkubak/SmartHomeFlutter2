@@ -22,10 +22,10 @@ class SmartDevice {
   List<String> listChoiseMainType = [];
   List<String> listChoiseMainNumber = [];
   // list for voice
-  List<String> nameCommandVoice = ['Включи свет в комнате'];
-  List<String> typeCommandVoice = ['Rele'];
-  List<String> numberCommandVoice = ['3'];
-  List<String> onOffCommandVoice = ['on'];
+  List<String> nameCommandVoice = [];
+  List<String> typeCommandVoice = [];
+  List<String> numberCommandVoice = [];
+  List<String> onOffCommandVoice = [];
 }
 
 /*class ListCommandForVoice {

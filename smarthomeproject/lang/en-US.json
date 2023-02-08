@@ -168,5 +168,15 @@
     "label": "Turn off", 
     "originalLabel": "Turn off", 
     "comment": "Turn off"
+  },
+  "edit-command":{
+    "label": "Edit command", 
+    "originalLabel": "Edit command", 
+    "comment": "Edit command"
+  },
+  "add-command":{
+    "label": "Add command", 
+    "originalLabel": "Add command", 
+    "comment": "Add command"
   }
 }

@@ -168,5 +168,15 @@
       "label": "Выключить", 
       "originalLabel": "Turn off", 
       "comment": "Turn off"
+    },
+    "edit-command":{
+      "label": "Редактировать команду", 
+      "originalLabel": "Edit command", 
+      "comment": "Edit command"
+    },
+    "add-command":{
+      "label": "Добавить команду", 
+      "originalLabel": "Add command", 
+      "comment": "Add command"
     }
   }
