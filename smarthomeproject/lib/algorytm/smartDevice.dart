@@ -26,6 +26,29 @@ class SmartDevice {
   List<String> typeCommandVoice = [];
   List<String> numberCommandVoice = [];
   List<String> onOffCommandVoice = [];
+  //list for calibration motor
+  List<String> nameCalibrationMotor = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
 }
 
 /*class ListCommandForVoice {

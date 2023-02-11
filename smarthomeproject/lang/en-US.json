@@ -178,5 +178,15 @@
     "label": "Add command", 
     "originalLabel": "Add command", 
     "comment": "Add command"
+  },
+  "not_calibrated":{
+    "label": "Not calibrated", 
+    "originalLabel": "Not calibrated", 
+    "comment": "Not calibrated"
+  },
+  "calibration_motor":{
+    "label": "Calibration motor", 
+    "originalLabel": "Calibration motor", 
+    "comment": "Calibration motor"
   }
 }

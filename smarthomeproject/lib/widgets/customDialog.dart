@@ -1,8 +1,10 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
@@ -813,6 +815,169 @@ void listCommandVoiceDialog(
                         Navigator.pop(context);
                       }
                     }
+                  }
+                },
+              ),
+            ],
+          );
+        });
+      });
+}
+
+void listCalibrationMotor(
+    SmartDevice sd, BuildContext context, int choiseCommand, int index) {
+  TextEditingController writeC = TextEditingController();
+  try {
+    writeC.text = sd.nameCalibrationMotor[index];
+  } catch (e) {
+    if (kDebugMode) {
+      print('Empty nameCalibrationMotor!');
+    }
+  }
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text("calibration_motor.label".tr()),
+            content: SingleChildScrollView(
+                child: SizedBox(
+                    height: 130,
+                    child: Column(
+                      children: [
+                        TextField(
+                          decoration:
+                              InputDecoration(labelText: "name.label".tr()),
+                          controller: writeC,
+                          keyboardType: TextInputType.text,
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    choiseCommand = 0;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    choiseCommand == 0
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          )
+                                        : const Icon(
+                                            Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                    Text('off.label'.tr())
+                                  ],
+                                )),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    choiseCommand = 1;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    choiseCommand == 1
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          )
+                                        : const Icon(
+                                            Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                    Text('on.label'.tr())
+                                  ],
+                                ))
+                          ],
+                        )
+                      ],
+                    ))),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'cancel.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'ok.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if (writeC.text.toString() == '') {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("wrong-values-entered.label".tr()),
+                            actions: <Widget>[
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Text(
+                                  'ok.label'.tr(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    sd.nameCalibrationMotor[index] = writeC.text.toString();
+                    sd.motor[index] = choiseCommand;
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setStringList('${sd.nameDevice}-nameCalibrationMotor',
+                        sd.nameCalibrationMotor);
+                    if (index > 9) {
+                      if (choiseCommand == 1) {
+                        await sendCommand("/KM=ONN$index", sd);
+                      } else if (choiseCommand == 0) {
+                        await sendCommand("/KM=OFFF$index", sd);
+                      }
+                    } else {
+                      if (choiseCommand == 1) {
+                        await sendCommand("/KM=ON$index", sd);
+                      } else if (choiseCommand == 0) {
+                        await sendCommand("/KM=OFF$index", sd);
+                      }
+                    }
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
                   }
                 },
               ),

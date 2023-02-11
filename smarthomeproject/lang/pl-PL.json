@@ -178,5 +178,15 @@
     "label": "Dodaj polecenie", 
     "originalLabel": "Add command", 
     "comment": "Add command"
+  },
+  "not_calibrated":{
+    "label": "Nie skalibrowany", 
+    "originalLabel": "Not calibrated", 
+    "comment": "Not calibrated"
+  },
+  "calibration_motor":{
+    "label": "Skalibruj silnik", 
+    "originalLabel": "Calibration motor", 
+    "comment": "Calibration motor"
   }
 }

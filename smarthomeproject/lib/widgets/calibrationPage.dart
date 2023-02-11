@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
@@ -61,6 +60,12 @@ class CalibrationPageState extends State<CalibrationPage> {
         null) {
       widget.sd.onOffCommandVoice = sharedPrefs
           .getStringList('${widget.sd.nameDevice}-onOffCommandVoice')!;
+    }
+    if (sharedPrefs
+            .getStringList('${widget.sd.nameDevice}-nameCalibrationMotor') !=
+        null) {
+      widget.sd.nameCalibrationMotor = sharedPrefs
+          .getStringList('${widget.sd.nameDevice}-nameCalibrationMotor')!;
     }
   }
 
@@ -138,17 +143,46 @@ class CalibrationPageState extends State<CalibrationPage> {
                                         elevation: 5,
                                         child: ListTile(
                                           title: Text('Motor $index'),
+                                          subtitle: widget
+                                                      .sd
+                                                      .nameCalibrationMotor
+                                                      .isEmpty ||
+                                                  widget.sd.nameCalibrationMotor
+                                                          .length <=
+                                                      index
+                                              ? const Text('')
+                                              : Text(widget.sd
+                                                  .nameCalibrationMotor[index]),
                                           leading: const Icon(
                                             Icons.lightbulb,
                                             size: 30,
                                             color: Colors.blue,
                                           ),
-                                          trailing: CupertinoSwitch(
-                                              value: widget.sd.motor[index] == 1
-                                                  ? true
-                                                  : false,
-                                              onChanged: null),
-                                          onTap: () {},
+                                          trailing: widget.sd.motor[index] == 1
+                                              ? Text(
+                                                  'on.label'.tr(),
+                                                  style: const TextStyle(
+                                                      color: Colors.green),
+                                                )
+                                              : widget.sd.motor[index] == 0
+                                                  ? Text(
+                                                      'off.label'.tr(),
+                                                      style: const TextStyle(
+                                                          color: Colors.green),
+                                                    )
+                                                  : Text(
+                                                      'not_calibrated.label'
+                                                          .tr(),
+                                                      style: const TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                          onTap: () {
+                                            listCalibrationMotor(
+                                                widget.sd,
+                                                context,
+                                                widget.sd.motor[index],
+                                                index);
+                                          },
                                         ),
                                       );
                                     })

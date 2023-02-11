@@ -178,5 +178,15 @@
       "label": "Добавить команду", 
       "originalLabel": "Add command", 
       "comment": "Add command"
+    },
+    "not_calibrated":{
+      "label": "Не откалибровано", 
+      "originalLabel": "Not calibrated", 
+      "comment": "Not calibrated"
+    },
+    "calibration_motor":{
+      "label": "Откалибровать мотор", 
+      "originalLabel": "Calibration motor", 
+      "comment": "Calibration motor"
     }
   }
