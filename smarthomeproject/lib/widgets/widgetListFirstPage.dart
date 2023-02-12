@@ -513,13 +513,45 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                             widget.sd);
                                                       }
                                                     } else {
-                                                      widget.sd.motor[
-                                                          int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])!] = 1;
-                                                      sendCommand(
-                                                          "/M=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                          widget.sd);
+                                                      if (widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] ==
+                                                          2) {
+                                                        //Not calibrated
+                                                        listCalibrationMotorFromAllList(
+                                                            widget.sd,
+                                                            context,
+                                                            int.tryParse(widget
+                                                                    .sd
+                                                                    .listChoiseMainNumber[
+                                                                index])!);
+                                                      } else {
+                                                        if (int.tryParse(widget
+                                                                    .sd
+                                                                    .listChoiseMainNumber[
+                                                                index])! >=
+                                                            10) {
+                                                          widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] = 1;
+                                                          sendCommand(
+                                                              "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                              widget.sd);
+                                                        } else {
+                                                          widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] = 1;
+                                                          sendCommand(
+                                                              "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                              widget.sd);
+                                                        }
+                                                      }
                                                     }
                                                   } else {
                                                     if (widget.sd
@@ -543,13 +575,45 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                             widget.sd);
                                                       }
                                                     } else {
-                                                      widget.sd.motor[
-                                                          int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])!] = 0;
-                                                      sendCommand(
-                                                          "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                          widget.sd);
+                                                      if (widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] ==
+                                                          2) {
+                                                        //Not calibrated
+                                                        listCalibrationMotorFromAllList(
+                                                            widget.sd,
+                                                            context,
+                                                            int.tryParse(widget
+                                                                    .sd
+                                                                    .listChoiseMainNumber[
+                                                                index])!);
+                                                      } else {
+                                                        if (int.tryParse(widget
+                                                                    .sd
+                                                                    .listChoiseMainNumber[
+                                                                index])! >=
+                                                            10) {
+                                                          widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] = 0;
+                                                          sendCommand(
+                                                              "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                              widget.sd);
+                                                        } else {
+                                                          widget.sd.motor[int
+                                                              .tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumber[
+                                                                  index])!] = 0;
+                                                          sendCommand(
+                                                              "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                              widget.sd);
+                                                        }
+                                                      }
                                                     }
                                                   }
                                                 });

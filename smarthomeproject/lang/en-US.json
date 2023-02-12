@@ -188,5 +188,15 @@
     "label": "Calibration motor", 
     "originalLabel": "Calibration motor", 
     "comment": "Calibration motor"
+  },
+  "warning":{
+    "label": "Warning!", 
+    "originalLabel": "Warning!", 
+    "comment": "Warning!"
+  },
+  "your_motor_is_not_calibrated_choose_its_position_now":{
+    "label": "Your motor is not calibrated, choose its position now!", 
+    "originalLabel": "Your motor is not calibrated, choose its position now!", 
+    "comment": "Your motor is not calibrated, choose its position now!"
   }
 }

@@ -188,5 +188,15 @@
       "label": "Откалибровать мотор", 
       "originalLabel": "Calibration motor", 
       "comment": "Calibration motor"
+    },
+    "warning":{
+      "label": "Предупреждение!", 
+      "originalLabel": "Warning!", 
+      "comment": "Warning!"
+    },
+    "your_motor_is_not_calibrated_choose_its_position_now":{
+      "label": "Ваш мотор не откалиброванный, выберете его положение сейчас!", 
+      "originalLabel": "Your motor is not calibrated, choose its position now!", 
+      "comment": "Your motor is not calibrated, choose its position now!"
     }
   }

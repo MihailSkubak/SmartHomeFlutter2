@@ -931,7 +931,7 @@ void listCalibrationMotor(
                   style: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  if (writeC.text.toString() == '') {
+                  if (writeC.text.toString() == '' || choiseCommand == 2) {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -963,6 +963,157 @@ void listCalibrationMotor(
                         await SharedPreferences.getInstance();
                     prefs.setStringList('${sd.nameDevice}-nameCalibrationMotor',
                         sd.nameCalibrationMotor);
+                    if (index > 9) {
+                      if (choiseCommand == 1) {
+                        await sendCommand("/KM=ONN$index", sd);
+                      } else if (choiseCommand == 0) {
+                        await sendCommand("/KM=OFFF$index", sd);
+                      }
+                    } else {
+                      if (choiseCommand == 1) {
+                        await sendCommand("/KM=ON$index", sd);
+                      } else if (choiseCommand == 0) {
+                        await sendCommand("/KM=OFF$index", sd);
+                      }
+                    }
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
+      });
+}
+
+void listCalibrationMotorFromAllList(
+    SmartDevice sd, BuildContext context, int index) {
+  int choiseCommand = 2;
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text(
+              "warning.label".tr(),
+              style: const TextStyle(color: Colors.red),
+            ),
+            content: SingleChildScrollView(
+                child: SizedBox(
+                    height: 130,
+                    child: Column(
+                      children: [
+                        Text(
+                            'your_motor_is_not_calibrated_choose_its_position_now.label'
+                                .tr()),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    choiseCommand = 0;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    choiseCommand == 0
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          )
+                                        : const Icon(
+                                            Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                    Text('off.label'.tr())
+                                  ],
+                                )),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    choiseCommand = 1;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    choiseCommand == 1
+                                        ? const Icon(
+                                            Icons.check_circle_outline_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          )
+                                        : const Icon(
+                                            Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                    Text('on.label'.tr())
+                                  ],
+                                ))
+                          ],
+                        )
+                      ],
+                    ))),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'cancel.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'ok.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if (choiseCommand == 2) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("wrong-values-entered.label".tr()),
+                            actions: <Widget>[
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Text(
+                                  'ok.label'.tr(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    sd.motor[index] = choiseCommand;
                     if (index > 9) {
                       if (choiseCommand == 1) {
                         await sendCommand("/KM=ONN$index", sd);
