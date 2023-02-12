@@ -198,5 +198,25 @@
     "label": "Your motor is not calibrated, choose its position now!", 
     "originalLabel": "Your motor is not calibrated, choose its position now!", 
     "comment": "Your motor is not calibrated, choose its position now!"
+  },
+  "edit-room":{
+    "label": "Edit room", 
+    "originalLabel": "Edit room", 
+    "comment": "Edit room"
+  },
+  "add-room":{
+    "label": "Add room", 
+    "originalLabel": "Add room", 
+    "comment": "Add room"
+  },
+  "gallery":{
+    "label": "Gallery", 
+    "originalLabel": "Gallery", 
+    "comment": "Gallery"
+  },
+  "camera":{
+    "label": "Camera", 
+    "originalLabel": "Camera", 
+    "comment": "Camera"
   }
 }

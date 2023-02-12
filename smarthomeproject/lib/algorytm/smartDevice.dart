@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:io';
+
 class SmartDevice {
   final String nameDevice;
   SmartDevice(this.nameDevice);
@@ -49,6 +51,9 @@ class SmartDevice {
     '',
     '',
   ];
+  //list control
+  List<String> listControl = [];
+  List<String> imageListForControlPath = [];
 }
 
 /*class ListCommandForVoice {

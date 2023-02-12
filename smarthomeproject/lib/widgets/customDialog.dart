@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -8,6 +10,8 @@ import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
+import 'package:image_picker/image_picker.dart';
 
 void lostDevice(SmartDevice sd, BuildContext context) {
   showDialog(
@@ -1127,6 +1131,304 @@ void listCalibrationMotorFromAllList(
                         await sendCommand("/KM=OFF$index", sd);
                       }
                     }
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
+      });
+}
+
+void listCreateEditControl(
+    SmartDevice sd, BuildContext context, bool change, int index) {
+  TextEditingController writeC = TextEditingController();
+  File imageFile = File('');
+  bool checkDelete = false;
+  if (change) {
+    writeC.text = sd.listControl[index];
+  }
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: change
+                ? Text("edit-room.label".tr())
+                : Text("add-room.label".tr()),
+            content: SingleChildScrollView(
+                child: SizedBox(
+                    height: 250,
+                    child: Column(
+                      children: [
+                        TextField(
+                          decoration:
+                              InputDecoration(labelText: "name.label".tr()),
+                          controller: writeC,
+                          keyboardType: TextInputType.text,
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
+                        imageFile.path.isEmpty
+                            ? change
+                                ? Center(
+                                    child: checkDelete
+                                        ? const SizedBox(
+                                            height: 0,
+                                            width: 0,
+                                          )
+                                        : sd.imageListForControlPath[index] ==
+                                                'empty'
+                                            ? Icon(
+                                                Icons
+                                                    .photo_size_select_large_sharp,
+                                                size: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                color: Colors.blue,
+                                              )
+                                            : Image.file(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+                                                File(sd.imageListForControlPath[
+                                                    index]),
+                                                fit: BoxFit.cover,
+                                              ),
+                                  )
+                                : Center(
+                                    child: Icon(
+                                    Icons.photo_size_select_large_sharp,
+                                    size: MediaQuery.of(context).size.width / 4,
+                                    color: Colors.blue,
+                                  ))
+                            : Center(
+                                child: Image.file(
+                                width: MediaQuery.of(context).size.width / 4,
+                                height: MediaQuery.of(context).size.width / 4,
+                                imageFile,
+                                fit: BoxFit.cover,
+                              )),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                                onTap: () async {
+                                  PickedFile? pickedFile =
+                                      // ignore: deprecated_member_use
+                                      await ImagePicker().getImage(
+                                    source: ImageSource.gallery,
+                                    maxWidth: 2500,
+                                    maxHeight: 2500,
+                                  );
+                                  if (pickedFile != null) {
+                                    setState(() {
+                                      imageFile = File(pickedFile.path);
+                                    });
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    const Icon(
+                                      Icons.photo,
+                                      size: 30,
+                                      color: Colors.blue,
+                                    ),
+                                    Text('gallery.label'.tr())
+                                  ],
+                                )),
+                            InkWell(
+                                onTap: () async {
+                                  PickedFile? pickedFile =
+                                      // ignore: deprecated_member_use
+                                      await ImagePicker().getImage(
+                                    source: ImageSource.camera,
+                                    maxWidth: 2500,
+                                    maxHeight: 2500,
+                                  );
+                                  if (pickedFile != null) {
+                                    setState(() {
+                                      imageFile = File(pickedFile.path);
+                                    });
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    const Icon(
+                                      Icons.photo_camera,
+                                      size: 30,
+                                      color: Colors.blue,
+                                    ),
+                                    Text('camera.label'.tr())
+                                  ],
+                                ))
+                          ],
+                        )
+                      ],
+                    ))),
+            actions: <Widget>[
+              change
+                  ? TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: Text(
+                        'delete.label'.tr(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                    "are-you-sure-you-want-to-delete-this-item.label"
+                                        .tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'no.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'yes.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () async {
+                                      setState(() {
+                                        checkDelete = true;
+                                        sd.listControl.removeAt(index);
+                                        sd.imageListForControlPath
+                                            .removeAt(index);
+                                      });
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-listControl',
+                                          sd.listControl);
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-imageListForControlPath',
+                                          sd.imageListForControlPath);
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pop(context);
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    )
+                  : const SizedBox(
+                      width: 0,
+                      height: 0,
+                    ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'cancel.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'ok.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if (writeC.text.toString() == '') {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("wrong-values-entered.label".tr()),
+                            actions: <Widget>[
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Text(
+                                  'ok.label'.tr(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    if (change) {
+                      sd.listControl[index] = writeC.text.toString();
+                      if (imageFile.path == '') {
+                        sd.imageListForControlPath[index] = 'empty';
+                      } else {
+                        sd.imageListForControlPath[index] = imageFile.path;
+                      }
+                    } else {
+                      sd.listControl.add(writeC.text.toString());
+                      if (imageFile.path == '') {
+                        sd.imageListForControlPath.add('empty');
+                      } else {
+                        sd.imageListForControlPath.add(imageFile.path);
+                      }
+                    }
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setStringList(
+                        '${sd.nameDevice}-listControl', sd.listControl);
+                    prefs.setStringList(
+                        '${sd.nameDevice}-imageListForControlPath',
+                        sd.imageListForControlPath);
                     // ignore: use_build_context_synchronously
                     Navigator.pop(context);
                   }

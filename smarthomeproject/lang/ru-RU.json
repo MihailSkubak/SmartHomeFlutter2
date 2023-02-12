@@ -198,5 +198,25 @@
       "label": "Ваш мотор не откалиброванный, выберете его положение сейчас!", 
       "originalLabel": "Your motor is not calibrated, choose its position now!", 
       "comment": "Your motor is not calibrated, choose its position now!"
+    },
+    "edit-room":{
+      "label": "Редактировать комнату", 
+      "originalLabel": "Edit room", 
+      "comment": "Edit room"
+    },
+    "add-room":{
+      "label": "Добавить комнату", 
+      "originalLabel": "Add room", 
+      "comment": "Add room"
+    },
+    "gallery":{
+      "label": "Галерея", 
+      "originalLabel": "Gallery", 
+      "comment": "Gallery"
+    },
+    "camera":{
+      "label": "Камера", 
+      "originalLabel": "Camera", 
+      "comment": "Camera"
     }
   }
