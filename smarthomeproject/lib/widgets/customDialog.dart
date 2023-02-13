@@ -1180,39 +1180,30 @@ void listCreateEditControl(
                                           )
                                         : sd.imageListForControlPath[index] ==
                                                 'empty'
-                                            ? Icon(
+                                            ? const Icon(
                                                 Icons
                                                     .photo_size_select_large_sharp,
-                                                size: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    4,
+                                                size: 100,
                                                 color: Colors.blue,
                                               )
                                             : Image.file(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    4,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    4,
+                                                width: 100,
+                                                height: 100,
                                                 File(sd.imageListForControlPath[
                                                     index]),
                                                 fit: BoxFit.cover,
                                               ),
                                   )
-                                : Center(
+                                : const Center(
                                     child: Icon(
                                     Icons.photo_size_select_large_sharp,
-                                    size: MediaQuery.of(context).size.width / 4,
+                                    size: 100,
                                     color: Colors.blue,
                                   ))
                             : Center(
                                 child: Image.file(
-                                width: MediaQuery.of(context).size.width / 4,
-                                height: MediaQuery.of(context).size.width / 4,
+                                width: 100,
+                                height: 100,
                                 imageFile,
                                 fit: BoxFit.cover,
                               )),
