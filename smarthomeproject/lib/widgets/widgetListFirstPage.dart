@@ -258,22 +258,27 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                     size: 22,
                     color: widget.sd.connected ? Colors.blue : Colors.red,
                   ),
-                  Row(children: [
-                    const Icon(
-                      Icons.thermostat,
-                      size: 20,
-                      color: Colors.blue,
-                    ),
-                    Text('${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
-                  ]),
-                  Row(children: [
-                    const Icon(
-                      Icons.water_drop,
-                      size: 20,
-                      color: Colors.blue,
-                    ),
-                    Text('${widget.sd.humidity.toStringAsFixed(1)} %')
-                  ]),
+                  widget.sd.pressure != 0
+                      ? Row(children: [
+                          const Icon(
+                            Icons.thermostat,
+                            size: 20,
+                            color: Colors.blue,
+                          ),
+                          Text(
+                              '${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
+                        ])
+                      : const SizedBox(height: 0, width: 0),
+                  widget.sd.pressure != 0
+                      ? Row(children: [
+                          const Icon(
+                            Icons.water_drop,
+                            size: 20,
+                            color: Colors.blue,
+                          ),
+                          Text('${widget.sd.humidity.toStringAsFixed(1)} %')
+                        ])
+                      : const SizedBox(height: 0, width: 0),
                 ]),
                 children: [
                   Container(
@@ -290,41 +295,45 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                   const Padding(
                     padding: EdgeInsets.only(bottom: 5),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(children: [
-                        const Icon(
-                          Icons.speed_rounded,
-                          size: 30,
-                          color: Colors.blue,
-                        ),
-                        Text(' ${widget.sd.pressure}${'mm.label'.tr()}')
-                      ]),
-                      Row(children: [
-                        widget.sd.weather > 0 && widget.sd.temperatura <= 1.5
-                            ? SvgPicture.asset(
-                                'images/snowflake.svg',
-                                color: Colors.blue,
-                                height: 25,
-                                width: 25,
-                              )
-                            : Icon(
-                                widget.sd.weather > 0 &&
-                                        widget.sd.temperatura > 1.5
-                                    ? Icons.cloudy_snowing
-                                    : widget.sd.weather < 0
-                                        ? Icons.wb_sunny_rounded
-                                        : Icons.cloud_sync_rounded,
+                  widget.sd.pressure != 0
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(children: [
+                              const Icon(
+                                Icons.speed_rounded,
                                 size: 30,
                                 color: Colors.blue,
                               ),
-                        widget.sd.weather < 0
-                            ? Text(' ${(widget.sd.weather * -1).toString()} %')
-                            : Text(' ${widget.sd.weather.toString()} %')
-                      ]),
-                    ],
-                  ),
+                              Text(' ${widget.sd.pressure}${'mm.label'.tr()}')
+                            ]),
+                            Row(children: [
+                              widget.sd.weather > 0 &&
+                                      widget.sd.temperatura <= 1.5
+                                  ? SvgPicture.asset(
+                                      'images/snowflake.svg',
+                                      color: Colors.blue,
+                                      height: 25,
+                                      width: 25,
+                                    )
+                                  : Icon(
+                                      widget.sd.weather > 0 &&
+                                              widget.sd.temperatura > 1.5
+                                          ? Icons.cloudy_snowing
+                                          : widget.sd.weather < 0
+                                              ? Icons.wb_sunny_rounded
+                                              : Icons.cloud_sync_rounded,
+                                      size: 30,
+                                      color: Colors.blue,
+                                    ),
+                              widget.sd.weather < 0
+                                  ? Text(
+                                      ' ${(widget.sd.weather * -1).toString()} %')
+                                  : Text(' ${widget.sd.weather.toString()} %')
+                            ]),
+                          ],
+                        )
+                      : const SizedBox(height: 0, width: 0),
                   Column(children: <Widget>[
                     ListView.builder(
                         shrinkWrap: true,
