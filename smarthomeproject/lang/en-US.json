@@ -218,5 +218,15 @@
     "label": "Camera", 
     "originalLabel": "Camera", 
     "comment": "Camera"
+  },
+  "Are-you-sure-you-want-exit":{
+    "label": "Are you sure you want exit?", 
+    "originalLabel": "Are you sure you want exit", 
+    "comment": "Are you sure you want exit"
+  },
+  "exit":{
+    "label": "Exit", 
+    "originalLabel": "exit", 
+    "comment": "exit"
   }
 }

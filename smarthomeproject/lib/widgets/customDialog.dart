@@ -41,6 +41,48 @@ void lostDevice(SmartDevice sd, BuildContext context) {
       });
 }
 
+Future<void> exitApp(BuildContext context) async {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Are-you-sure-you-want-exit.label".tr()),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              child: Text(
+                'no.label'.tr(),
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              child: Text(
+                'yes.label'.tr(),
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                exit(0);
+              },
+            ),
+          ],
+        );
+      });
+}
+
 void listChoiceDialog(
     SmartDevice sd, BuildContext context, bool change, int index) {
   TextEditingController writeC = TextEditingController();

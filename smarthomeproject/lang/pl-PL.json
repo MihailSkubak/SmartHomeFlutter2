@@ -218,5 +218,15 @@
     "label": "Aparat", 
     "originalLabel": "Camera", 
     "comment": "Camera"
+  },
+  "Are-you-sure-you-want-exit":{
+    "label": "Czy na pewno chcesz wyjść?", 
+    "originalLabel": "Are you sure you want exit", 
+    "comment": "Are you sure you want exit"
+  },
+  "exit":{
+    "label": "Zamknij", 
+    "originalLabel": "exit", 
+    "comment": "exit"
   }
 }

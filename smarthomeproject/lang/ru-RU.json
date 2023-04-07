@@ -218,5 +218,15 @@
       "label": "Камера", 
       "originalLabel": "Camera", 
       "comment": "Camera"
+    },
+    "Are-you-sure-you-want-exit":{
+      "label": "Вы уверены что хотите выйти?", 
+      "originalLabel": "Are you sure you want exit", 
+      "comment": "Are you sure you want exit"
+    },
+    "exit":{
+      "label": "Выход", 
+      "originalLabel": "exit", 
+      "comment": "exit"
     }
   }
