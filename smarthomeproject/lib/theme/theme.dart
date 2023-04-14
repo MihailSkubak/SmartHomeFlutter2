@@ -37,6 +37,7 @@ class ThemeNotifier with ChangeNotifier {
       primarySwatch: Colors.blue,
       primaryColor: Colors.black,
       brightness: Brightness.dark,
+      // ignore: deprecated_member_use
       backgroundColor: const Color(0xFF212121),
       // ignore: deprecated_member_use
       accentColor: Colors.white,
@@ -49,6 +50,7 @@ class ThemeNotifier with ChangeNotifier {
       primarySwatch: Colors.blue,
       primaryColor: Colors.white,
       brightness: Brightness.light,
+      // ignore: deprecated_member_use
       backgroundColor: const Color(0xFFE5E5E5),
       // ignore: deprecated_member_use
       accentColor: Colors.black,
@@ -61,6 +63,7 @@ class ThemeNotifier with ChangeNotifier {
       primarySwatch: Colors.blue,
       primaryColor: Colors.white,
       brightness: Brightness.light,
+      // ignore: deprecated_member_use
       backgroundColor: const Color(0xFFE5E5E5),
       // ignore: deprecated_member_use
       accentColor: Colors.black,

@@ -107,6 +107,7 @@ class MainPageState extends State<MainPage> {
                                   connected = await connectSocket(
                                       writeC.text.toString());
                                   if (connected) {
+                                    // ignore: use_build_context_synchronously
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -152,6 +153,7 @@ class MainPageState extends State<MainPage> {
                                           .add(writeC.text.toString());
                                     }
                                   } else {
+                                    // ignore: use_build_context_synchronously
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -264,6 +266,7 @@ class MainPageState extends State<MainPage> {
                                     : SmartDevice(
                                         globals.smartDeviceList[index])
                                 : SmartDevice(globals.smartDeviceList[index]),
+                            theme: widget.theme,
                           );
                         })
                   ]))

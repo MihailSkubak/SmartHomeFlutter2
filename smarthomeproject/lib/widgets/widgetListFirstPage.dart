@@ -13,6 +13,7 @@ import 'package:smarthomeproject/algorytm/voiceSpeech.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:smarthomeproject/theme/theme.dart';
 import 'package:smarthomeproject/widgets/calibrationPage.dart';
 import 'package:smarthomeproject/widgets/controlPage.dart';
 import 'package:smarthomeproject/widgets/customDialog.dart';
@@ -20,11 +21,14 @@ import 'package:smarthomeproject/widgets/customDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages, import_of_legacy_library_into_null_safe
 import 'package:flutter_slidable/flutter_slidable.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_spinbox/material.dart';
 
 class ListDeviceWidget extends StatefulWidget {
   final SmartDevice sd;
+  final ThemeNotifier theme;
 
-  const ListDeviceWidget({super.key, required this.sd});
+  const ListDeviceWidget({super.key, required this.sd, required this.theme});
   @override
   ListDeviceWidgetState createState() => ListDeviceWidgetState();
 }
@@ -202,6 +206,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     detail = details;
   }
 
+  double valueCheck = 0;
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -605,157 +610,223 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                     size: 30,
                                                     color: Colors.blue,
                                                   ),
-                                                  trailing: CupertinoSwitch(
-                                                    value: widget.sd.listChoiseMainType[
-                                                                index] ==
-                                                            'rele'
-                                                        ? widget.sd.releAll[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] ==
-                                                                1
-                                                            ? true
-                                                            : false
-                                                        : widget.sd.motor[int.tryParse(widget
-                                                                    .sd
-                                                                    .listChoiseMainNumber[index])!] ==
-                                                                1
-                                                            ? true
-                                                            : false,
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        if (value) {
-                                                          if (widget.sd
-                                                                      .listChoiseMainType[
-                                                                  index] ==
-                                                              'rele') {
-                                                            widget.sd.releAll[int
-                                                                .tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 1;
-                                                            if (int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])! >=
-                                                                10) {
-                                                              sendCommand(
-                                                                  "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                  widget.sd);
-                                                            } else {
-                                                              sendCommand(
-                                                                  "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                  widget.sd);
-                                                            }
-                                                          } else {
-                                                            if (widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] ==
-                                                                2) {
-                                                              //Not calibrated
-                                                              listCalibrationMotorFromAllList(
-                                                                  widget.sd,
-                                                                  context,
-                                                                  int.tryParse(widget
-                                                                          .sd
-                                                                          .listChoiseMainNumber[
-                                                                      index])!);
-                                                            } else {
-                                                              if (int.tryParse(widget
-                                                                          .sd
-                                                                          .listChoiseMainNumber[
-                                                                      index])! >=
-                                                                  10) {
-                                                                widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 1;
-                                                                sendCommand(
-                                                                    "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                    widget.sd);
-                                                              } else {
-                                                                widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 1;
-                                                                sendCommand(
-                                                                    "/M=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                    widget.sd);
-                                                              }
-                                                            }
-                                                          }
-                                                        } else {
-                                                          if (widget.sd
-                                                                      .listChoiseMainType[
-                                                                  index] ==
-                                                              'rele') {
-                                                            widget.sd.releAll[int
-                                                                .tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 0;
-                                                            if (int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])! >=
-                                                                10) {
-                                                              sendCommand(
-                                                                  "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                  widget.sd);
-                                                            } else {
-                                                              sendCommand(
-                                                                  "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                  widget.sd);
-                                                            }
-                                                          } else {
-                                                            if (widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] ==
-                                                                2) {
-                                                              //Not calibrated
-                                                              listCalibrationMotorFromAllList(
-                                                                  widget.sd,
-                                                                  context,
-                                                                  int.tryParse(widget
-                                                                          .sd
-                                                                          .listChoiseMainNumber[
-                                                                      index])!);
-                                                            } else {
-                                                              if (int.tryParse(widget
-                                                                          .sd
-                                                                          .listChoiseMainNumber[
-                                                                      index])! >=
-                                                                  10) {
-                                                                widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 0;
-                                                                sendCommand(
-                                                                    "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                    widget.sd);
-                                                              } else {
-                                                                widget.sd
-                                                                    .motor[int.tryParse(widget
-                                                                        .sd
-                                                                        .listChoiseMainNumber[
-                                                                    index])!] = 0;
-                                                                sendCommand(
-                                                                    "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                    widget.sd);
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
+                                                  trailing: SizedBox(
+                                                      width: 179,
+                                                      height: 40,
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .blue[200],
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                            .all(
+                                                                        Radius.circular(
+                                                                            5.0)),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                    spreadRadius:
+                                                                        5,
+                                                                    blurRadius:
+                                                                        7,
+                                                                    offset: const Offset(
+                                                                        0,
+                                                                        3), // changes position of shadow
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              width: 120,
+                                                              height: 37,
+                                                              child: SpinBox(
+                                                                iconColor: MaterialStateProperty.all<
+                                                                    Color>(widget
+                                                                        .theme
+                                                                        .switchValueTheme()
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black),
+                                                                cursorColor:
+                                                                    Colors.blue,
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 50),
+                                                                ),
+                                                                spacing: 3,
+                                                                decimals: 1,
+                                                                step: 0.1,
+                                                                min: 0.0,
+                                                                max: 50.0,
+                                                                value:
+                                                                    valueCheck,
+                                                                onChanged:
+                                                                    (value) {
+                                                                  setState(() {
+                                                                    valueCheck =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                              )),
+                                                          CupertinoSwitch(
+                                                            value: widget.sd.listChoiseMainType[
+                                                                        index] ==
+                                                                    'rele'
+                                                                ? widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[
+                                                                            index])!] ==
+                                                                        1
+                                                                    ? true
+                                                                    : false
+                                                                : widget.sd.motor[int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[index])!] ==
+                                                                        1
+                                                                    ? true
+                                                                    : false,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                if (value) {
+                                                                  if (widget.sd
+                                                                              .listChoiseMainType[
+                                                                          index] ==
+                                                                      'rele') {
+                                                                    widget.sd
+                                                                        .releAll[int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[
+                                                                        index])!] = 1;
+                                                                    if (int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[index])! >=
+                                                                        10) {
+                                                                      sendCommand(
+                                                                          "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else {
+                                                                      sendCommand(
+                                                                          "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    }
+                                                                  } else {
+                                                                    if (widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] ==
+                                                                        2) {
+                                                                      //Not calibrated
+                                                                      listCalibrationMotorFromAllList(
+                                                                          widget
+                                                                              .sd,
+                                                                          context,
+                                                                          int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])!);
+                                                                    } else {
+                                                                      if (int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])! >=
+                                                                          10) {
+                                                                        widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] = 1;
+                                                                        sendCommand(
+                                                                            "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      } else {
+                                                                        widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] = 1;
+                                                                        sendCommand(
+                                                                            "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                } else {
+                                                                  if (widget.sd
+                                                                              .listChoiseMainType[
+                                                                          index] ==
+                                                                      'rele') {
+                                                                    widget.sd
+                                                                        .releAll[int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[
+                                                                        index])!] = 0;
+                                                                    if (int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[index])! >=
+                                                                        10) {
+                                                                      sendCommand(
+                                                                          "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else {
+                                                                      sendCommand(
+                                                                          "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    }
+                                                                  } else {
+                                                                    if (widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] ==
+                                                                        2) {
+                                                                      //Not calibrated
+                                                                      listCalibrationMotorFromAllList(
+                                                                          widget
+                                                                              .sd,
+                                                                          context,
+                                                                          int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])!);
+                                                                    } else {
+                                                                      if (int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])! >=
+                                                                          10) {
+                                                                        widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] = 0;
+                                                                        sendCommand(
+                                                                            "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      } else {
+                                                                        widget
+                                                                            .sd
+                                                                            .motor[int.tryParse(widget
+                                                                                .sd.listChoiseMainNumber[
+                                                                            index])!] = 0;
+                                                                        sendCommand(
+                                                                            "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      )),
                                                   onLongPress: () {
                                                     listChoiceDialog(widget.sd,
                                                         context, true, index);
