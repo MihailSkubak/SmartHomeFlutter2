@@ -208,6 +208,22 @@ void handleClient(Socket client, SmartDevice sd) {
               if (index == 4) {
                 try {
                   out = out.substring(3);
+                  sd.temperaturaHome = double.tryParse(out)!;
+                } catch (e) {
+                  sd.temperaturaHome = 0;
+                }
+              }
+              if (index == 5) {
+                try {
+                  out = out.substring(3);
+                  sd.humidityHome = double.tryParse(out)!;
+                } catch (e) {
+                  sd.humidityHome = 0;
+                }
+              }
+              if (index == 6) {
+                try {
+                  out = out.substring(3);
                   if (out == '/M=OFF0') sd.motor.add(0);
                   if (out == '/M=ON0') sd.motor.add(1);
                   if (out == 'non') sd.motor.add(2);
@@ -215,7 +231,37 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.motor.add(2);
                 }
               }
-              if (index == 5) {
+              if (index == 7) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/M=OFF1') sd.motor.add(0);
+                  if (out == '/M=ON1') sd.motor.add(1);
+                  if (out == 'non') sd.motor.add(2);
+                } catch (e) {
+                  sd.motor.add(2);
+                }
+              }
+              if (index == 8) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/M=OFF2') sd.motor.add(0);
+                  if (out == '/M=ON2') sd.motor.add(1);
+                  if (out == 'non') sd.motor.add(2);
+                } catch (e) {
+                  sd.motor.add(2);
+                }
+              }
+              if (index == 9) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/M=OFF3') sd.motor.add(0);
+                  if (out == '/M=ON3') sd.motor.add(1);
+                  if (out == 'non') sd.motor.add(2);
+                } catch (e) {
+                  sd.motor.add(2);
+                }
+              }
+              if (index == 10) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF0') sd.releAll.add(0);
@@ -225,7 +271,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 6) {
+              if (index == 11) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF1') sd.releAll.add(0);
@@ -235,7 +281,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 7) {
+              if (index == 12) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF2') sd.releAll.add(0);
@@ -245,7 +291,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 8) {
+              if (index == 13) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF3') sd.releAll.add(0);
@@ -255,7 +301,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 9) {
+              if (index == 14) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF4') sd.releAll.add(0);
@@ -265,7 +311,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 10) {
+              if (index == 15) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF5') sd.releAll.add(0);
@@ -275,7 +321,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 11) {
+              if (index == 16) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF6') sd.releAll.add(0);
@@ -285,7 +331,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 12) {
+              if (index == 17) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF7') sd.releAll.add(0);
@@ -295,7 +341,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 13) {
+              if (index == 18) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF8') sd.releAll.add(0);
@@ -305,7 +351,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 14) {
+              if (index == 19) {
                 try {
                   out = out.substring(3);
                   if (out == '/RELE=OFF9') sd.releAll.add(0);
@@ -315,7 +361,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 15) {
+              if (index == 20) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF10') sd.releAll.add(0);
@@ -325,7 +371,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 16) {
+              if (index == 21) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF11') sd.releAll.add(0);
@@ -335,7 +381,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 17) {
+              if (index == 22) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF12') sd.releAll.add(0);
@@ -345,7 +391,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 18) {
+              if (index == 23) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF13') sd.releAll.add(0);
@@ -355,7 +401,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 19) {
+              if (index == 24) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF14') sd.releAll.add(0);
@@ -365,7 +411,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.releAll.add(2);
                 }
               }
-              if (index == 20) {
+              if (index == 25) {
                 try {
                   out = out.substring(4);
                   if (out == '/RELE=OFFF15') sd.releAll.add(0);
@@ -373,6 +419,39 @@ void handleClient(Socket client, SmartDevice sd) {
                   if (out == 'non') sd.releAll.add(2);
                 } catch (e) {
                   sd.releAll.add(2);
+                }
+              }
+              //////////////////////
+              if (index == 26) {
+                try {
+                  out = out.substring(2);
+                  sd.termostat = double.tryParse(out)!;
+                } catch (e) {
+                  sd.termostat = -1000;
+                }
+              }
+              if (index == 27) {
+                try {
+                  out = out.substring(2);
+                  sd.humidityTermostat = double.tryParse(out)!;
+                } catch (e) {
+                  sd.humidityTermostat = -1000;
+                }
+              }
+              if (index == 28) {
+                try {
+                  out = out.substring(3);
+                  sd.termostatNumber = int.tryParse(out)!;
+                } catch (e) {
+                  sd.termostatNumber = -1000;
+                }
+              }
+              if (index == 29) {
+                try {
+                  out = out.substring(3);
+                  sd.humidityTermostatNumber = int.tryParse(out)!;
+                } catch (e) {
+                  sd.humidityTermostatNumber = -1000;
                 }
               }
               /*if (index == 20) {

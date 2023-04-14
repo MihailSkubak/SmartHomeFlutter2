@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'dart:io';
-
 class SmartDevice {
   final String nameDevice;
   SmartDevice(this.nameDevice);
@@ -14,6 +12,12 @@ class SmartDevice {
   double humidity = 0;
   int pressure = 0;
   int weather = 0;
+  double temperaturaHome = 0;
+  double humidityHome = 0;
+  double termostat = 0;
+  double humidityTermostat = 0;
+  int termostatNumber = 0;
+  int humidityTermostatNumber = 0;
   List<int> motor = [];
   List<int> releAll = [];
   bool isListening = false;

@@ -227,416 +227,544 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
           },
           child: Card(
               elevation: 5,
-              child: ExpansionTile(
-                leading: const Icon(
-                  Icons.maps_home_work_sharp,
-                  size: 45,
-                ),
-                title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.sd.nameDeviceClient,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+              child: widget.sd.pressure == 0
+                  ? ListTile(
+                      leading: const Icon(
+                        Icons.maps_home_work_sharp,
+                        size: 45,
                       ),
-                      Visibility(
-                          visible:
-                              widget.sd.nameDeviceClient != widget.sd.nameDevice
-                                  ? true
-                                  : false,
-                          child: Text(
-                            widget.sd.nameDevice,
-                            style: const TextStyle(color: Colors.grey),
-                          ))
-                    ]),
-                subtitle: Row(children: [
-                  Icon(
-                    Icons.wifi,
-                    size: 22,
-                    color: widget.sd.connected ? Colors.blue : Colors.red,
-                  ),
-                  widget.sd.pressure != 0
-                      ? Row(children: [
-                          const Icon(
-                            Icons.thermostat,
-                            size: 20,
-                            color: Colors.blue,
-                          ),
-                          Text(
-                              '${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
-                        ])
-                      : const SizedBox(height: 0, width: 0),
-                  widget.sd.pressure != 0
-                      ? Row(children: [
-                          const Icon(
-                            Icons.water_drop,
-                            size: 20,
-                            color: Colors.blue,
-                          ),
-                          Text('${widget.sd.humidity.toStringAsFixed(1)} %')
-                        ])
-                      : const SizedBox(height: 0, width: 0),
-                ]),
-                children: [
-                  Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.yellow[100],
-                          border: const Border(
-                            top: BorderSide(
-                              color: Colors.grey,
-                              width: 1,
+                      title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.sd.nameDeviceClient,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
-                          ))),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 5),
-                  ),
-                  widget.sd.pressure != 0
-                      ? Row(
+                            Visibility(
+                                visible: widget.sd.nameDeviceClient !=
+                                        widget.sd.nameDevice
+                                    ? true
+                                    : false,
+                                child: Text(
+                                  widget.sd.nameDevice,
+                                  style: const TextStyle(color: Colors.grey),
+                                ))
+                          ]),
+                      subtitle: Row(children: [
+                        Icon(
+                          Icons.wifi,
+                          size: 22,
+                          color: widget.sd.connected ? Colors.blue : Colors.red,
+                        ),
+                        widget.sd.pressure != 0
+                            ? Row(children: [
+                                const Icon(
+                                  Icons.thermostat,
+                                  size: 20,
+                                  color: Colors.blue,
+                                ),
+                                Text(
+                                    '${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
+                              ])
+                            : const SizedBox(height: 0, width: 0),
+                        widget.sd.pressure != 0
+                            ? Row(children: [
+                                const Icon(
+                                  Icons.water_drop,
+                                  size: 20,
+                                  color: Colors.blue,
+                                ),
+                                Text(
+                                    '${widget.sd.humidity.toStringAsFixed(1)} %')
+                              ])
+                            : const SizedBox(height: 0, width: 0),
+                      ]))
+                  : ExpansionTile(
+                      initiallyExpanded: true,
+                      leading: const Icon(
+                        Icons.maps_home_work_sharp,
+                        size: 45,
+                      ),
+                      title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.sd.nameDeviceClient,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            Visibility(
+                                visible: widget.sd.nameDeviceClient !=
+                                        widget.sd.nameDevice
+                                    ? true
+                                    : false,
+                                child: Text(
+                                  widget.sd.nameDevice,
+                                  style: const TextStyle(color: Colors.grey),
+                                ))
+                          ]),
+                      subtitle: Row(children: [
+                        Icon(
+                          Icons.wifi,
+                          size: 22,
+                          color: widget.sd.connected ? Colors.blue : Colors.red,
+                        ),
+                        widget.sd.pressure != 0
+                            ? Row(children: [
+                                const Icon(
+                                  Icons.thermostat,
+                                  size: 20,
+                                  color: Colors.blue,
+                                ),
+                                Text(
+                                    '${widget.sd.temperatura.toStringAsFixed(1)}°C  ')
+                              ])
+                            : const SizedBox(height: 0, width: 0),
+                        widget.sd.pressure != 0
+                            ? Row(children: [
+                                const Icon(
+                                  Icons.water_drop,
+                                  size: 20,
+                                  color: Colors.blue,
+                                ),
+                                Text(
+                                    '${widget.sd.humidity.toStringAsFixed(1)} %')
+                              ])
+                            : const SizedBox(height: 0, width: 0),
+                      ]),
+                      children: [
+                        Container(
+                            height: 1,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.yellow[100],
+                              border: const Border(
+                                top: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                            )),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                        ),
+                        widget.sd.pressure != 0
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(children: [
+                                    const Icon(
+                                      Icons.speed_rounded,
+                                      size: 30,
+                                      color: Colors.blue,
+                                    ),
+                                    Text(
+                                        ' ${widget.sd.pressure}${'mm.label'.tr()}')
+                                  ]),
+                                  Row(children: [
+                                    widget.sd.weather > 0 &&
+                                            widget.sd.temperatura <= 1.5
+                                        ? SvgPicture.asset(
+                                            'images/snowflake.svg',
+                                            color: Colors.blue,
+                                            height: 25,
+                                            width: 25,
+                                          )
+                                        : Icon(
+                                            widget.sd.weather > 0 &&
+                                                    widget.sd.temperatura > 1.5
+                                                ? Icons.cloudy_snowing
+                                                : widget.sd.weather < 0
+                                                    ? Icons.wb_sunny_rounded
+                                                    : Icons.cloud_sync_rounded,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                    widget.sd.weather < 0
+                                        ? Text(
+                                            ' ${(widget.sd.weather * -1).toString()} %')
+                                        : Text(
+                                            ' ${widget.sd.weather.toString()} %')
+                                  ]),
+                                ],
+                              )
+                            : const SizedBox(height: 0, width: 0),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5),
+                        ),
+                        Container(
+                            height: 1,
+                            width: MediaQuery.of(context).size.width - 40,
+                            decoration: BoxDecoration(
+                                color: Colors.yellow[100],
+                                border: const Border(
+                                  top: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ))),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 5),
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Row(children: [
                               const Icon(
-                                Icons.speed_rounded,
+                                Icons.thermostat,
                                 size: 30,
                                 color: Colors.blue,
                               ),
-                              Text(' ${widget.sd.pressure}${'mm.label'.tr()}')
+                              Text(
+                                  '${widget.sd.temperaturaHome.toStringAsFixed(1)}°C  ')
                             ]),
                             Row(children: [
-                              widget.sd.weather > 0 &&
-                                      widget.sd.temperatura <= 1.5
-                                  ? SvgPicture.asset(
-                                      'images/snowflake.svg',
-                                      color: Colors.blue,
-                                      height: 25,
-                                      width: 25,
-                                    )
-                                  : Icon(
-                                      widget.sd.weather > 0 &&
-                                              widget.sd.temperatura > 1.5
-                                          ? Icons.cloudy_snowing
-                                          : widget.sd.weather < 0
-                                              ? Icons.wb_sunny_rounded
-                                              : Icons.cloud_sync_rounded,
-                                      size: 30,
-                                      color: Colors.blue,
-                                    ),
-                              widget.sd.weather < 0
-                                  ? Text(
-                                      ' ${(widget.sd.weather * -1).toString()} %')
-                                  : Text(' ${widget.sd.weather.toString()} %')
-                            ]),
+                              const Icon(
+                                Icons.water_drop,
+                                size: 30,
+                                color: Colors.blue,
+                              ),
+                              Text(
+                                  '${widget.sd.humidityHome.toStringAsFixed(1)} %')
+                            ])
                           ],
-                        )
-                      : const SizedBox(height: 0, width: 0),
-                  Column(children: <Widget>[
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.sd.releAll.isEmpty
-                            ? 0
-                            : widget.sd.listChoiseMainName.isEmpty
-                                ? 1
-                                : widget.sd.listChoiseMainName.length >= 6
-                                    ? widget.sd.listChoiseMainName.length
-                                    : widget.sd.listChoiseMainName.length + 1,
-                        scrollDirection: Axis.vertical,
-                        controller: _scrollController,
-                        itemBuilder: (context, index) {
-                          return index == widget.sd.listChoiseMainName.length
-                              ? Card(
-                                  elevation: 5,
-                                  child: ListTile(
-                                    title: const Center(
-                                      child: Icon(
-                                        Icons.add,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      listChoiceDialog(
-                                          widget.sd, context, false, 0);
-                                    },
-                                  ),
-                                )
-                              : Card(
-                                  elevation: 5,
-                                  child: Container(
-                                      decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: Slidable(
-                                          key: Key(widget
-                                              .sd.listChoiseMainName[index]),
-                                          actionPane:
-                                              const SlidableScrollActionPane(),
-                                          secondaryActions: [
-                                            IconSlideAction(
-                                              caption: "delete.label".tr(),
-                                              color: Colors.red,
-                                              icon: Icons.delete,
-                                              onTap: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            "are-you-sure-you-want-to-delete-this-item.label"
-                                                                .tr()),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            style: TextButton
-                                                                .styleFrom(
-                                                              backgroundColor:
-                                                                  Colors.blue,
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                            child: Text(
-                                                              'no.label'.tr(),
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                            style: TextButton
-                                                                .styleFrom(
-                                                              backgroundColor:
-                                                                  Colors.blue,
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                            child: Text(
-                                                              'yes.label'.tr(),
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              setState(() {
-                                                                widget.sd
-                                                                    .listChoiseMainName
-                                                                    .removeAt(
-                                                                        index);
-                                                                widget.sd
-                                                                    .listChoiseMainType
-                                                                    .removeAt(
-                                                                        index);
-                                                                widget.sd
-                                                                    .listChoiseMainNumber
-                                                                    .removeAt(
-                                                                        index);
-                                                              });
-                                                              SharedPreferences
-                                                                  prefs =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                              prefs.setStringList(
-                                                                  '${widget.sd.nameDevice}-listChoiseMain.name',
-                                                                  widget.sd
-                                                                      .listChoiseMainName);
-                                                              prefs.setStringList(
-                                                                  '${widget.sd.nameDevice}-listChoiseMain.type',
-                                                                  widget.sd
-                                                                      .listChoiseMainType);
-                                                              prefs.setStringList(
-                                                                  '${widget.sd.nameDevice}-listChoiseMain.number',
-                                                                  widget.sd
-                                                                      .listChoiseMainNumber);
-                                                              // ignore: use_build_context_synchronously
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    });
-                                              },
-                                            )
-                                          ],
-                                          child: ListTile(
-                                            title: Text(widget
-                                                .sd.listChoiseMainName[index]),
-                                            leading: const Icon(
-                                              Icons.lightbulb,
+                        ),
+                        Column(children: <Widget>[
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: widget.sd.releAll.isEmpty
+                                  ? 0
+                                  : widget.sd.listChoiseMainName.isEmpty
+                                      ? 1
+                                      : widget.sd.listChoiseMainName.length >= 6
+                                          ? widget.sd.listChoiseMainName.length
+                                          : widget.sd.listChoiseMainName
+                                                  .length +
+                                              1,
+                              scrollDirection: Axis.vertical,
+                              controller: _scrollController,
+                              itemBuilder: (context, index) {
+                                return index ==
+                                        widget.sd.listChoiseMainName.length
+                                    ? Card(
+                                        elevation: 5,
+                                        child: ListTile(
+                                          title: const Center(
+                                            child: Icon(
+                                              Icons.add,
                                               size: 30,
                                               color: Colors.blue,
                                             ),
-                                            trailing: CupertinoSwitch(
-                                              value: widget.sd.listChoiseMainType[index] ==
-                                                      'rele'
-                                                  ? widget.sd.releAll[
-                                                              int.tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] ==
-                                                          1
-                                                      ? true
-                                                      : false
-                                                  : widget.sd.motor[int.tryParse(
-                                                              widget.sd.listChoiseMainNumber[
-                                                                  index])!] ==
-                                                          1
-                                                      ? true
-                                                      : false,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  if (value) {
-                                                    if (widget.sd
-                                                                .listChoiseMainType[
-                                                            index] ==
-                                                        'rele') {
-                                                      widget.sd.releAll[
-                                                          int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])!] = 1;
-                                                      if (int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])! >=
-                                                          10) {
-                                                        sendCommand(
-                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                            widget.sd);
-                                                      } else {
-                                                        sendCommand(
-                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                            widget.sd);
-                                                      }
-                                                    } else {
-                                                      if (widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] ==
-                                                          2) {
-                                                        //Not calibrated
-                                                        listCalibrationMotorFromAllList(
-                                                            widget.sd,
-                                                            context,
-                                                            int.tryParse(widget
+                                          ),
+                                          onTap: () {
+                                            listChoiceDialog(
+                                                widget.sd, context, false, 0);
+                                          },
+                                        ),
+                                      )
+                                    : Card(
+                                        elevation: 5,
+                                        child: Container(
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            clipBehavior: Clip.hardEdge,
+                                            child: Slidable(
+                                                key: Key(widget.sd
+                                                    .listChoiseMainName[index]),
+                                                actionPane:
+                                                    const SlidableScrollActionPane(),
+                                                secondaryActions: [
+                                                  IconSlideAction(
+                                                    caption:
+                                                        "delete.label".tr(),
+                                                    color: Colors.red,
+                                                    icon: Icons.delete,
+                                                    onTap: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              title: Text(
+                                                                  "are-you-sure-you-want-to-delete-this-item.label"
+                                                                      .tr()),
+                                                              actions: <Widget>[
+                                                                TextButton(
+                                                                  style: TextButton
+                                                                      .styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .blue,
+                                                                    textStyle:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  child: Text(
+                                                                    'no.label'
+                                                                        .tr(),
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                                TextButton(
+                                                                  style: TextButton
+                                                                      .styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .blue,
+                                                                    textStyle:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  child: Text(
+                                                                    'yes.label'
+                                                                        .tr(),
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                  onPressed:
+                                                                      () async {
+                                                                    setState(
+                                                                        () {
+                                                                      widget.sd
+                                                                          .listChoiseMainName
+                                                                          .removeAt(
+                                                                              index);
+                                                                      widget.sd
+                                                                          .listChoiseMainType
+                                                                          .removeAt(
+                                                                              index);
+                                                                      widget.sd
+                                                                          .listChoiseMainNumber
+                                                                          .removeAt(
+                                                                              index);
+                                                                    });
+                                                                    SharedPreferences
+                                                                        prefs =
+                                                                        await SharedPreferences
+                                                                            .getInstance();
+                                                                    prefs.setStringList(
+                                                                        '${widget.sd.nameDevice}-listChoiseMain.name',
+                                                                        widget
+                                                                            .sd
+                                                                            .listChoiseMainName);
+                                                                    prefs.setStringList(
+                                                                        '${widget.sd.nameDevice}-listChoiseMain.type',
+                                                                        widget
+                                                                            .sd
+                                                                            .listChoiseMainType);
+                                                                    prefs.setStringList(
+                                                                        '${widget.sd.nameDevice}-listChoiseMain.number',
+                                                                        widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber);
+                                                                    // ignore: use_build_context_synchronously
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            );
+                                                          });
+                                                    },
+                                                  )
+                                                ],
+                                                child: ListTile(
+                                                  title: Text(widget.sd
+                                                          .listChoiseMainName[
+                                                      index]),
+                                                  leading: const Icon(
+                                                    Icons.lightbulb,
+                                                    size: 30,
+                                                    color: Colors.blue,
+                                                  ),
+                                                  trailing: CupertinoSwitch(
+                                                    value: widget.sd.listChoiseMainType[
+                                                                index] ==
+                                                            'rele'
+                                                        ? widget.sd.releAll[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] ==
+                                                                1
+                                                            ? true
+                                                            : false
+                                                        : widget.sd.motor[int.tryParse(widget
                                                                     .sd
-                                                                    .listChoiseMainNumber[
-                                                                index])!);
-                                                      } else {
-                                                        if (int.tryParse(widget
-                                                                    .sd
-                                                                    .listChoiseMainNumber[
-                                                                index])! >=
-                                                            10) {
-                                                          widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] = 1;
-                                                          sendCommand(
-                                                              "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                              widget.sd);
+                                                                    .listChoiseMainNumber[index])!] ==
+                                                                1
+                                                            ? true
+                                                            : false,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        if (value) {
+                                                          if (widget.sd
+                                                                      .listChoiseMainType[
+                                                                  index] ==
+                                                              'rele') {
+                                                            widget.sd.releAll[int
+                                                                .tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 1;
+                                                            if (int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])! >=
+                                                                10) {
+                                                              sendCommand(
+                                                                  "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                  widget.sd);
+                                                            } else {
+                                                              sendCommand(
+                                                                  "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                  widget.sd);
+                                                            }
+                                                          } else {
+                                                            if (widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] ==
+                                                                2) {
+                                                              //Not calibrated
+                                                              listCalibrationMotorFromAllList(
+                                                                  widget.sd,
+                                                                  context,
+                                                                  int.tryParse(widget
+                                                                          .sd
+                                                                          .listChoiseMainNumber[
+                                                                      index])!);
+                                                            } else {
+                                                              if (int.tryParse(widget
+                                                                          .sd
+                                                                          .listChoiseMainNumber[
+                                                                      index])! >=
+                                                                  10) {
+                                                                widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 1;
+                                                                sendCommand(
+                                                                    "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                    widget.sd);
+                                                              } else {
+                                                                widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 1;
+                                                                sendCommand(
+                                                                    "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                    widget.sd);
+                                                              }
+                                                            }
+                                                          }
                                                         } else {
-                                                          widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] = 1;
-                                                          sendCommand(
-                                                              "/M=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                              widget.sd);
+                                                          if (widget.sd
+                                                                      .listChoiseMainType[
+                                                                  index] ==
+                                                              'rele') {
+                                                            widget.sd.releAll[int
+                                                                .tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 0;
+                                                            if (int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])! >=
+                                                                10) {
+                                                              sendCommand(
+                                                                  "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                  widget.sd);
+                                                            } else {
+                                                              sendCommand(
+                                                                  "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                  widget.sd);
+                                                            }
+                                                          } else {
+                                                            if (widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] ==
+                                                                2) {
+                                                              //Not calibrated
+                                                              listCalibrationMotorFromAllList(
+                                                                  widget.sd,
+                                                                  context,
+                                                                  int.tryParse(widget
+                                                                          .sd
+                                                                          .listChoiseMainNumber[
+                                                                      index])!);
+                                                            } else {
+                                                              if (int.tryParse(widget
+                                                                          .sd
+                                                                          .listChoiseMainNumber[
+                                                                      index])! >=
+                                                                  10) {
+                                                                widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 0;
+                                                                sendCommand(
+                                                                    "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                    widget.sd);
+                                                              } else {
+                                                                widget.sd
+                                                                    .motor[int.tryParse(widget
+                                                                        .sd
+                                                                        .listChoiseMainNumber[
+                                                                    index])!] = 0;
+                                                                sendCommand(
+                                                                    "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                    widget.sd);
+                                                              }
+                                                            }
+                                                          }
                                                         }
-                                                      }
-                                                    }
-                                                  } else {
-                                                    if (widget.sd
-                                                                .listChoiseMainType[
-                                                            index] ==
-                                                        'rele') {
-                                                      widget.sd.releAll[
-                                                          int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])!] = 0;
-                                                      if (int.tryParse(widget.sd
-                                                                  .listChoiseMainNumber[
-                                                              index])! >=
-                                                          10) {
-                                                        sendCommand(
-                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                            widget.sd);
-                                                      } else {
-                                                        sendCommand(
-                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                            widget.sd);
-                                                      }
-                                                    } else {
-                                                      if (widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] ==
-                                                          2) {
-                                                        //Not calibrated
-                                                        listCalibrationMotorFromAllList(
-                                                            widget.sd,
-                                                            context,
-                                                            int.tryParse(widget
-                                                                    .sd
-                                                                    .listChoiseMainNumber[
-                                                                index])!);
-                                                      } else {
-                                                        if (int.tryParse(widget
-                                                                    .sd
-                                                                    .listChoiseMainNumber[
-                                                                index])! >=
-                                                            10) {
-                                                          widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] = 0;
-                                                          sendCommand(
-                                                              "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                              widget.sd);
-                                                        } else {
-                                                          widget.sd.motor[int
-                                                              .tryParse(widget
-                                                                      .sd
-                                                                      .listChoiseMainNumber[
-                                                                  index])!] = 0;
-                                                          sendCommand(
-                                                              "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                              widget.sd);
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                            onLongPress: () {
-                                              listChoiceDialog(widget.sd,
-                                                  context, true, index);
-                                            },
-                                          ))),
-                                );
-                        })
-                  ]),
-                  /*TextButton(
+                                                      });
+                                                    },
+                                                  ),
+                                                  onLongPress: () {
+                                                    listChoiceDialog(widget.sd,
+                                                        context, true, index);
+                                                  },
+                                                ))),
+                                      );
+                              })
+                        ]),
+                        /*TextButton(
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
                     onPressed: () async {
                       await sendCommand("/RELE=ON0", widget.sd);
@@ -650,159 +778,172 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       setState(() {});
                     },
                   ),*/
-                  Text(widget.sd.textSpeech),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                            padding: EdgeInsets.zero,
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ControlPage(
-                                        sd: widget.sd,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Column(children: <Widget>[
-                                  Container(
-                                    height: 35,
-                                    padding: const EdgeInsets.only(top: 0),
-                                    child: SvgPicture.asset(
-                                      'images/control.svg',
-                                      color: Colors.blue,
-                                      height: 35,
-                                      width: 35,
-                                    ),
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.only(top: 0),
-                                      child: Text(
-                                        "control.label".tr(), // zmiana nazwy
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(fontSize: 14),
-                                      )),
-                                ]))),
-                        AvatarGlow(
-                          animate: widget.sd.isListening,
-                          glowColor:
-                              widget.sd.isListening ? Colors.blue : Colors.red,
-                          endRadius: 75.0,
-                          repeat: true,
-                          child: FloatingActionButton(
-                            backgroundColor: widget.sd.isListening
-                                ? Colors.blue
-                                : Colors.red,
-                            onPressed: () async {
-                              setState(() {
-                                listenSpeak(widget.sd, (value) {
-                                  widget.sd.textSpeech = value;
-                                }, (value) {
-                                  widget.sd.isListening = value;
-                                });
-                              });
-                              for (int i = 0;
-                                  i < widget.sd.nameCommandVoice.length;
-                                  i++) {
-                                if (widget.sd.nameCommandVoice[i] ==
-                                    widget.sd.textSpeech) {
-                                  if (widget.sd.typeCommandVoice[i] == 'Rele') {
-                                    if (int.tryParse(
-                                            widget.sd.numberCommandVoice[i])! >
-                                        9) {
-                                      if (widget.sd.onOffCommandVoice[i] ==
-                                          'off') {
-                                        await sendCommand(
-                                            "/RELE=OFFF${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      } else {
-                                        await sendCommand(
-                                            "/RELE=ONN${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      }
-                                    } else {
-                                      if (widget.sd.onOffCommandVoice[i] ==
-                                          'off') {
-                                        await sendCommand(
-                                            "/RELE=OFF${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      } else {
-                                        await sendCommand(
-                                            "/RELE=ON${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
+                        Text(widget.sd.textSpeech),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.zero,
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ControlPage(
+                                              sd: widget.sd,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Column(children: <Widget>[
+                                        Container(
+                                          height: 35,
+                                          padding:
+                                              const EdgeInsets.only(top: 0),
+                                          child: SvgPicture.asset(
+                                            'images/control.svg',
+                                            color: Colors.blue,
+                                            height: 35,
+                                            width: 35,
+                                          ),
+                                        ),
+                                        Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 0),
+                                            child: Text(
+                                              "control.label"
+                                                  .tr(), // zmiana nazwy
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            )),
+                                      ]))),
+                              AvatarGlow(
+                                animate: widget.sd.isListening,
+                                glowColor: widget.sd.isListening
+                                    ? Colors.blue
+                                    : Colors.red,
+                                endRadius: 75.0,
+                                repeat: true,
+                                child: FloatingActionButton(
+                                  backgroundColor: widget.sd.isListening
+                                      ? Colors.blue
+                                      : Colors.red,
+                                  onPressed: () async {
+                                    setState(() {
+                                      listenSpeak(widget.sd, (value) {
+                                        widget.sd.textSpeech = value;
+                                      }, (value) {
+                                        widget.sd.isListening = value;
+                                      });
+                                    });
+                                    for (int i = 0;
+                                        i < widget.sd.nameCommandVoice.length;
+                                        i++) {
+                                      if (widget.sd.nameCommandVoice[i] ==
+                                          widget.sd.textSpeech) {
+                                        if (widget.sd.typeCommandVoice[i] ==
+                                            'Rele') {
+                                          if (int.tryParse(widget
+                                                  .sd.numberCommandVoice[i])! >
+                                              9) {
+                                            if (widget
+                                                    .sd.onOffCommandVoice[i] ==
+                                                'off') {
+                                              await sendCommand(
+                                                  "/RELE=OFFF${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            } else {
+                                              await sendCommand(
+                                                  "/RELE=ONN${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            }
+                                          } else {
+                                            if (widget
+                                                    .sd.onOffCommandVoice[i] ==
+                                                'off') {
+                                              await sendCommand(
+                                                  "/RELE=OFF${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            } else {
+                                              await sendCommand(
+                                                  "/RELE=ON${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            }
+                                          }
+                                        }
+                                        if (widget.sd.typeCommandVoice[i] ==
+                                            'Motor') {
+                                          if (int.tryParse(widget
+                                                  .sd.numberCommandVoice[i])! >
+                                              9) {
+                                            if (widget
+                                                    .sd.onOffCommandVoice[i] ==
+                                                'off') {
+                                              await sendCommand(
+                                                  "/M=OFFF${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            } else {
+                                              await sendCommand(
+                                                  "/M=ONN${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            }
+                                          } else {
+                                            if (widget
+                                                    .sd.onOffCommandVoice[i] ==
+                                                'off') {
+                                              await sendCommand(
+                                                  "/M=OFF${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            } else {
+                                              await sendCommand(
+                                                  "/M=ON${widget.sd.numberCommandVoice[i]}",
+                                                  widget.sd);
+                                            }
+                                          }
+                                        }
                                       }
                                     }
-                                  }
-                                  if (widget.sd.typeCommandVoice[i] ==
-                                      'Motor') {
-                                    if (int.tryParse(
-                                            widget.sd.numberCommandVoice[i])! >
-                                        9) {
-                                      if (widget.sd.onOffCommandVoice[i] ==
-                                          'off') {
-                                        await sendCommand(
-                                            "/M=OFFF${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      } else {
-                                        await sendCommand(
-                                            "/M=ONN${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      }
-                                    } else {
-                                      if (widget.sd.onOffCommandVoice[i] ==
-                                          'off') {
-                                        await sendCommand(
-                                            "/M=OFF${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      } else {
-                                        await sendCommand(
-                                            "/M=ON${widget.sd.numberCommandVoice[i]}",
-                                            widget.sd);
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            child: Icon(widget.sd.isListening
-                                ? Icons.mic
-                                : Icons.mic_off),
-                          ),
-                        ),
-                        Container(
-                            padding: EdgeInsets.zero,
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => CalibrationPage(
-                                        sd: widget.sd,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Column(children: <Widget>[
-                                  const Icon(
-                                    Icons.published_with_changes_sharp,
-                                    size: 35,
-                                    color: Colors.blue,
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.only(top: 0),
-                                      child: Text(
-                                        "calibration.label"
-                                            .tr(), // zmiana nazwy
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(fontSize: 14),
-                                      )),
-                                ]))),
-                      ])
-                ],
-              )))
+                                  },
+                                  child: Icon(widget.sd.isListening
+                                      ? Icons.mic
+                                      : Icons.mic_off),
+                                ),
+                              ),
+                              Container(
+                                  padding: EdgeInsets.zero,
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CalibrationPage(
+                                              sd: widget.sd,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Column(children: <Widget>[
+                                        const Icon(
+                                          Icons.published_with_changes_sharp,
+                                          size: 35,
+                                          color: Colors.blue,
+                                        ),
+                                        Container(
+                                            padding:
+                                                const EdgeInsets.only(top: 0),
+                                            child: Text(
+                                              "calibration.label"
+                                                  .tr(), // zmiana nazwy
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            )),
+                                      ]))),
+                            ])
+                      ],
+                    )))
     ]);
   }
 }
