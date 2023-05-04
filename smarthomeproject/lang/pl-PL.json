@@ -228,5 +228,15 @@
     "label": "Zamknij", 
     "originalLabel": "exit", 
     "comment": "exit"
+  },
+  "curtains":{
+    "label": "Zasłony", 
+    "originalLabel": "curtains", 
+    "comment": "curtains"
+  },
+  "electricity":{
+    "label": "Elektryczność", 
+    "originalLabel": "electricity", 
+    "comment": "electricity"
   }
 }

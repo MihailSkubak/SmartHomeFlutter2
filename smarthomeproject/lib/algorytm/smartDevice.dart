@@ -16,8 +16,8 @@ class SmartDevice {
   double humidityHome = 0;
   double termostat = 0;
   double humidityTermostat = 0;
-  int termostatNumber = 0;
-  int humidityTermostatNumber = 0;
+  int termostatNumber = -1;
+  int humidityTermostatNumber = -1;
   List<int> motor = [];
   List<int> releAll = [];
   bool isListening = false;

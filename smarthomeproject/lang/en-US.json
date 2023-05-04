@@ -228,5 +228,15 @@
     "label": "Exit", 
     "originalLabel": "exit", 
     "comment": "exit"
+  },
+  "curtains":{
+    "label": "Curtains", 
+    "originalLabel": "curtains", 
+    "comment": "curtains"
+  },
+  "electricity":{
+    "label": "Electricity", 
+    "originalLabel": "electricity", 
+    "comment": "electricity"
   }
 }

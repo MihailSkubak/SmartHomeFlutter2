@@ -438,7 +438,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.humidityTermostat = -1000;
                 }
               }
-              if (index == 28) {
+              /*if (index == 28) {
                 try {
                   out = out.substring(3);
                   sd.termostatNumber = int.tryParse(out)!;
@@ -453,7 +453,7 @@ void handleClient(Socket client, SmartDevice sd) {
                 } catch (e) {
                   sd.humidityTermostatNumber = -1000;
                 }
-              }
+              }*/
               /*if (index == 20) {
                 if (sd.onceReadListChoice) {
                   if (sd.listChoiceRele.isEmpty) {

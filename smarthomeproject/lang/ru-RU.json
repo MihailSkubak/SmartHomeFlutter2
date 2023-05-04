@@ -228,5 +228,15 @@
       "label": "Выход", 
       "originalLabel": "exit", 
       "comment": "exit"
+    },
+    "curtains":{
+      "label": "Шторы", 
+      "originalLabel": "curtains", 
+      "comment": "curtains"
+    },
+    "electricity":{
+      "label": "Электричество", 
+      "originalLabel": "electricity", 
+      "comment": "electricity"
     }
   }

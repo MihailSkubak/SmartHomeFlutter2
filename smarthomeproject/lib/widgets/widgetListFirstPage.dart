@@ -611,71 +611,86 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                     color: Colors.blue,
                                                   ),
                                                   trailing: SizedBox(
-                                                      width: 179,
+                                                      width: index ==
+                                                                  widget.sd
+                                                                      .termostatNumber ||
+                                                              index ==
+                                                                  widget.sd
+                                                                      .humidityTermostatNumber
+                                                          ? 179
+                                                          : 59,
                                                       height: 40,
                                                       child: Row(
                                                         children: [
-                                                          Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .blue[200],
-                                                                borderRadius:
-                                                                    const BorderRadius
+                                                          index ==
+                                                                      widget.sd
+                                                                          .termostatNumber ||
+                                                                  index ==
+                                                                      widget.sd
+                                                                          .humidityTermostatNumber
+                                                              ? Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                            .blue[
+                                                                        200],
+                                                                    borderRadius: const BorderRadius
                                                                             .all(
                                                                         Radius.circular(
                                                                             5.0)),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                            0.5),
-                                                                    spreadRadius:
-                                                                        5,
-                                                                    blurRadius:
-                                                                        7,
-                                                                    offset: const Offset(
-                                                                        0,
-                                                                        3), // changes position of shadow
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                        color: Colors
+                                                                            .grey
+                                                                            .withOpacity(0.5),
+                                                                        spreadRadius:
+                                                                            5,
+                                                                        blurRadius:
+                                                                            7,
+                                                                        offset: const Offset(
+                                                                            0,
+                                                                            3), // changes position of shadow
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                ],
-                                                              ),
-                                                              width: 120,
-                                                              height: 37,
-                                                              child: SpinBox(
-                                                                iconColor: MaterialStateProperty.all<
-                                                                    Color>(widget
-                                                                        .theme
-                                                                        .switchValueTheme()
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black),
-                                                                cursorColor:
-                                                                    Colors.blue,
-                                                                decoration:
-                                                                    const InputDecoration(
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .only(
+                                                                  width: 120,
+                                                                  height: 37,
+                                                                  child:
+                                                                      SpinBox(
+                                                                    iconColor: MaterialStateProperty.all<
+                                                                        Color>(widget
+                                                                            .theme
+                                                                            .switchValueTheme()
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black),
+                                                                    cursorColor:
+                                                                        Colors
+                                                                            .blue,
+                                                                    decoration:
+                                                                        const InputDecoration(
+                                                                      contentPadding:
+                                                                          EdgeInsets.only(
                                                                               top: 50),
-                                                                ),
-                                                                spacing: 3,
-                                                                decimals: 1,
-                                                                step: 0.1,
-                                                                min: 0.0,
-                                                                max: 50.0,
-                                                                value:
-                                                                    valueCheck,
-                                                                onChanged:
-                                                                    (value) {
-                                                                  setState(() {
-                                                                    valueCheck =
-                                                                        value;
-                                                                  });
-                                                                },
-                                                              )),
+                                                                    ),
+                                                                    spacing: 3,
+                                                                    decimals: 1,
+                                                                    step: 0.1,
+                                                                    min: 0.0,
+                                                                    max: 50.0,
+                                                                    value:
+                                                                        valueCheck,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      setState(
+                                                                          () {
+                                                                        valueCheck =
+                                                                            value;
+                                                                      });
+                                                                    },
+                                                                  ))
+                                                              : const SizedBox(),
                                                           CupertinoSwitch(
                                                             value: widget.sd.listChoiseMainType[
                                                                         index] ==

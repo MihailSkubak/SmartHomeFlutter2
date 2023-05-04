@@ -118,7 +118,45 @@ void listChoiceDialog(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    radioButtonRele = !radioButtonRele;
+                                    if (radioButtonRele) {
+                                      radioButtonMotor = false;
+                                    }
+                                  });
+                                },
+                                child: Column(children: [
+                                  Icon(
+                                    radioButtonRele == true
+                                        ? Icons.check_circle_outline_outlined
+                                        : Icons.circle_outlined,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text('electricity.label'.tr())
+                                ])),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    radioButtonMotor = !radioButtonMotor;
+                                    if (radioButtonMotor) {
+                                      radioButtonRele = false;
+                                    }
+                                  });
+                                },
+                                child: Column(children: [
+                                  Icon(
+                                    radioButtonMotor == true
+                                        ? Icons.check_circle_outline_outlined
+                                        : Icons.circle_outlined,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text('curtains.label'.tr())
+                                ])),
+                            /*IconButton(
                                 onPressed: () {
                                   setState(() {
                                     radioButtonRele = !radioButtonRele;
@@ -128,11 +166,9 @@ void listChoiceDialog(
                                   });
                                 },
                                 icon: Icon(
-                                  Icons.electric_bolt_outlined,
+                                  radioButtonRele == true ? Icons.check_circle_outline_outlined : Icons.circle_outlined,
                                   size: 30,
-                                  color: radioButtonRele == true
-                                      ? Colors.blue
-                                      : Colors.red,
+                                  color: Colors.blue,
                                 )),
                             IconButton(
                                 onPressed: () {
@@ -144,12 +180,10 @@ void listChoiceDialog(
                                   });
                                 },
                                 icon: Icon(
-                                  Icons.curtains_closed_sharp,
+                                  radioButtonMotor == true ? Icons.check_circle_outline_outlined : Icons.circle_outlined,
                                   size: 30,
-                                  color: radioButtonMotor == true
-                                      ? Colors.blue
-                                      : Colors.red,
-                                ))
+                                  color: Colors.blue,
+                                ))*/
                           ],
                         ),
                         Visibility(
@@ -276,7 +310,8 @@ void listChoiceDialog(
                                   writeC2.text.toString()) {
                                 if (change) {
                                   if (sd.listChoiseMainNumber[i] ==
-                                      index.toString()) {
+                                      sd.listChoiseMainNumber[index]
+                                          .toString()) {
                                     isExist = false;
                                   } else {
                                     isExist = true;
@@ -542,7 +577,45 @@ void listCommandVoiceDialog(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    radioButtonRele = !radioButtonRele;
+                                    if (radioButtonRele) {
+                                      radioButtonMotor = false;
+                                    }
+                                  });
+                                },
+                                child: Column(children: [
+                                  Icon(
+                                    radioButtonRele == true
+                                        ? Icons.check_circle_outline_outlined
+                                        : Icons.circle_outlined,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text('electricity.label'.tr())
+                                ])),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    radioButtonMotor = !radioButtonMotor;
+                                    if (radioButtonMotor) {
+                                      radioButtonRele = false;
+                                    }
+                                  });
+                                },
+                                child: Column(children: [
+                                  Icon(
+                                    radioButtonMotor == true
+                                        ? Icons.check_circle_outline_outlined
+                                        : Icons.circle_outlined,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text('curtains.label'.tr())
+                                ])),
+                            /*IconButton(
                                 onPressed: () {
                                   setState(() {
                                     radioButtonRele = !radioButtonRele;
@@ -573,7 +646,7 @@ void listCommandVoiceDialog(
                                   color: radioButtonMotor == true
                                       ? Colors.blue
                                       : Colors.red,
-                                ))
+                                ))*/
                           ],
                         ),
                         Visibility(
