@@ -248,5 +248,10 @@
     "label": "Wilgotność", 
     "originalLabel": "humidity", 
     "comment": "humidity"
+  },
+  "you-choise-another-index-for-this-item":{
+    "label": "Wybrałeś inny indeks dla tego elementu!", 
+    "originalLabel": "you choise another index for this item", 
+    "comment": "you choise another index for this item"
   }
 }

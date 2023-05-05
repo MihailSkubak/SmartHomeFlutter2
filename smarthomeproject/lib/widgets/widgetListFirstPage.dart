@@ -82,6 +82,31 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     } else {
       widget.sd.nameDeviceClient = widget.sd.nameDevice;
     }
+    ///////ControlItem
+    if (sharedPrefs.getStringList(
+            '${widget.sd.nameDevice}-listChoiseMainControlItem.name') !=
+        null) {
+      widget.sd.listChoiseMainNameControlItem = sharedPrefs.getStringList(
+          '${widget.sd.nameDevice}-listChoiseMainControlItem.name')!;
+    }
+    if (sharedPrefs.getStringList(
+            '${widget.sd.nameDevice}-listChoiseMainControlItem.type') !=
+        null) {
+      widget.sd.listChoiseMainTypeControlItem = sharedPrefs.getStringList(
+          '${widget.sd.nameDevice}-listChoiseMainControlItem.type')!;
+    }
+    if (sharedPrefs.getStringList(
+            '${widget.sd.nameDevice}-listChoiseMainControlItem.number') !=
+        null) {
+      widget.sd.listChoiseMainNumberControlItem = sharedPrefs.getStringList(
+          '${widget.sd.nameDevice}-listChoiseMainControlItem.number')!;
+    }
+    if (sharedPrefs.getStringList(
+            '${widget.sd.nameDevice}-listChoiseMainControlItem.room') !=
+        null) {
+      widget.sd.listChoiseMainRoomControlItem = sharedPrefs.getStringList(
+          '${widget.sd.nameDevice}-listChoiseMainControlItem.room')!;
+    }
   }
 
   @override

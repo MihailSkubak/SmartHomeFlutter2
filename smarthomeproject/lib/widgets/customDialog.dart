@@ -633,27 +633,84 @@ void listChoiceDialog(
                             });
                       } else {
                         if (sd.listChoiseMainName.isEmpty) {
-                          sd.listChoiseMainName.add(writeC.text.toString());
-                          sd.listChoiseMainType.add('termostat');
-                          sd.listChoiseMainNumber.add(writeC2.text.toString());
-                          sd.termostatNumber =
-                              int.tryParse(writeC2.text.toString())!;
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.name',
-                              sd.listChoiseMainName);
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.type',
-                              sd.listChoiseMainType);
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.number',
-                              sd.listChoiseMainNumber);
-                          prefs.setInt('${sd.nameDevice}-termostatNumber',
-                              sd.termostatNumber);
+                          if (sd.termostatNumber == -1) {
+                            sd.listChoiseMainName.add(writeC.text.toString());
+                            sd.listChoiseMainType.add('termostat');
+                            sd.listChoiseMainNumber
+                                .add(writeC2.text.toString());
+                            sd.termostatNumber =
+                                int.tryParse(writeC2.text.toString())!;
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.name',
+                                sd.listChoiseMainName);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.type',
+                                sd.listChoiseMainType);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.number',
+                                sd.listChoiseMainNumber);
+                            prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                sd.termostatNumber);
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          } else {
+                            if (int.tryParse(writeC2.text.toString()) ==
+                                sd.termostatNumber) {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('termostat');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "you-choise-another-index-for-this-item.label"
+                                              .tr()),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.blue,
+                                            textStyle: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'ok.label'.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
                         } else {
                           for (int i = 0;
                               i < sd.listChoiseMainName.length;
@@ -797,28 +854,86 @@ void listChoiceDialog(
                             });
                       } else {
                         if (sd.listChoiseMainName.isEmpty) {
-                          sd.listChoiseMainName.add(writeC.text.toString());
-                          sd.listChoiseMainType.add('humidityTermostat');
-                          sd.listChoiseMainNumber.add(writeC2.text.toString());
-                          sd.humidityTermostatNumber =
-                              int.tryParse(writeC2.text.toString())!;
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.name',
-                              sd.listChoiseMainName);
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.type',
-                              sd.listChoiseMainType);
-                          prefs.setStringList(
-                              '${sd.nameDevice}-listChoiseMain.number',
-                              sd.listChoiseMainNumber);
-                          prefs.setInt(
-                              '${sd.nameDevice}-humidityTermostatNumber',
-                              sd.humidityTermostatNumber);
+                          if (sd.humidityTermostatNumber == -1) {
+                            sd.listChoiseMainName.add(writeC.text.toString());
+                            sd.listChoiseMainType.add('humidityTermostat');
+                            sd.listChoiseMainNumber
+                                .add(writeC2.text.toString());
+                            sd.humidityTermostatNumber =
+                                int.tryParse(writeC2.text.toString())!;
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.name',
+                                sd.listChoiseMainName);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.type',
+                                sd.listChoiseMainType);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMain.number',
+                                sd.listChoiseMainNumber);
+                            prefs.setInt(
+                                '${sd.nameDevice}-humidityTermostatNumber',
+                                sd.humidityTermostatNumber);
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          } else {
+                            if (int.tryParse(writeC2.text.toString()) ==
+                                sd.humidityTermostatNumber) {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('humidityTermostat');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "you-choise-another-index-for-this-item.label"
+                                              .tr()),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.blue,
+                                            textStyle: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'ok.label'.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
                         } else {
                           for (int i = 0;
                               i < sd.listChoiseMainName.length;
@@ -844,7 +959,7 @@ void listChoiceDialog(
                               if (!change) {
                                 if (sd.listChoiseMainType[i] ==
                                     'humidityTermostat') {
-                                  if (sd.termostatNumber != -1) {
+                                  if (sd.humidityTermostatNumber != -1) {
                                     if (writeC2.text.toString() !=
                                         sd.humidityTermostatNumber.toString()) {
                                       isExist = true;
@@ -1943,6 +2058,1067 @@ void listCreateEditControl(
                         sd.imageListForControlPath);
                     // ignore: use_build_context_synchronously
                     Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
+      });
+}
+
+void listChoiceDialogControlItem(SmartDevice sd, BuildContext context,
+    bool change, int index, String nameRoom) {
+  TextEditingController writeC = TextEditingController();
+  TextEditingController writeC2 = TextEditingController();
+  bool radioButtonRele = false;
+  bool radioButtonMotor = false;
+  bool radioButtonHumidityTermostat = false;
+  bool radioButtonTermostat = false;
+  if (change) {
+    writeC.text = sd.listChoiseMainNameControlItem[index];
+    writeC2.text = sd.listChoiseMainNumberControlItem[index];
+    if (sd.listChoiseMainTypeControlItem[index] == 'rele') {
+      radioButtonRele = true;
+    }
+    if (sd.listChoiseMainTypeControlItem[index] == 'motor') {
+      radioButtonMotor = true;
+    }
+    if (sd.listChoiseMainTypeControlItem[index] == 'termostat') {
+      radioButtonTermostat = true;
+    }
+    if (sd.listChoiseMainTypeControlItem[index] == 'humidityTermostat') {
+      radioButtonHumidityTermostat = true;
+    }
+  }
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: change
+                ? Text("edit-item.label".tr())
+                : Text("add-item.label".tr()),
+            content: SingleChildScrollView(
+                child: SizedBox(
+                    height: 240,
+                    child: Column(
+                      children: [
+                        TextField(
+                          decoration:
+                              InputDecoration(labelText: "name.label".tr()),
+                          controller: writeC,
+                          keyboardType: TextInputType.text,
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 20)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonRele = !radioButtonRele;
+                                        if (radioButtonRele) {
+                                          radioButtonMotor = false;
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonTermostat = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonRele == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('electricity.label'.tr())
+                                    ])),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonMotor = !radioButtonMotor;
+                                        if (radioButtonMotor) {
+                                          radioButtonRele = false;
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonTermostat = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonMotor == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('curtains.label'.tr())
+                                    ])),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonTermostat =
+                                            !radioButtonTermostat;
+                                        if (radioButtonTermostat) {
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonMotor = false;
+                                          radioButtonRele = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonTermostat == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('thermostat.label'.tr())
+                                    ])),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonHumidityTermostat =
+                                            !radioButtonHumidityTermostat;
+                                        if (radioButtonHumidityTermostat) {
+                                          radioButtonTermostat = false;
+                                          radioButtonMotor = false;
+                                          radioButtonRele = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonHumidityTermostat == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('humidity.label'.tr())
+                                    ])),
+                              ],
+                            )
+                            /*IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    radioButtonRele = !radioButtonRele;
+                                    if (radioButtonRele) {
+                                      radioButtonMotor = false;
+                                    }
+                                  });
+                                },
+                                icon: Icon(
+                                  radioButtonRele == true ? Icons.check_circle_outline_outlined : Icons.circle_outlined,
+                                  size: 30,
+                                  color: Colors.blue,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    radioButtonMotor = !radioButtonMotor;
+                                    if (radioButtonMotor) {
+                                      radioButtonRele = false;
+                                    }
+                                  });
+                                },
+                                icon: Icon(
+                                  radioButtonMotor == true ? Icons.check_circle_outline_outlined : Icons.circle_outlined,
+                                  size: 30,
+                                  color: Colors.blue,
+                                ))*/
+                          ],
+                        ),
+                        Visibility(
+                          visible: radioButtonRele ||
+                              radioButtonMotor ||
+                              radioButtonTermostat ||
+                              radioButtonHumidityTermostat,
+                          child: TextField(
+                            decoration:
+                                InputDecoration(labelText: "number.label".tr()),
+                            controller: writeC2,
+                            keyboardType: TextInputType.number,
+                          ),
+                        )
+                      ],
+                    ))),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'cancel.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                child: Text(
+                  'ok.label'.tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if (int.tryParse(writeC2.text.toString()) == null ||
+                      writeC.text.toString() == '') {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("wrong-values-entered.label".tr()),
+                            actions: <Widget>[
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                child: Text(
+                                  'ok.label'.tr(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    bool isExist = false;
+                    if (radioButtonRele) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.releAll.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainNameControlItem.isEmpty) {
+                          sd.listChoiseMainNameControlItem
+                              .add(writeC.text.toString());
+                          sd.listChoiseMainTypeControlItem.add('rele');
+                          sd.listChoiseMainNumberControlItem
+                              .add(writeC2.text.toString());
+                          sd.listChoiseMainRoomControlItem.add(nameRoom);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.name',
+                              sd.listChoiseMainNameControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.type',
+                              sd.listChoiseMainTypeControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.number',
+                              sd.listChoiseMainNumberControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.room',
+                              sd.listChoiseMainRoomControlItem);
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainNameControlItem.length;
+                              i++) {
+                            if (sd.listChoiseMainTypeControlItem[i] == 'rele') {
+                              if (sd.listChoiseMainNumberControlItem[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumberControlItem[i] ==
+                                      sd.listChoiseMainNumberControlItem[index]
+                                          .toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainNameControlItem[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainTypeControlItem[index] = 'rele';
+                              sd.listChoiseMainNumberControlItem[index] =
+                                  writeC2.text.toString();
+                              sd.listChoiseMainRoomControlItem[index] =
+                                  nameRoom;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem.add('rele');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    } else if (radioButtonMotor) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.motor.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainNameControlItem.isEmpty) {
+                          sd.listChoiseMainNameControlItem
+                              .add(writeC.text.toString());
+                          sd.listChoiseMainTypeControlItem.add('motor');
+                          sd.listChoiseMainNumberControlItem
+                              .add(writeC2.text.toString());
+                          sd.listChoiseMainRoomControlItem.add(nameRoom);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.name',
+                              sd.listChoiseMainNameControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.type',
+                              sd.listChoiseMainTypeControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.number',
+                              sd.listChoiseMainNumberControlItem);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMainControlItem.room',
+                              sd.listChoiseMainRoomControlItem);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainNameControlItem.length;
+                              i++) {
+                            if (sd.listChoiseMainTypeControlItem[i] ==
+                                'motor') {
+                              if (sd.listChoiseMainNumberControlItem[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumberControlItem[i] ==
+                                      index.toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainNameControlItem[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainTypeControlItem[index] = 'motor';
+                              sd.listChoiseMainNumberControlItem[index] =
+                                  writeC2.text.toString();
+                              sd.listChoiseMainRoomControlItem[index] =
+                                  nameRoom;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem.add('motor');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    } else if (radioButtonTermostat) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.releAll.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainNameControlItem.isEmpty) {
+                          if (sd.termostatNumber == -1) {
+                            sd.listChoiseMainNameControlItem
+                                .add(writeC.text.toString());
+                            sd.listChoiseMainTypeControlItem.add('termostat');
+                            sd.listChoiseMainNumberControlItem
+                                .add(writeC2.text.toString());
+                            sd.listChoiseMainRoomControlItem.add(nameRoom);
+                            sd.termostatNumber =
+                                int.tryParse(writeC2.text.toString())!;
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                sd.listChoiseMainNameControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                sd.listChoiseMainTypeControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                sd.listChoiseMainNumberControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                sd.listChoiseMainRoomControlItem);
+                            prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                sd.termostatNumber);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          } else {
+                            if (int.tryParse(writeC2.text.toString()) ==
+                                sd.termostatNumber) {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem.add('termostat');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "you-choise-another-index-for-this-item.label"
+                                              .tr()),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.blue,
+                                            textStyle: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'ok.label'.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainNameControlItem.length;
+                              i++) {
+                            if (sd.listChoiseMainTypeControlItem[i] == 'rele' ||
+                                sd.listChoiseMainTypeControlItem[i] ==
+                                    'termostat' ||
+                                sd.listChoiseMainTypeControlItem[i] ==
+                                    'humidityTermostat') {
+                              if (sd.listChoiseMainNumberControlItem[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumberControlItem[i] ==
+                                      sd.listChoiseMainNumberControlItem[index]
+                                          .toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                              if (!change) {
+                                if (sd.listChoiseMainTypeControlItem[i] ==
+                                    'termostat') {
+                                  if (sd.termostatNumber != -1) {
+                                    if (writeC2.text.toString() !=
+                                        sd.termostatNumber.toString()) {
+                                      isExist = true;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainNameControlItem[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainTypeControlItem[index] =
+                                  'termostat';
+                              sd.listChoiseMainNumberControlItem[index] =
+                                  writeC2.text.toString();
+                              sd.listChoiseMainRoomControlItem[index] =
+                                  nameRoom;
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem.add('termostat');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    } else if (radioButtonHumidityTermostat) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.releAll.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainNameControlItem.isEmpty) {
+                          if (sd.humidityTermostatNumber == -1) {
+                            sd.listChoiseMainNameControlItem
+                                .add(writeC.text.toString());
+                            sd.listChoiseMainTypeControlItem
+                                .add('humidityTermostat');
+                            sd.listChoiseMainNumberControlItem
+                                .add(writeC2.text.toString());
+                            sd.listChoiseMainRoomControlItem.add(nameRoom);
+                            sd.humidityTermostatNumber =
+                                int.tryParse(writeC2.text.toString())!;
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                sd.listChoiseMainNameControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                sd.listChoiseMainTypeControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                sd.listChoiseMainNumberControlItem);
+                            prefs.setStringList(
+                                '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                sd.listChoiseMainRoomControlItem);
+                            prefs.setInt(
+                                '${sd.nameDevice}-humidityTermostatNumber',
+                                sd.humidityTermostatNumber);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          } else {
+                            if (int.tryParse(writeC2.text.toString()) ==
+                                sd.humidityTermostatNumber) {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem
+                                  .add('humidityTermostat');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "you-choise-another-index-for-this-item.label"
+                                              .tr()),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.blue,
+                                            textStyle: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'ok.label'.tr(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
+                          }
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainNameControlItem.length;
+                              i++) {
+                            if (sd.listChoiseMainTypeControlItem[i] == 'rele' ||
+                                sd.listChoiseMainTypeControlItem[i] ==
+                                    'termostat' ||
+                                sd.listChoiseMainTypeControlItem[i] ==
+                                    'humidityTermostat') {
+                              if (sd.listChoiseMainNumberControlItem[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumberControlItem[i] ==
+                                      sd.listChoiseMainNumberControlItem[index]
+                                          .toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                              if (!change) {
+                                if (sd.listChoiseMainTypeControlItem[i] ==
+                                    'humidityTermostat') {
+                                  if (sd.humidityTermostatNumber != -1) {
+                                    if (writeC2.text.toString() !=
+                                        sd.humidityTermostatNumber.toString()) {
+                                      isExist = true;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainNameControlItem[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainTypeControlItem[index] =
+                                  'humidityTermostat';
+                              sd.listChoiseMainNumberControlItem[index] =
+                                  writeC2.text.toString();
+                              sd.listChoiseMainRoomControlItem[index] =
+                                  nameRoom;
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainNameControlItem
+                                  .add(writeC.text.toString());
+                              sd.listChoiseMainTypeControlItem
+                                  .add('humidityTermostat');
+                              sd.listChoiseMainNumberControlItem
+                                  .add(writeC2.text.toString());
+                              sd.listChoiseMainRoomControlItem.add(nameRoom);
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    }
                   }
                 },
               ),

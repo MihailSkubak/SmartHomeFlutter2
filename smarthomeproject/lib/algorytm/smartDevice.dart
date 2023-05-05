@@ -58,6 +58,11 @@ class SmartDevice {
   //list control
   List<String> listControl = [];
   List<String> imageListForControlPath = [];
+  //value for first page list
+  List<String> listChoiseMainNameControlItem = [];
+  List<String> listChoiseMainTypeControlItem = [];
+  List<String> listChoiseMainNumberControlItem = [];
+  List<String> listChoiseMainRoomControlItem = [];
 }
 
 /*class ListCommandForVoice {
