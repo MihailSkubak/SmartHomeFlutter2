@@ -66,6 +66,15 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
       widget.sd.listChoiseMainNumber = sharedPrefs
           .getStringList('${widget.sd.nameDevice}-listChoiseMain.number')!;
     }
+    if (sharedPrefs.getInt('${widget.sd.nameDevice}-termostatNumber') != null) {
+      widget.sd.termostatNumber =
+          sharedPrefs.getInt('${widget.sd.nameDevice}-termostatNumber')!;
+    }
+    if (sharedPrefs.getInt('${widget.sd.nameDevice}-humidityTermostatNumber') !=
+        null) {
+      widget.sd.humidityTermostatNumber = sharedPrefs
+          .getInt('${widget.sd.nameDevice}-humidityTermostatNumber')!;
+    }
     if (sharedPrefs.getString('${widget.sd.nameDevice}-nameDeviceClient') !=
         null) {
       widget.sd.nameDeviceClient =
@@ -206,7 +215,6 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     detail = details;
   }
 
-  double valueCheck = 0;
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -558,6 +566,22 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                       () async {
                                                                     setState(
                                                                         () {
+                                                                      if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[index] ==
+                                                                          'termostat') {
+                                                                        widget
+                                                                            .sd
+                                                                            .termostatNumber = -1;
+                                                                      }
+                                                                      if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[index] ==
+                                                                          'humidityTermostat') {
+                                                                        widget
+                                                                            .sd
+                                                                            .humidityTermostatNumber = -1;
+                                                                      }
                                                                       widget.sd
                                                                           .listChoiseMainName
                                                                           .removeAt(
@@ -590,6 +614,16 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                         widget
                                                                             .sd
                                                                             .listChoiseMainNumber);
+                                                                    prefs.setInt(
+                                                                        '${widget.sd.nameDevice}-termostatNumber',
+                                                                        widget
+                                                                            .sd
+                                                                            .termostatNumber);
+                                                                    prefs.setInt(
+                                                                        '${widget.sd.nameDevice}-humidityTermostatNumber',
+                                                                        widget
+                                                                            .sd
+                                                                            .humidityTermostatNumber);
                                                                     // ignore: use_build_context_synchronously
                                                                     Navigator.pop(
                                                                         context);
@@ -611,26 +645,31 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                     color: Colors.blue,
                                                   ),
                                                   trailing: SizedBox(
-                                                      width: index ==
+                                                      width: widget.sd.listChoiseMainNumber[
+                                                                      index] ==
                                                                   widget.sd
-                                                                      .termostatNumber ||
-                                                              index ==
+                                                                      .termostatNumber
+                                                                      .toString() ||
+                                                              widget.sd.listChoiseMainNumber[
+                                                                      index] ==
                                                                   widget.sd
                                                                       .humidityTermostatNumber
+                                                                      .toString()
                                                           ? 179
                                                           : 59,
                                                       height: 40,
                                                       child: Row(
                                                         children: [
-                                                          index ==
+                                                          widget.sd.listChoiseMainNumber[index] ==
                                                                       widget.sd
-                                                                          .termostatNumber ||
-                                                                  index ==
+                                                                          .termostatNumber
+                                                                          .toString() ||
+                                                                  widget.sd.listChoiseMainNumber[index] ==
                                                                       widget.sd
                                                                           .humidityTermostatNumber
+                                                                          .toString()
                                                               ? Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
+                                                                  decoration: BoxDecoration(
                                                                     color: Colors
                                                                             .blue[
                                                                         200],
@@ -655,52 +694,74 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                   ),
                                                                   width: 120,
                                                                   height: 37,
-                                                                  child:
-                                                                      SpinBox(
-                                                                    iconColor: MaterialStateProperty.all<
-                                                                        Color>(widget
-                                                                            .theme
-                                                                            .switchValueTheme()
-                                                                        ? Colors
-                                                                            .white
-                                                                        : Colors
-                                                                            .black),
-                                                                    cursorColor:
-                                                                        Colors
-                                                                            .blue,
-                                                                    decoration:
-                                                                        const InputDecoration(
-                                                                      contentPadding:
-                                                                          EdgeInsets.only(
-                                                                              top: 50),
-                                                                    ),
-                                                                    spacing: 3,
-                                                                    decimals: 1,
-                                                                    step: 0.1,
-                                                                    min: 0.0,
-                                                                    max: 50.0,
-                                                                    value:
-                                                                        valueCheck,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        valueCheck =
-                                                                            value;
-                                                                      });
-                                                                    },
-                                                                  ))
+                                                                  child: SpinBox(
+                                                                      iconColor: MaterialStateProperty.all<Color>(widget.theme.switchValueTheme() ? Colors.white : Colors.black),
+                                                                      cursorColor: Colors.blue,
+                                                                      decoration: const InputDecoration(
+                                                                        contentPadding:
+                                                                            EdgeInsets.only(top: 50),
+                                                                      ),
+                                                                      spacing: 3,
+                                                                      decimals: 1,
+                                                                      step: 0.1,
+                                                                      min: 0.0,
+                                                                      max: 100.0,
+                                                                      value: widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString() ? widget.sd.termostat : widget.sd.humidityTermostat,
+                                                                      onChanged: (value) {
+                                                                        setState(
+                                                                            () {
+                                                                          if (widget.sd.listChoiseMainNumber[index] ==
+                                                                              widget.sd.termostatNumber.toString()) {
+                                                                            widget.sd.termostat =
+                                                                                value;
+                                                                          } else {
+                                                                            widget.sd.humidityTermostat =
+                                                                                value;
+                                                                          }
+                                                                        });
+                                                                      },
+                                                                      onSubmitted: (value) async {
+                                                                        if (widget.sd.listChoiseMainNumber[index] ==
+                                                                            widget.sd.termostatNumber.toString()) {
+                                                                          if (widget.sd.termostat ==
+                                                                              0) {
+                                                                            //GET /Q:12.0 HTTP/1.1
+                                                                            await sendCommand("GET /Q:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            await sendCommand("GET /QN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1",
+                                                                                widget.sd);
+                                                                            await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1",
+                                                                                widget.sd);
+                                                                          }
+                                                                        } else {
+                                                                          if (widget.sd.humidityTermostat ==
+                                                                              0) {
+                                                                            await sendCommand("GET /E:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            await sendCommand("GET /EN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1",
+                                                                                widget.sd);
+                                                                            await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1",
+                                                                                widget.sd);
+                                                                          }
+                                                                        }
+                                                                      }))
                                                               : const SizedBox(),
                                                           CupertinoSwitch(
                                                             value: widget.sd.listChoiseMainType[
                                                                         index] ==
-                                                                    'rele'
-                                                                ? widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[
+                                                                    'motor'
+                                                                ? widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[
                                                                             index])!] ==
                                                                         1
                                                                     ? true
                                                                     : false
-                                                                : widget.sd.motor[int.tryParse(widget
+                                                                : widget.sd.releAll[int.tryParse(widget
                                                                             .sd
                                                                             .listChoiseMainNumber[index])!] ==
                                                                         1
@@ -732,7 +793,11 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                           widget
                                                                               .sd);
                                                                     }
-                                                                  } else {
+                                                                  } else if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[
+                                                                          index] ==
+                                                                      'motor') {
                                                                     if (widget
                                                                             .sd
                                                                             .motor[int.tryParse(widget
@@ -771,6 +836,59 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                             widget.sd);
                                                                       }
                                                                     }
+                                                                  } else if (widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'termostat' ||
+                                                                      widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'humidityTermostat') {
+                                                                    if (widget.sd.listChoiseMainType[
+                                                                            index] ==
+                                                                        'termostat') {
+                                                                      widget.sd
+                                                                          .termostat = 0;
+                                                                      sendCommand(
+                                                                          "GET /Q:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                      sendCommand(
+                                                                          "GET /QN:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else if (widget
+                                                                            .sd
+                                                                            .listChoiseMainType[index] ==
+                                                                        'humidityTermostat') {
+                                                                      widget.sd
+                                                                          .humidityTermostat = 0;
+                                                                      sendCommand(
+                                                                          "GET /E:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                      sendCommand(
+                                                                          "GET /EN:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                    }
+                                                                    widget.sd
+                                                                        .releAll[int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[
+                                                                        index])!] = 1;
+                                                                    if (int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[index])! >=
+                                                                        10) {
+                                                                      sendCommand(
+                                                                          "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else {
+                                                                      sendCommand(
+                                                                          "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    }
                                                                   }
                                                                 } else {
                                                                   if (widget.sd
@@ -796,7 +914,11 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                           widget
                                                                               .sd);
                                                                     }
-                                                                  } else {
+                                                                  } else if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[
+                                                                          index] ==
+                                                                      'motor') {
                                                                     if (widget
                                                                             .sd
                                                                             .motor[int.tryParse(widget
@@ -834,6 +956,59 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                             "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
                                                                             widget.sd);
                                                                       }
+                                                                    }
+                                                                  } else if (widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'termostat' ||
+                                                                      widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'humidityTermostat') {
+                                                                    if (widget.sd.listChoiseMainType[
+                                                                            index] ==
+                                                                        'termostat') {
+                                                                      widget.sd
+                                                                          .termostat = 0;
+                                                                      sendCommand(
+                                                                          "GET /Q:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                      sendCommand(
+                                                                          "GET /QN:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else if (widget
+                                                                            .sd
+                                                                            .listChoiseMainType[index] ==
+                                                                        'humidityTermostat') {
+                                                                      widget.sd
+                                                                          .humidityTermostat = 0;
+                                                                      sendCommand(
+                                                                          "GET /E:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                      sendCommand(
+                                                                          "GET /EN:non HTTP/1.1",
+                                                                          widget
+                                                                              .sd);
+                                                                    }
+                                                                    widget.sd
+                                                                        .releAll[int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[
+                                                                        index])!] = 0;
+                                                                    if (int.tryParse(widget
+                                                                            .sd
+                                                                            .listChoiseMainNumber[index])! >=
+                                                                        10) {
+                                                                      sendCommand(
+                                                                          "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
+                                                                    } else {
+                                                                      sendCommand(
+                                                                          "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                          widget
+                                                                              .sd);
                                                                     }
                                                                   }
                                                                 }

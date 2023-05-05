@@ -427,7 +427,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   out = out.substring(2);
                   sd.termostat = double.tryParse(out)!;
                 } catch (e) {
-                  sd.termostat = -1000;
+                  sd.termostat = 0;
                 }
               }
               if (index == 27) {
@@ -435,7 +435,7 @@ void handleClient(Socket client, SmartDevice sd) {
                   out = out.substring(2);
                   sd.humidityTermostat = double.tryParse(out)!;
                 } catch (e) {
-                  sd.humidityTermostat = -1000;
+                  sd.humidityTermostat = 0;
                 }
               }
               /*if (index == 28) {

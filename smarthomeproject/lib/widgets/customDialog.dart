@@ -89,11 +89,19 @@ void listChoiceDialog(
   TextEditingController writeC2 = TextEditingController();
   bool radioButtonRele = false;
   bool radioButtonMotor = false;
+  bool radioButtonHumidityTermostat = false;
+  bool radioButtonTermostat = false;
   if (change) {
     writeC.text = sd.listChoiseMainName[index];
     writeC2.text = sd.listChoiseMainNumber[index];
     if (sd.listChoiseMainType[index] == 'rele') radioButtonRele = true;
     if (sd.listChoiseMainType[index] == 'motor') radioButtonMotor = true;
+    if (sd.listChoiseMainType[index] == 'termostat') {
+      radioButtonTermostat = true;
+    }
+    if (sd.listChoiseMainType[index] == 'humidityTermostat') {
+      radioButtonHumidityTermostat = true;
+    }
   }
   showDialog(
       context: context,
@@ -105,7 +113,7 @@ void listChoiceDialog(
                 : Text("add-item.label".tr()),
             content: SingleChildScrollView(
                 child: SizedBox(
-                    height: 200,
+                    height: 240,
                     child: Column(
                       children: [
                         TextField(
@@ -115,47 +123,109 @@ void listChoiceDialog(
                           keyboardType: TextInputType.text,
                         ),
                         const Padding(padding: EdgeInsets.only(top: 20)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    radioButtonRele = !radioButtonRele;
-                                    if (radioButtonRele) {
-                                      radioButtonMotor = false;
-                                    }
-                                  });
-                                },
-                                child: Column(children: [
-                                  Icon(
-                                    radioButtonRele == true
-                                        ? Icons.check_circle_outline_outlined
-                                        : Icons.circle_outlined,
-                                    size: 30,
-                                    color: Colors.blue,
-                                  ),
-                                  Text('electricity.label'.tr())
-                                ])),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    radioButtonMotor = !radioButtonMotor;
-                                    if (radioButtonMotor) {
-                                      radioButtonRele = false;
-                                    }
-                                  });
-                                },
-                                child: Column(children: [
-                                  Icon(
-                                    radioButtonMotor == true
-                                        ? Icons.check_circle_outline_outlined
-                                        : Icons.circle_outlined,
-                                    size: 30,
-                                    color: Colors.blue,
-                                  ),
-                                  Text('curtains.label'.tr())
-                                ])),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonRele = !radioButtonRele;
+                                        if (radioButtonRele) {
+                                          radioButtonMotor = false;
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonTermostat = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonRele == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('electricity.label'.tr())
+                                    ])),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonMotor = !radioButtonMotor;
+                                        if (radioButtonMotor) {
+                                          radioButtonRele = false;
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonTermostat = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonMotor == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('curtains.label'.tr())
+                                    ])),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonTermostat =
+                                            !radioButtonTermostat;
+                                        if (radioButtonTermostat) {
+                                          radioButtonHumidityTermostat = false;
+                                          radioButtonMotor = false;
+                                          radioButtonRele = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonTermostat == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('thermostat.label'.tr())
+                                    ])),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonHumidityTermostat =
+                                            !radioButtonHumidityTermostat;
+                                        if (radioButtonHumidityTermostat) {
+                                          radioButtonTermostat = false;
+                                          radioButtonMotor = false;
+                                          radioButtonRele = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonHumidityTermostat == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('humidity.label'.tr())
+                                    ])),
+                              ],
+                            )
                             /*IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -187,7 +257,10 @@ void listChoiceDialog(
                           ],
                         ),
                         Visibility(
-                          visible: radioButtonRele || radioButtonMotor,
+                          visible: radioButtonRele ||
+                              radioButtonMotor ||
+                              radioButtonTermostat ||
+                              radioButtonHumidityTermostat,
                           child: TextField(
                             decoration:
                                 InputDecoration(labelText: "number.label".tr()),
@@ -495,6 +568,339 @@ void listChoiceDialog(
                               prefs.setStringList(
                                   '${sd.nameDevice}-listChoiseMain.number',
                                   sd.listChoiseMainNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    } else if (radioButtonTermostat) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.releAll.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainName.isEmpty) {
+                          sd.listChoiseMainName.add(writeC.text.toString());
+                          sd.listChoiseMainType.add('termostat');
+                          sd.listChoiseMainNumber.add(writeC2.text.toString());
+                          sd.termostatNumber =
+                              int.tryParse(writeC2.text.toString())!;
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.name',
+                              sd.listChoiseMainName);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.type',
+                              sd.listChoiseMainType);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.number',
+                              sd.listChoiseMainNumber);
+                          prefs.setInt('${sd.nameDevice}-termostatNumber',
+                              sd.termostatNumber);
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainName.length;
+                              i++) {
+                            if (sd.listChoiseMainType[i] == 'rele' ||
+                                sd.listChoiseMainType[i] == 'termostat' ||
+                                sd.listChoiseMainType[i] ==
+                                    'humidityTermostat') {
+                              if (sd.listChoiseMainNumber[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumber[i] ==
+                                      sd.listChoiseMainNumber[index]
+                                          .toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                              if (!change) {
+                                if (sd.listChoiseMainType[i] == 'termostat') {
+                                  if (sd.termostatNumber != -1) {
+                                    if (writeC2.text.toString() !=
+                                        sd.termostatNumber.toString()) {
+                                      isExist = true;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainName[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainType[index] = 'termostat';
+                              sd.listChoiseMainNumber[index] =
+                                  writeC2.text.toString();
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('termostat');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              sd.termostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        "this-item-is-already-selected.label"
+                                            .tr()),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          textStyle: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'ok.label'.tr(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      }
+                    } else if (radioButtonHumidityTermostat) {
+                      if (int.tryParse(writeC2.text.toString())! >
+                          sd.releAll.length - 1) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title:
+                                    Text("element-does-not-exist.label".tr()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'ok.label'.tr(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        if (sd.listChoiseMainName.isEmpty) {
+                          sd.listChoiseMainName.add(writeC.text.toString());
+                          sd.listChoiseMainType.add('humidityTermostat');
+                          sd.listChoiseMainNumber.add(writeC2.text.toString());
+                          sd.humidityTermostatNumber =
+                              int.tryParse(writeC2.text.toString())!;
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.name',
+                              sd.listChoiseMainName);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.type',
+                              sd.listChoiseMainType);
+                          prefs.setStringList(
+                              '${sd.nameDevice}-listChoiseMain.number',
+                              sd.listChoiseMainNumber);
+                          prefs.setInt(
+                              '${sd.nameDevice}-humidityTermostatNumber',
+                              sd.humidityTermostatNumber);
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } else {
+                          for (int i = 0;
+                              i < sd.listChoiseMainName.length;
+                              i++) {
+                            if (sd.listChoiseMainType[i] == 'rele' ||
+                                sd.listChoiseMainType[i] == 'termostat' ||
+                                sd.listChoiseMainType[i] ==
+                                    'humidityTermostat') {
+                              if (sd.listChoiseMainNumber[i] ==
+                                  writeC2.text.toString()) {
+                                if (change) {
+                                  if (sd.listChoiseMainNumber[i] ==
+                                      sd.listChoiseMainNumber[index]
+                                          .toString()) {
+                                    isExist = false;
+                                  } else {
+                                    isExist = true;
+                                  }
+                                } else {
+                                  isExist = true;
+                                }
+                              }
+                              if (!change) {
+                                if (sd.listChoiseMainType[i] ==
+                                    'humidityTermostat') {
+                                  if (sd.termostatNumber != -1) {
+                                    if (writeC2.text.toString() !=
+                                        sd.humidityTermostatNumber.toString()) {
+                                      isExist = true;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          if (!isExist) {
+                            if (change) {
+                              sd.listChoiseMainName[index] =
+                                  writeC.text.toString();
+                              sd.listChoiseMainType[index] =
+                                  'humidityTermostat';
+                              sd.listChoiseMainNumber[index] =
+                                  writeC2.text.toString();
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } else {
+                              sd.listChoiseMainName.add(writeC.text.toString());
+                              sd.listChoiseMainType.add('humidityTermostat');
+                              sd.listChoiseMainNumber
+                                  .add(writeC2.text.toString());
+                              sd.humidityTermostatNumber =
+                                  int.tryParse(writeC2.text.toString())!;
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.name',
+                                  sd.listChoiseMainName);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.type',
+                                  sd.listChoiseMainType);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMain.number',
+                                  sd.listChoiseMainNumber);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
                               // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                             }
