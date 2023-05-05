@@ -238,5 +238,15 @@
     "label": "Elektryczność", 
     "originalLabel": "electricity", 
     "comment": "electricity"
+  },
+  "thermostat":{
+    "label": "Termostat", 
+    "originalLabel": "thermostat", 
+    "comment": "thermostat"
+  },
+  "humidity":{
+    "label": "Wilgotność", 
+    "originalLabel": "humidity", 
+    "comment": "humidity"
   }
 }
