@@ -253,5 +253,45 @@
       "label": "Вы выбрали другой индекс для этого элемента!", 
       "originalLabel": "you choise another index for this item", 
       "comment": "you choise another index for this item"
+    },
+    "choise-item":{
+      "label": "Выберите элемент!", 
+      "originalLabel": "Choise item!", 
+      "comment": "Choise item!"
+    },
+    "information":{
+      "label": "Информация", 
+      "originalLabel": "information", 
+      "comment": "information"
+    },
+    "outdoor-temperature":{
+      "label": "Температура на улице", 
+      "originalLabel": "Outdoor temperature", 
+      "comment": "Outdoor temperature"
+    },
+    "outdoor-humidity":{
+      "label": "Влажность на улице", 
+      "originalLabel": "Outdoor humidity", 
+      "comment": "Outdoor humidity"
+    },
+    "pressure":{
+      "label": "Давление", 
+      "originalLabel": "Pressure", 
+      "comment": "Pressure"
+    },
+    "weather-forecast":{
+      "label": "Прогноз погоды", 
+      "originalLabel": "Weather forecast", 
+      "comment": "Weather forecast"
+    },
+    "temperature-in-the-house":{
+      "label": "Температура в доме", 
+      "originalLabel": "Temperature in the house", 
+      "comment": "Temperature in the house"
+    },
+    "humidity-in-the-house":{
+      "label": "Влажность в доме", 
+      "originalLabel": "Humidity in the house", 
+      "comment": "Humidity in the house"
     }
   }

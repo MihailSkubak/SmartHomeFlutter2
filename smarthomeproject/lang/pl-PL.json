@@ -253,5 +253,45 @@
     "label": "Wybrałeś inny indeks dla tego elementu!", 
     "originalLabel": "you choise another index for this item", 
     "comment": "you choise another index for this item"
+  },
+  "choise-item":{
+    "label": "Wybierz element!", 
+    "originalLabel": "Choise item!", 
+    "comment": "Choise item!"
+  },
+  "information":{
+    "label": "Informacja", 
+    "originalLabel": "information", 
+    "comment": "information"
+  },
+  "outdoor-temperature":{
+    "label": "Temperatura zewnętrzna", 
+    "originalLabel": "Outdoor temperature", 
+    "comment": "Outdoor temperature"
+  },
+  "outdoor-humidity":{
+    "label": "Wilgotność na zewnątrz", 
+    "originalLabel": "Outdoor humidity", 
+    "comment": "Outdoor humidity"
+  },
+  "pressure":{
+    "label": "Ciśnienie", 
+    "originalLabel": "Pressure", 
+    "comment": "Pressure"
+  },
+  "weather-forecast":{
+    "label": "Prognoza pogody", 
+    "originalLabel": "Weather forecast", 
+    "comment": "Weather forecast"
+  },
+  "temperature-in-the-house":{
+    "label": "Temperatura w domu", 
+    "originalLabel": "Temperature in the house", 
+    "comment": "Temperature in the house"
+  },
+  "humidity-in-the-house":{
+    "label": "Wilgotność w domu", 
+    "originalLabel": "Humidity in the house", 
+    "comment": "Humidity in the house"
   }
 }

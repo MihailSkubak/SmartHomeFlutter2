@@ -595,17 +595,43 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                               .sd
                                                                               .listChoiseMainType[index] ==
                                                                           'termostat') {
-                                                                        widget
+                                                                        if (widget
                                                                             .sd
-                                                                            .termostatNumber = -1;
+                                                                            .listChoiseMainTypeControlItem
+                                                                            .isNotEmpty) {
+                                                                          if (!widget
+                                                                              .sd
+                                                                              .listChoiseMainTypeControlItem
+                                                                              .contains('termostat')) {
+                                                                            widget.sd.termostatNumber =
+                                                                                -1;
+                                                                          }
+                                                                        } else {
+                                                                          widget
+                                                                              .sd
+                                                                              .termostatNumber = -1;
+                                                                        }
                                                                       }
                                                                       if (widget
                                                                               .sd
                                                                               .listChoiseMainType[index] ==
                                                                           'humidityTermostat') {
-                                                                        widget
+                                                                        if (widget
                                                                             .sd
-                                                                            .humidityTermostatNumber = -1;
+                                                                            .listChoiseMainTypeControlItem
+                                                                            .isNotEmpty) {
+                                                                          if (!widget
+                                                                              .sd
+                                                                              .listChoiseMainTypeControlItem
+                                                                              .contains('humidityTermostat')) {
+                                                                            widget.sd.humidityTermostatNumber =
+                                                                                -1;
+                                                                          }
+                                                                        } else {
+                                                                          widget
+                                                                              .sd
+                                                                              .humidityTermostatNumber = -1;
+                                                                        }
                                                                       }
                                                                       widget.sd
                                                                           .listChoiseMainName

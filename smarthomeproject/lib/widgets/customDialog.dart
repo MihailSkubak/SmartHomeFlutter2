@@ -1778,6 +1778,156 @@ void listCalibrationMotorFromAllList(
       });
 }
 
+void choiseEditOrDeleteForControlItemPage(
+    BuildContext context, SmartDevice sd, int index, String nameItem) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("choise-item.label".tr()),
+          content: Wrap(children: [
+            ListTile(
+              title: Text('delete.label'.tr()),
+              leading: const Icon(
+                Icons.delete,
+                size: 45,
+              ),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                            "are-you-sure-you-want-to-delete-this-item.label"
+                                .tr()),
+                        actions: <Widget>[
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              textStyle: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            child: Text(
+                              'no.label'.tr(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              textStyle: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            child: Text(
+                              'yes.label'.tr(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              bool checkTermostat = false;
+                              bool checkHumidityTermostat = false;
+                              if (sd.listChoiseMainTypeControlItem[index] ==
+                                  'termostat') {
+                                checkTermostat = true;
+                              }
+                              if (sd.listChoiseMainTypeControlItem[index] ==
+                                  'humidityTermostat') {
+                                checkHumidityTermostat = true;
+                              }
+                              sd.listChoiseMainNameControlItem.removeAt(index);
+                              sd.listChoiseMainTypeControlItem.removeAt(index);
+                              sd.listChoiseMainNumberControlItem
+                                  .removeAt(index);
+                              sd.listChoiseMainRoomControlItem.removeAt(index);
+                              if (sd.listChoiseMainType.isNotEmpty) {
+                                if (!sd.listChoiseMainType
+                                    .contains('termostat')) {
+                                  if (checkTermostat) {
+                                    sd.termostatNumber = -1;
+                                  }
+                                }
+                                if (!sd.listChoiseMainType
+                                    .contains('humidityTermostat')) {
+                                  if (checkHumidityTermostat) {
+                                    sd.humidityTermostatNumber = -1;
+                                  }
+                                }
+                              } else {
+                                if (checkTermostat) {
+                                  sd.termostatNumber = -1;
+                                }
+                                if (checkHumidityTermostat) {
+                                  sd.humidityTermostatNumber = -1;
+                                }
+                              }
+
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                  sd.listChoiseMainNameControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                  sd.listChoiseMainTypeControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                  sd.listChoiseMainNumberControlItem);
+                              prefs.setStringList(
+                                  '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                  sd.listChoiseMainRoomControlItem);
+                              prefs.setInt('${sd.nameDevice}-termostatNumber',
+                                  sd.termostatNumber);
+                              prefs.setInt(
+                                  '${sd.nameDevice}-humidityTermostatNumber',
+                                  sd.humidityTermostatNumber);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
+            ),
+            ListTile(
+                title: Text('edit-item.label'.tr()),
+                leading: const Icon(
+                  Icons.edit,
+                  size: 45,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  listChoiceDialogControlItem(
+                      sd, context, true, index, nameItem);
+                })
+          ]),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              child: Text(
+                'cancel.label'.tr(),
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      });
+}
+
 void listCreateEditControl(
     SmartDevice sd, BuildContext context, bool change, int index) {
   TextEditingController writeC = TextEditingController();
@@ -1953,7 +2103,61 @@ void listCreateEditControl(
                                     ),
                                     onPressed: () async {
                                       setState(() {
+                                        bool checkTermostat = false;
+                                        bool checkHumidityTermostat = false;
                                         checkDelete = true;
+                                        if (sd.listChoiseMainNameControlItem
+                                            .isNotEmpty) {
+                                          for (int i = 0;
+                                              i <
+                                                  sd.listChoiseMainNameControlItem
+                                                      .length;
+                                              i++) {
+                                            if (sd.listChoiseMainRoomControlItem[
+                                                    i] ==
+                                                sd.listControl[index]) {
+                                              if (sd.listChoiseMainTypeControlItem[
+                                                      i] ==
+                                                  'termostat') {
+                                                checkTermostat = true;
+                                              }
+                                              if (sd.listChoiseMainTypeControlItem[
+                                                      i] ==
+                                                  'humidityTermostat') {
+                                                checkHumidityTermostat = true;
+                                              }
+                                              sd.listChoiseMainNameControlItem
+                                                  .removeAt(i);
+                                              sd.listChoiseMainTypeControlItem
+                                                  .removeAt(i);
+                                              sd.listChoiseMainNumberControlItem
+                                                  .removeAt(i);
+                                              sd.listChoiseMainRoomControlItem
+                                                  .removeAt(i);
+                                            }
+                                          }
+                                        }
+                                        if (sd.listChoiseMainType.isNotEmpty) {
+                                          if (!sd.listChoiseMainType
+                                              .contains('termostat')) {
+                                            if (checkTermostat) {
+                                              sd.termostatNumber = -1;
+                                            }
+                                          }
+                                          if (!sd.listChoiseMainType
+                                              .contains('humidityTermostat')) {
+                                            if (checkHumidityTermostat) {
+                                              sd.humidityTermostatNumber = -1;
+                                            }
+                                          }
+                                        } else {
+                                          if (checkTermostat) {
+                                            sd.termostatNumber = -1;
+                                          }
+                                          if (checkHumidityTermostat) {
+                                            sd.humidityTermostatNumber = -1;
+                                          }
+                                        }
                                         sd.listControl.removeAt(index);
                                         sd.imageListForControlPath
                                             .removeAt(index);
@@ -1966,6 +2170,25 @@ void listCreateEditControl(
                                       prefs.setStringList(
                                           '${sd.nameDevice}-imageListForControlPath',
                                           sd.imageListForControlPath);
+                                      ////////////////////////////
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-listChoiseMainControlItem.name',
+                                          sd.listChoiseMainNameControlItem);
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-listChoiseMainControlItem.type',
+                                          sd.listChoiseMainTypeControlItem);
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-listChoiseMainControlItem.number',
+                                          sd.listChoiseMainNumberControlItem);
+                                      prefs.setStringList(
+                                          '${sd.nameDevice}-listChoiseMainControlItem.room',
+                                          sd.listChoiseMainRoomControlItem);
+                                      prefs.setInt(
+                                          '${sd.nameDevice}-termostatNumber',
+                                          sd.termostatNumber);
+                                      prefs.setInt(
+                                          '${sd.nameDevice}-humidityTermostatNumber',
+                                          sd.humidityTermostatNumber);
                                       // ignore: use_build_context_synchronously
                                       Navigator.pop(context);
                                       // ignore: use_build_context_synchronously
@@ -2034,30 +2257,58 @@ void listCreateEditControl(
                           );
                         });
                   } else {
-                    if (change) {
-                      sd.listControl[index] = writeC.text.toString();
-                      if (imageFile.path == '') {
-                        sd.imageListForControlPath[index] = 'empty';
-                      } else {
-                        sd.imageListForControlPath[index] = imageFile.path;
-                      }
+                    if (sd.listControl.contains(writeC.text.toString())) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                  "this-item-is-already-selected.label".tr()),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    textStyle: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'ok.label'.tr(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
                     } else {
-                      sd.listControl.add(writeC.text.toString());
-                      if (imageFile.path == '') {
-                        sd.imageListForControlPath.add('empty');
+                      if (change) {
+                        sd.listControl[index] = writeC.text.toString();
+                        if (imageFile.path == '') {
+                          sd.imageListForControlPath[index] = 'empty';
+                        } else {
+                          sd.imageListForControlPath[index] = imageFile.path;
+                        }
                       } else {
-                        sd.imageListForControlPath.add(imageFile.path);
+                        sd.listControl.add(writeC.text.toString());
+                        if (imageFile.path == '') {
+                          sd.imageListForControlPath.add('empty');
+                        } else {
+                          sd.imageListForControlPath.add(imageFile.path);
+                        }
                       }
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setStringList(
+                          '${sd.nameDevice}-listControl', sd.listControl);
+                      prefs.setStringList(
+                          '${sd.nameDevice}-imageListForControlPath',
+                          sd.imageListForControlPath);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
                     }
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setStringList(
-                        '${sd.nameDevice}-listControl', sd.listControl);
-                    prefs.setStringList(
-                        '${sd.nameDevice}-imageListForControlPath',
-                        sd.imageListForControlPath);
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
                   }
                 },
               ),

@@ -253,5 +253,45 @@
     "label": "You choosed another index for this item!", 
     "originalLabel": "you choise another index for this item", 
     "comment": "you choise another index for this item"
+  },
+  "choise-item":{
+    "label": "Choise item!", 
+    "originalLabel": "Choise item!", 
+    "comment": "Choise item!"
+  },
+  "information":{
+    "label": "Information", 
+    "originalLabel": "information", 
+    "comment": "information"
+  },
+  "outdoor-temperature":{
+    "label": "Outdoor temperature", 
+    "originalLabel": "Outdoor temperature", 
+    "comment": "Outdoor temperature"
+  },
+  "outdoor-humidity":{
+    "label": "Outdoor humidity", 
+    "originalLabel": "Outdoor humidity", 
+    "comment": "Outdoor humidity"
+  },
+  "pressure":{
+    "label": "Pressure", 
+    "originalLabel": "Pressure", 
+    "comment": "Pressure"
+  },
+  "weather-forecast":{
+    "label": "Weather forecast", 
+    "originalLabel": "Weather forecast", 
+    "comment": "Weather forecast"
+  },
+  "temperature-in-the-house":{
+    "label": "Temperature in the house", 
+    "originalLabel": "Temperature in the house", 
+    "comment": "Temperature in the house"
+  },
+  "humidity-in-the-house":{
+    "label": "Humidity in the house", 
+    "originalLabel": "Humidity in the house", 
+    "comment": "Humidity in the house"
   }
 }
