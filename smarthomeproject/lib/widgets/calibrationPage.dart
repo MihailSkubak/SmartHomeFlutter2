@@ -87,9 +87,10 @@ class CalibrationPageState extends State<CalibrationPage> {
               child: Scaffold(
                   appBar: AppBar(
                       bottom: TabBar(
-                        tabs: const [
-                          Tab(icon: Icon(Icons.curtains_closed, size: 40)),
-                          Tab(icon: Icon(Icons.settings_voice_sharp, size: 40)),
+                        tabs: [
+                          Tab(child: Image.asset('images/curtains_open.png')),
+                          const Tab(
+                              icon: Icon(Icons.settings_voice_sharp, size: 40)),
                         ],
                         onTap: (value) {
                           setState(() {
@@ -153,11 +154,11 @@ class CalibrationPageState extends State<CalibrationPage> {
                                               ? const Text('')
                                               : Text(widget.sd
                                                   .nameCalibrationMotor[index]),
-                                          leading: const Icon(
-                                            Icons.lightbulb,
-                                            size: 30,
-                                            color: Colors.blue,
-                                          ),
+                                          leading: Image.asset(
+                                              'images/settings-icon.png',
+                                              width: 45,
+                                              height: 45,
+                                              color: Colors.blue),
                                           trailing: widget.sd.motor[index] == 1
                                               ? Text(
                                                   'on.label'.tr(),

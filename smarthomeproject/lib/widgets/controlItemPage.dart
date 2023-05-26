@@ -499,20 +499,30 @@ class ControlItemPageState extends State<ControlItemPage> {
                                                           indexFromAllList(
                                                               index)] ==
                                                       'motor'
-                                                  ? Container(
-                                                      color: Colors.white,
-                                                      child: const Icon(
-                                                        Icons.macro_off,
-                                                        size: 100,
-                                                        color: Colors.blue,
-                                                      ))
-                                                  : Container(
-                                                      color: Colors.white,
-                                                      child: const Icon(
-                                                        Icons.lightbulb,
-                                                        size: 100,
-                                                        color: Colors.blue,
-                                                      )),
+                                                  ? Image.asset(
+                                                      widget.sd.motor[int.tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumberControlItem[
+                                                                  indexFromAllList(
+                                                                      index)])!] ==
+                                                              1
+                                                          ? 'images/curtains_open.png'
+                                                          : 'images/curtains_close.png',
+                                                      height: 150,
+                                                      width: 150,
+                                                    )
+                                                  : Image.asset(
+                                                      widget.sd.releAll[int.tryParse(widget
+                                                                      .sd
+                                                                      .listChoiseMainNumberControlItem[
+                                                                  indexFromAllList(
+                                                                      index)])!] ==
+                                                              1
+                                                          ? 'images/bulb_on.png'
+                                                          : 'images/bulb_off.png',
+                                                      height: 150,
+                                                      width: 150,
+                                                    ),
                                           widget.sd.listChoiseMainTypeControlItem[
                                                       indexFromAllList(
                                                           index)] ==

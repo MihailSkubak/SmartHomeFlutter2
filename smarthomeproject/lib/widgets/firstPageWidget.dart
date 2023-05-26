@@ -51,9 +51,8 @@ class MainPageState extends State<MainPage> {
                 /*backgroundColor:
                 widget.theme.switchValueTheme() ? Colors.blue : Colors.red,*/
                 title: Text('smart-home.label'.tr()),
-                leading: const Icon(
-                  Icons.home,
-                  size: 45,
+                leading: Image.asset(
+                  'images/smart_home.png',
                 ),
                 actions: <Widget>[
                   IconButton(

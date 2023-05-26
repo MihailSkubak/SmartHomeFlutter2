@@ -268,10 +268,8 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
               elevation: 5,
               child: widget.sd.pressure == 0
                   ? ListTile(
-                      leading: const Icon(
-                        Icons.maps_home_work_sharp,
-                        size: 45,
-                      ),
+                      leading: Image.asset('images/smart_home_item.png',
+                          width: 70, height: 70),
                       title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -323,9 +321,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       ]))
                   : ExpansionTile(
                       initiallyExpanded: true,
-                      leading: const Icon(
-                        Icons.maps_home_work_sharp,
-                        size: 45,
+                      leading: Image.asset(
+                        'images/smart_home_item.png',
+                        width: 70,
+                        height: 70,
                       ),
                       title: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -691,11 +690,46 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                   title: Text(widget.sd
                                                           .listChoiseMainName[
                                                       index]),
-                                                  leading: const Icon(
-                                                    Icons.lightbulb,
-                                                    size: 30,
-                                                    color: Colors.blue,
-                                                  ),
+                                                  leading: widget.sd
+                                                                  .listChoiseMainType[
+                                                              index] ==
+                                                          'termostat'
+                                                      ? Image.asset(
+                                                          'images/termostat.png',
+                                                          width: 50,
+                                                          height: 50,
+                                                        )
+                                                      : widget.sd.listChoiseMainType[
+                                                                  index] ==
+                                                              'humidityTermostat'
+                                                          ? Image.asset(
+                                                              'images/humdity_term.png',
+                                                              width: 45,
+                                                              height: 45,
+                                                            )
+                                                          : widget.sd.listChoiseMainType[
+                                                                      index] ==
+                                                                  'motor'
+                                                              ? Image.asset(
+                                                                  widget.sd.motor[int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])!] ==
+                                                                          1
+                                                                      ? 'images/curtains_open.png'
+                                                                      : 'images/curtains_close.png',
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                )
+                                                              : Image.asset(
+                                                                  widget.sd.releAll[int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])!] ==
+                                                                          1
+                                                                      ? 'images/bulb_on.png'
+                                                                      : 'images/bulb_off.png',
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                ),
                                                   trailing: SizedBox(
                                                       width: widget.sd.listChoiseMainNumber[
                                                                       index] ==
@@ -710,9 +744,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                           ? 228 //179
                                                           : 59,
                                                       height: 40,
-                                                      child: Row(mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
                                                         children: [
                                                           widget.sd.listChoiseMainNumber[
                                                                           index] ==
@@ -724,92 +759,107 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                       widget.sd
                                                                           .humidityTermostatNumber
                                                                           .toString()
-                                                              ? Row(
-                                                                  children: [
-                                                                      pushCommandForTermostat
-                                                                          ? IconButton(
-                                                                              onPressed: () async {
-                                                                                setState(() {
-                                                                                  pushCommandForTermostat = !pushCommandForTermostat;
-                                                                                });
-                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
-                                                                                  if (widget.sd.termostat == 0) {
-                                                                                    //GET /Q:12.0 HTTP/1.1
-                                                                                    await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
-                                                                                  } else {
-                                                                                    await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
-                                                                                  }
-                                                                                } else {
-                                                                                  if (widget.sd.humidityTermostat == 0) {
-                                                                                    await sendCommand("GET /E:non HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
-                                                                                  } else {
-                                                                                    await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
-                                                                                  }
-                                                                                }
-                                                                              },
-                                                                              icon: const Icon(Icons.check_box_outlined, color: Colors.blue, size: 30))
-                                                                          : const SizedBox(),
-                                                                      Container(
-                                                                          decoration:
-                                                                              BoxDecoration(
+                                                              ? Row(children: [
+                                                                  pushCommandForTermostat
+                                                                      ? IconButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            setState(() {
+                                                                              pushCommandForTermostat = !pushCommandForTermostat;
+                                                                            });
+                                                                            if (widget.sd.listChoiseMainNumber[index] ==
+                                                                                widget.sd.termostatNumber.toString()) {
+                                                                              if (widget.sd.termostat == 0) {
+                                                                                //GET /Q:12.0 HTTP/1.1
+                                                                                await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
+                                                                                await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                              } else {
+                                                                                await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
+                                                                                await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
+                                                                              }
+                                                                            } else {
+                                                                              if (widget.sd.humidityTermostat == 0) {
+                                                                                await sendCommand("GET /E:non HTTP/1.1", widget.sd);
+                                                                                await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
+                                                                              } else {
+                                                                                await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
+                                                                                await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          icon: const Icon(
+                                                                              Icons.check_box_outlined,
+                                                                              color: Colors.blue,
+                                                                              size: 30))
+                                                                      : const SizedBox(),
+                                                                  Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: Colors
+                                                                            .blue[200],
+                                                                        borderRadius:
+                                                                            const BorderRadius.all(Radius.circular(5.0)),
+                                                                        boxShadow: [
+                                                                          BoxShadow(
                                                                             color:
-                                                                                Colors.blue[200],
-                                                                            borderRadius:
-                                                                                const BorderRadius.all(Radius.circular(5.0)),
-                                                                            boxShadow: [
-                                                                              BoxShadow(
-                                                                                color: Colors.grey.withOpacity(0.5),
-                                                                                spreadRadius: 5,
-                                                                                blurRadius: 7,
-                                                                                offset: const Offset(0, 3), // changes position of shadow
-                                                                              ),
-                                                                            ],
+                                                                                Colors.grey.withOpacity(0.5),
+                                                                            spreadRadius:
+                                                                                5,
+                                                                            blurRadius:
+                                                                                7,
+                                                                            offset:
+                                                                                const Offset(0, 3), // changes position of shadow
                                                                           ),
-                                                                          width:
-                                                                              120,
-                                                                          height:
-                                                                              37,
-                                                                          child:
-                                                                              SpinBox(
-                                                                            iconColor: MaterialStateProperty.all<Color>(widget.theme.switchValueTheme()
-                                                                                ? Colors.white
-                                                                                : Colors.black),
-                                                                            cursorColor:
-                                                                                Colors.blue,
-                                                                            decoration:
-                                                                                const InputDecoration(
-                                                                              contentPadding: EdgeInsets.only(top: 50),
-                                                                            ),
-                                                                            spacing:
-                                                                                3,
-                                                                            decimals:
-                                                                                1,
-                                                                            step:
-                                                                                0.1,
-                                                                            min:
-                                                                                0.0,
-                                                                            max:
-                                                                                100.0,
-                                                                            value: widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()
-                                                                                ? widget.sd.termostat
-                                                                                : widget.sd.humidityTermostat,
-                                                                            onChanged:
-                                                                                (value) {
-                                                                              setState(() {
-                                                                                pushCommandForTermostat = true;
-                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
-                                                                                  widget.sd.termostat = value;
-                                                                                } else {
-                                                                                  widget.sd.humidityTermostat = value;
-                                                                                }
-                                                                              });
-                                                                            },
-                                                                          ))
-                                                                    ])
+                                                                        ],
+                                                                      ),
+                                                                      width:
+                                                                          120,
+                                                                      height:
+                                                                          37,
+                                                                      child:
+                                                                          SpinBox(
+                                                                        iconColor: MaterialStateProperty.all<
+                                                                            Color>(widget.theme
+                                                                                .switchValueTheme()
+                                                                            ? Colors.white
+                                                                            : Colors.black),
+                                                                        cursorColor:
+                                                                            Colors.blue,
+                                                                        decoration:
+                                                                            const InputDecoration(
+                                                                          contentPadding:
+                                                                              EdgeInsets.only(top: 50),
+                                                                        ),
+                                                                        spacing:
+                                                                            3,
+                                                                        decimals:
+                                                                            1,
+                                                                        step:
+                                                                            0.1,
+                                                                        min:
+                                                                            0.0,
+                                                                        max:
+                                                                            100.0,
+                                                                        value: widget.sd.listChoiseMainNumber[index] ==
+                                                                                widget.sd.termostatNumber.toString()
+                                                                            ? widget.sd.termostat
+                                                                            : widget.sd.humidityTermostat,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            pushCommandForTermostat =
+                                                                                true;
+                                                                            if (widget.sd.listChoiseMainNumber[index] ==
+                                                                                widget.sd.termostatNumber.toString()) {
+                                                                              widget.sd.termostat = value;
+                                                                            } else {
+                                                                              widget.sd.humidityTermostat = value;
+                                                                            }
+                                                                          });
+                                                                        },
+                                                                      ))
+                                                                ])
                                                               : const SizedBox(),
                                                           CupertinoSwitch(
                                                             value: widget.sd.listChoiseMainType[
@@ -1098,7 +1148,11 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       setState(() {});
                     },
                   ),*/
-                        Text(widget.sd.textSpeech),
+                        const Padding(padding: EdgeInsets.only(top: 15)),
+                        Text(
+                          '“ ${widget.sd.textSpeech} ”',
+                          style: const TextStyle(fontFamily: 'DancingScript'),
+                        ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
