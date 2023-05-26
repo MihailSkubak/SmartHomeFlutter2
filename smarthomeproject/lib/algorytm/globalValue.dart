@@ -12,3 +12,4 @@ List<String> rememberDevice = [];
 bool onceDoneConnectingToDevice = true;
 List<String> smartDeviceList = [];
 List objectSmartDevice = [];
+bool pushCommandForTermostat = false;

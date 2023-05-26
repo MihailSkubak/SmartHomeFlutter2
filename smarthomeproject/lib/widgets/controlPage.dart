@@ -17,7 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ControlPage extends StatefulWidget {
   final SmartDevice sd;
-  const ControlPage({super.key, required this.sd});
+  final ThemeNotifier theme;
+  const ControlPage({super.key, required this.sd, required this.theme});
   @override
   ControlPageState createState() => ControlPageState();
 }
@@ -166,6 +167,7 @@ class ControlPageState extends State<ControlPage> {
                                         sd: widget.sd,
                                         indexItem: index,
                                         nameItem: widget.sd.listControl[index],
+                                        theme: widget.theme,
                                       ),
                                     ),
                                   );

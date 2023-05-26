@@ -293,5 +293,20 @@
     "label": "Humidity in the house", 
     "originalLabel": "Humidity in the house", 
     "comment": "Humidity in the house"
+  },
+  "on-ControlItem":{
+    "label": "On", 
+    "originalLabel": "On", 
+    "comment": "On"
+  },
+  "off-ControlItem":{
+    "label": "Off", 
+    "originalLabel": "Off", 
+    "comment": "Off"
+  },
+  "complete":{
+    "label": "Complete", 
+    "originalLabel": "Complete", 
+    "comment": "Complete"
   }
 }

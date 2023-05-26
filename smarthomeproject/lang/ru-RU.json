@@ -293,5 +293,20 @@
       "label": "Влажность в доме", 
       "originalLabel": "Humidity in the house", 
       "comment": "Humidity in the house"
+    },
+    "on-ControlItem":{
+      "label": "Включено", 
+      "originalLabel": "On", 
+      "comment": "On"
+    },
+    "off-ControlItem":{
+      "label": "Выключено", 
+      "originalLabel": "Off", 
+      "comment": "Off"
+    },
+    "complete":{
+      "label": "Завершить", 
+      "originalLabel": "Complete", 
+      "comment": "Complete"
     }
   }

@@ -293,5 +293,20 @@
     "label": "Wilgotność w domu", 
     "originalLabel": "Humidity in the house", 
     "comment": "Humidity in the house"
+  },
+  "on-ControlItem":{
+    "label": "Włączony", 
+    "originalLabel": "On", 
+    "comment": "On"
+  },
+  "off-ControlItem":{
+    "label": "Wyłączony", 
+    "originalLabel": "Off", 
+    "comment": "Off"
+  },
+  "complete":{
+    "label": "Wypełnić", 
+    "originalLabel": "Complete", 
+    "comment": "Complete"
   }
 }

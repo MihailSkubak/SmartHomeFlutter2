@@ -734,14 +734,14 @@ void listChoiceDialog(
                                 }
                               }
                               if (!change) {
-                                if (sd.listChoiseMainType[i] == 'termostat') {
-                                  if (sd.termostatNumber != -1) {
-                                    if (writeC2.text.toString() !=
-                                        sd.termostatNumber.toString()) {
-                                      isExist = true;
-                                    }
+                                //if (sd.listChoiseMainType[i] == 'termostat') {
+                                if (sd.termostatNumber != -1) {
+                                  if (writeC2.text.toString() !=
+                                      sd.termostatNumber.toString()) {
+                                    isExist = true;
                                   }
                                 }
+                                //}
                               }
                             }
                           }
@@ -957,15 +957,15 @@ void listChoiceDialog(
                                 }
                               }
                               if (!change) {
-                                if (sd.listChoiseMainType[i] ==
-                                    'humidityTermostat') {
-                                  if (sd.humidityTermostatNumber != -1) {
-                                    if (writeC2.text.toString() !=
-                                        sd.humidityTermostatNumber.toString()) {
-                                      isExist = true;
-                                    }
+                                /*if (sd.listChoiseMainType[i] ==
+                                    'humidityTermostat') {*/
+                                if (sd.humidityTermostatNumber != -1) {
+                                  if (writeC2.text.toString() !=
+                                      sd.humidityTermostatNumber.toString()) {
+                                    isExist = true;
                                   }
                                 }
+                                //}
                               }
                             }
                           }
@@ -3017,15 +3017,15 @@ void listChoiceDialogControlItem(SmartDevice sd, BuildContext context,
                                 }
                               }
                               if (!change) {
-                                if (sd.listChoiseMainTypeControlItem[i] ==
-                                    'termostat') {
-                                  if (sd.termostatNumber != -1) {
-                                    if (writeC2.text.toString() !=
-                                        sd.termostatNumber.toString()) {
-                                      isExist = true;
-                                    }
+                                /*if (sd.listChoiseMainTypeControlItem[i] ==
+                                    'termostat') {*/
+                                if (sd.termostatNumber != -1) {
+                                  if (writeC2.text.toString() !=
+                                      sd.termostatNumber.toString()) {
+                                    isExist = true;
                                   }
                                 }
+                                //}
                               }
                             }
                           }
@@ -3265,15 +3265,15 @@ void listChoiceDialogControlItem(SmartDevice sd, BuildContext context,
                                 }
                               }
                               if (!change) {
-                                if (sd.listChoiseMainTypeControlItem[i] ==
-                                    'humidityTermostat') {
-                                  if (sd.humidityTermostatNumber != -1) {
-                                    if (writeC2.text.toString() !=
-                                        sd.humidityTermostatNumber.toString()) {
-                                      isExist = true;
-                                    }
+                                /*if (sd.listChoiseMainTypeControlItem[i] ==
+                                    'humidityTermostat') {*/
+                                if (sd.humidityTermostatNumber != -1) {
+                                  if (writeC2.text.toString() !=
+                                      sd.humidityTermostatNumber.toString()) {
+                                    isExist = true;
                                   }
                                 }
+                                //}
                               }
                             }
                           }

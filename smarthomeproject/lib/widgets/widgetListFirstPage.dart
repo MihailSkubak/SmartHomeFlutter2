@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smarthomeproject/algorytm/globalValue.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
@@ -706,102 +707,109 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                   widget.sd
                                                                       .humidityTermostatNumber
                                                                       .toString()
-                                                          ? 179
+                                                          ? 228 //179
                                                           : 59,
                                                       height: 40,
-                                                      child: Row(
+                                                      child: Row(mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
                                                         children: [
-                                                          widget.sd.listChoiseMainNumber[index] ==
+                                                          widget.sd.listChoiseMainNumber[
+                                                                          index] ==
                                                                       widget.sd
                                                                           .termostatNumber
                                                                           .toString() ||
-                                                                  widget.sd.listChoiseMainNumber[index] ==
+                                                                  widget.sd.listChoiseMainNumber[
+                                                                          index] ==
                                                                       widget.sd
                                                                           .humidityTermostatNumber
                                                                           .toString()
-                                                              ? Container(
-                                                                  decoration: BoxDecoration(
-                                                                    color: Colors
-                                                                            .blue[
-                                                                        200],
-                                                                    borderRadius: const BorderRadius
-                                                                            .all(
-                                                                        Radius.circular(
-                                                                            5.0)),
-                                                                    boxShadow: [
-                                                                      BoxShadow(
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .withOpacity(0.5),
-                                                                        spreadRadius:
-                                                                            5,
-                                                                        blurRadius:
-                                                                            7,
-                                                                        offset: const Offset(
-                                                                            0,
-                                                                            3), // changes position of shadow
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  width: 120,
-                                                                  height: 37,
-                                                                  child: SpinBox(
-                                                                      iconColor: MaterialStateProperty.all<Color>(widget.theme.switchValueTheme() ? Colors.white : Colors.black),
-                                                                      cursorColor: Colors.blue,
-                                                                      decoration: const InputDecoration(
-                                                                        contentPadding:
-                                                                            EdgeInsets.only(top: 50),
-                                                                      ),
-                                                                      spacing: 3,
-                                                                      decimals: 1,
-                                                                      step: 0.1,
-                                                                      min: 0.0,
-                                                                      max: 100.0,
-                                                                      value: widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString() ? widget.sd.termostat : widget.sd.humidityTermostat,
-                                                                      onChanged: (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          if (widget.sd.listChoiseMainNumber[index] ==
-                                                                              widget.sd.termostatNumber.toString()) {
-                                                                            widget.sd.termostat =
-                                                                                value;
-                                                                          } else {
-                                                                            widget.sd.humidityTermostat =
-                                                                                value;
-                                                                          }
-                                                                        });
-                                                                      },
-                                                                      onSubmitted: (value) async {
-                                                                        if (widget.sd.listChoiseMainNumber[index] ==
-                                                                            widget.sd.termostatNumber.toString()) {
-                                                                          if (widget.sd.termostat ==
-                                                                              0) {
-                                                                            //GET /Q:12.0 HTTP/1.1
-                                                                            await sendCommand("GET /Q:non HTTP/1.1",
-                                                                                widget.sd);
-                                                                            await sendCommand("GET /QN:non HTTP/1.1",
-                                                                                widget.sd);
-                                                                          } else {
-                                                                            await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1",
-                                                                                widget.sd);
-                                                                            await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1",
-                                                                                widget.sd);
-                                                                          }
-                                                                        } else {
-                                                                          if (widget.sd.humidityTermostat ==
-                                                                              0) {
-                                                                            await sendCommand("GET /E:non HTTP/1.1",
-                                                                                widget.sd);
-                                                                            await sendCommand("GET /EN:non HTTP/1.1",
-                                                                                widget.sd);
-                                                                          } else {
-                                                                            await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1",
-                                                                                widget.sd);
-                                                                            await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1",
-                                                                                widget.sd);
-                                                                          }
-                                                                        }
-                                                                      }))
+                                                              ? Row(
+                                                                  children: [
+                                                                      pushCommandForTermostat
+                                                                          ? IconButton(
+                                                                              onPressed: () async {
+                                                                                setState(() {
+                                                                                  pushCommandForTermostat = !pushCommandForTermostat;
+                                                                                });
+                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                  if (widget.sd.termostat == 0) {
+                                                                                    //GET /Q:12.0 HTTP/1.1
+                                                                                    await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                                  } else {
+                                                                                    await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
+                                                                                  }
+                                                                                } else {
+                                                                                  if (widget.sd.humidityTermostat == 0) {
+                                                                                    await sendCommand("GET /E:non HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
+                                                                                  } else {
+                                                                                    await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                                  }
+                                                                                }
+                                                                              },
+                                                                              icon: const Icon(Icons.check_box_outlined, color: Colors.blue, size: 30))
+                                                                          : const SizedBox(),
+                                                                      Container(
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                Colors.blue[200],
+                                                                            borderRadius:
+                                                                                const BorderRadius.all(Radius.circular(5.0)),
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: Colors.grey.withOpacity(0.5),
+                                                                                spreadRadius: 5,
+                                                                                blurRadius: 7,
+                                                                                offset: const Offset(0, 3), // changes position of shadow
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          width:
+                                                                              120,
+                                                                          height:
+                                                                              37,
+                                                                          child:
+                                                                              SpinBox(
+                                                                            iconColor: MaterialStateProperty.all<Color>(widget.theme.switchValueTheme()
+                                                                                ? Colors.white
+                                                                                : Colors.black),
+                                                                            cursorColor:
+                                                                                Colors.blue,
+                                                                            decoration:
+                                                                                const InputDecoration(
+                                                                              contentPadding: EdgeInsets.only(top: 50),
+                                                                            ),
+                                                                            spacing:
+                                                                                3,
+                                                                            decimals:
+                                                                                1,
+                                                                            step:
+                                                                                0.1,
+                                                                            min:
+                                                                                0.0,
+                                                                            max:
+                                                                                100.0,
+                                                                            value: widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()
+                                                                                ? widget.sd.termostat
+                                                                                : widget.sd.humidityTermostat,
+                                                                            onChanged:
+                                                                                (value) {
+                                                                              setState(() {
+                                                                                pushCommandForTermostat = true;
+                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                  widget.sd.termostat = value;
+                                                                                } else {
+                                                                                  widget.sd.humidityTermostat = value;
+                                                                                }
+                                                                              });
+                                                                            },
+                                                                          ))
+                                                                    ])
                                                               : const SizedBox(),
                                                           CupertinoSwitch(
                                                             value: widget.sd.listChoiseMainType[
@@ -1103,6 +1111,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                           MaterialPageRoute(
                                             builder: (context) => ControlPage(
                                               sd: widget.sd,
+                                              theme: widget.theme,
                                             ),
                                           ),
                                         );
@@ -1255,7 +1264,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                       ]))),
                             ])
                       ],
-                    )))
+                    ))),
     ]);
   }
 }
