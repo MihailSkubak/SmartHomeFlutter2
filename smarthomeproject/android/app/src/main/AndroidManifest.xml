@@ -11,9 +11,9 @@
         </intent>
     </queries>
    <application
-        android:label="smarthomeproject"
+        android:label="Smart Home"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icc_launcher_main"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
