@@ -760,37 +760,40 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                           .humidityTermostatNumber
                                                                           .toString()
                                                               ? Row(children: [
-                                                                  pushCommandForTermostat
-                                                                      ? IconButton(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            setState(() {
-                                                                              pushCommandForTermostat = !pushCommandForTermostat;
-                                                                            });
-                                                                            if (widget.sd.listChoiseMainNumber[index] ==
-                                                                                widget.sd.termostatNumber.toString()) {
-                                                                              if (widget.sd.termostat == 0) {
-                                                                                //GET /Q:12.0 HTTP/1.1
-                                                                                await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
-                                                                                await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
-                                                                              } else {
-                                                                                await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
-                                                                                await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
-                                                                              }
-                                                                            } else {
-                                                                              if (widget.sd.humidityTermostat == 0) {
-                                                                                await sendCommand("GET /E:non HTTP/1.1", widget.sd);
-                                                                                await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
-                                                                              } else {
-                                                                                await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
-                                                                                await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
-                                                                              }
-                                                                            }
-                                                                          },
-                                                                          icon: const Icon(
-                                                                              Icons.check_box_outlined,
-                                                                              color: Colors.blue,
-                                                                              size: 30))
+                                                                  pushCommandForTermostat &&
+                                                                          valueChoiseIndexForTermostat ==
+                                                                              index
+                                                                      ? Container(
+                                                                          transform: Matrix4.translationValues(
+                                                                              0.0,
+                                                                              -8.0,
+                                                                              0.0),
+                                                                          child: IconButton(
+                                                                              onPressed: () async {
+                                                                                setState(() {
+                                                                                  pushCommandForTermostat = !pushCommandForTermostat;
+                                                                                  valueChoiseIndexForTermostat = -1;
+                                                                                });
+                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                  if (widget.sd.termostat == 0) {
+                                                                                    //GET /Q:12.0 HTTP/1.1
+                                                                                    await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                                  } else {
+                                                                                    await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
+                                                                                  }
+                                                                                } else {
+                                                                                  if (widget.sd.humidityTermostat == 0) {
+                                                                                    await sendCommand("GET /E:non HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
+                                                                                  } else {
+                                                                                    await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
+                                                                                    await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                                  }
+                                                                                }
+                                                                              },
+                                                                              icon: const Icon(Icons.check_box_outlined, color: Colors.red, size: 40)))
                                                                       : const SizedBox(),
                                                                   Container(
                                                                       decoration:
@@ -850,6 +853,8 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                               () {
                                                                             pushCommandForTermostat =
                                                                                 true;
+                                                                            valueChoiseIndexForTermostat =
+                                                                                index;
                                                                             if (widget.sd.listChoiseMainNumber[index] ==
                                                                                 widget.sd.termostatNumber.toString()) {
                                                                               widget.sd.termostat = value;

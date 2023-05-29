@@ -13,3 +13,5 @@ bool onceDoneConnectingToDevice = true;
 List<String> smartDeviceList = [];
 List objectSmartDevice = [];
 bool pushCommandForTermostat = false;
+//bool readAnswer = true;
+int valueChoiseIndexForTermostat = -1;
