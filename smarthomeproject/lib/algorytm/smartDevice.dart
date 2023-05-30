@@ -23,6 +23,8 @@ class SmartDevice {
   bool isListening = false;
   String textSpeech = '';
   bool onceReadListChoice = true;
+  bool readAnswer = false;
+  bool readAnswerCheck = false;
   //value for first page list
   List<String> listChoiseMainName = [];
   List<String> listChoiseMainType = [];

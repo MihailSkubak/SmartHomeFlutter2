@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smarthomeproject/algorytm/globalValue.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages
@@ -1597,27 +1598,31 @@ void listCalibrationMotor(
                           );
                         });
                   } else {
-                    sd.nameCalibrationMotor[index] = writeC.text.toString();
-                    sd.motor[index] = choiseCommand;
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setStringList('${sd.nameDevice}-nameCalibrationMotor',
-                        sd.nameCalibrationMotor);
-                    if (index > 9) {
-                      if (choiseCommand == 1) {
-                        await sendCommand("/KM=ONN$index", sd);
-                      } else if (choiseCommand == 0) {
-                        await sendCommand("/KM=OFFF$index", sd);
+                    if (!sd.readAnswerCheck) {
+                      sd.readAnswer = true;
+                      sd.nameCalibrationMotor[index] = writeC.text.toString();
+                      sd.motor[index] = choiseCommand;
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setStringList(
+                          '${sd.nameDevice}-nameCalibrationMotor',
+                          sd.nameCalibrationMotor);
+                      if (index > 9) {
+                        if (choiseCommand == 1) {
+                          await sendCommand("/KM=ONN$index", sd);
+                        } else if (choiseCommand == 0) {
+                          await sendCommand("/KM=OFFF$index", sd);
+                        }
+                      } else {
+                        if (choiseCommand == 1) {
+                          await sendCommand("/KM=ON$index", sd);
+                        } else if (choiseCommand == 0) {
+                          await sendCommand("/KM=OFF$index", sd);
+                        }
                       }
-                    } else {
-                      if (choiseCommand == 1) {
-                        await sendCommand("/KM=ON$index", sd);
-                      } else if (choiseCommand == 0) {
-                        await sendCommand("/KM=OFF$index", sd);
-                      }
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
                     }
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
                   }
                 },
               ),
@@ -1753,22 +1758,25 @@ void listCalibrationMotorFromAllList(
                           );
                         });
                   } else {
-                    sd.motor[index] = choiseCommand;
-                    if (index > 9) {
-                      if (choiseCommand == 1) {
-                        await sendCommand("/KM=ONN$index", sd);
-                      } else if (choiseCommand == 0) {
-                        await sendCommand("/KM=OFFF$index", sd);
+                    if (!sd.readAnswerCheck) {
+                      sd.readAnswer = true;
+                      sd.motor[index] = choiseCommand;
+                      if (index > 9) {
+                        if (choiseCommand == 1) {
+                          await sendCommand("/KM=ONN$index", sd);
+                        } else if (choiseCommand == 0) {
+                          await sendCommand("/KM=OFFF$index", sd);
+                        }
+                      } else {
+                        if (choiseCommand == 1) {
+                          await sendCommand("/KM=ON$index", sd);
+                        } else if (choiseCommand == 0) {
+                          await sendCommand("/KM=OFF$index", sd);
+                        }
                       }
-                    } else {
-                      if (choiseCommand == 1) {
-                        await sendCommand("/KM=ON$index", sd);
-                      } else if (choiseCommand == 0) {
-                        await sendCommand("/KM=OFF$index", sd);
-                      }
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
                     }
-                    // ignore: use_build_context_synchronously
-                    Navigator.pop(context);
                   }
                 },
               ),

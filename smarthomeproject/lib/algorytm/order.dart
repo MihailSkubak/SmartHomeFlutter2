@@ -23,6 +23,7 @@ sendCommand(String command, SmartDevice sd) async {
     Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
     socked.write(command);
     try {
+      sd.readAnswer = false;
       handleClient(socked, sd);
     } catch (e) {
       if (kDebugMode) {
@@ -38,41 +39,47 @@ sendCommand(String command, SmartDevice sd) async {
 }
 
 getDataFromDevice(SmartDevice sd, context) {
-  Timer.periodic(const Duration(milliseconds: 20000), (timer) async {
-    if (sd.connected) {
-      try {
-        Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
+  Timer.periodic(const Duration(milliseconds: 30000), (timer) async {
+    if (!sd.readAnswer) {
+      sd.readAnswerCheck = true;
+      if (sd.connected) {
         try {
-          sd.connected = true;
-          sd.breakConnect = 0;
-          handleClient(socked, sd);
+          Socket socked =
+              await Socket.connect('192.168.0.${sd.nameDevice}', 80);
+          try {
+            sd.connected = true;
+            sd.breakConnect = 0;
+            if (!sd.readAnswer) {
+              handleClient(socked, sd);
+            }
+          } catch (e) {
+            if (kDebugMode) {
+              print("Already read!");
+            }
+            socked.close();
+          }
         } catch (e) {
           if (kDebugMode) {
-            print("Already read!");
+            print('Lost Connected!!!');
           }
-          socked.close();
+          if (sd.breakConnect == 1) {
+            timer.cancel();
+            sd.connected = false;
+            sd.breakConnect = 0;
+            if (sd.showDialogLostConnect) {
+              sd.showDialogLostConnect = false;
+              lostDevice(sd, context);
+            }
+          } else {
+            sd.breakConnect++;
+          }
         }
-      } catch (e) {
+      } else {
         if (kDebugMode) {
-          print('Lost Connected!!!');
+          print('Disconnected!!!');
         }
-        if (sd.breakConnect == 1) {
-          timer.cancel();
-          sd.connected = false;
-          sd.breakConnect = 0;
-          if (sd.showDialogLostConnect) {
-            sd.showDialogLostConnect = false;
-            lostDevice(sd, context);
-          }
-        } else {
-          sd.breakConnect++;
-        }
+        timer.cancel();
       }
-    } else {
-      if (kDebugMode) {
-        print('Disconnected!!!');
-      }
-      timer.cancel();
     }
   });
 }
@@ -80,68 +87,67 @@ getDataFromDevice(SmartDevice sd, context) {
 void handleClient(Socket client, SmartDevice sd) {
   String reply = '';
   client.listen((data) {
-    if (0 == 0) {
-      if (kDebugMode) {
-        print("client listen : ${String.fromCharCodes(data).trim()}");
-        reply = String.fromCharCodes(data).trim();
-        print("Reply: $reply");
-        if (reply.length > 10) {
+    if (kDebugMode) {
+      print("client listen : ${String.fromCharCodes(data).trim()}");
+      reply = String.fromCharCodes(data).trim();
+      print("Reply: $reply");
+      if (reply.length > 10) {
+        if (sd.nameDevice == '145') {
           sd.releAll = [];
           sd.motor = [];
-          if (sd.nameDevice == '145') {
-            bool start = false;
-            String out = '';
-            int index = 0;
-            for (int i = 0; i < reply.length; i++) {
-              String tmp = reply.substring(i, i + 1);
-              if (tmp.compareTo(",") == 0) start = true;
-              if (tmp.compareTo(";") == 0) start = true;
-              if (!start) {
-                out += tmp;
+          bool start = false;
+          String out = '';
+          int index = 0;
+          for (int i = 0; i < reply.length; i++) {
+            String tmp = reply.substring(i, i + 1);
+            if (tmp.compareTo(",") == 0) start = true;
+            if (tmp.compareTo(";") == 0) start = true;
+            if (!start) {
+              out += tmp;
+            }
+            if (start) {
+              out = out.substring(0, out.length);
+              if (index == 0) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/RELE=OFF0') sd.releAll.add(0);
+                  if (out == '/RELE=ON0') sd.releAll.add(1);
+                  if (out == 'non') sd.releAll.add(2);
+                } catch (e) {
+                  sd.releAll.add(2);
+                }
               }
-              if (start) {
-                out = out.substring(0, out.length);
-                if (index == 0) {
-                  try {
-                    out = out.substring(3);
-                    if (out == '/RELE=OFF0') sd.releAll.add(0);
-                    if (out == '/RELE=ON0') sd.releAll.add(1);
-                    if (out == 'non') sd.releAll.add(2);
-                  } catch (e) {
-                    sd.releAll.add(2);
-                  }
+              if (index == 1) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/RELE=OFF1') sd.releAll.add(0);
+                  if (out == '/RELE=ON1') sd.releAll.add(1);
+                  if (out == 'non') sd.releAll.add(2);
+                } catch (e) {
+                  sd.releAll.add(2);
                 }
-                if (index == 1) {
-                  try {
-                    out = out.substring(3);
-                    if (out == '/RELE=OFF1') sd.releAll.add(0);
-                    if (out == '/RELE=ON1') sd.releAll.add(1);
-                    if (out == 'non') sd.releAll.add(2);
-                  } catch (e) {
-                    sd.releAll.add(2);
-                  }
+              }
+              if (index == 2) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/RELE=OFF2') sd.releAll.add(0);
+                  if (out == '/RELE=ON2') sd.releAll.add(1);
+                  if (out == 'non') sd.releAll.add(2);
+                } catch (e) {
+                  sd.releAll.add(2);
                 }
-                if (index == 2) {
-                  try {
-                    out = out.substring(3);
-                    if (out == '/RELE=OFF2') sd.releAll.add(0);
-                    if (out == '/RELE=ON2') sd.releAll.add(1);
-                    if (out == 'non') sd.releAll.add(2);
-                  } catch (e) {
-                    sd.releAll.add(2);
-                  }
+              }
+              if (index == 3) {
+                try {
+                  out = out.substring(3);
+                  if (out == '/RELE=OFF3') sd.releAll.add(0);
+                  if (out == '/RELE=ON3') sd.releAll.add(1);
+                  if (out == 'non') sd.releAll.add(2);
+                } catch (e) {
+                  sd.releAll.add(2);
                 }
-                if (index == 3) {
-                  try {
-                    out = out.substring(3);
-                    if (out == '/RELE=OFF3') sd.releAll.add(0);
-                    if (out == '/RELE=ON3') sd.releAll.add(1);
-                    if (out == 'non') sd.releAll.add(2);
-                  } catch (e) {
-                    sd.releAll.add(2);
-                  }
-                }
-                /*if (index == 3) {
+              }
+              /*if (index == 3) {
                 if (sd.onceReadListChoice) {
                   if (sd.listChoiceRele.isEmpty) {
                     for (int i = 0; i < sd.releAll.length; i++) {
@@ -156,23 +162,28 @@ void handleClient(Socket client, SmartDevice sd) {
                   sd.onceReadListChoice = false;
                 }
               }*/
-                out = '';
-                start = false;
-                index++;
-              }
+              out = '';
+              start = false;
+              index++;
             }
           }
-          if (sd.nameDevice == '119') {
-            bool start = false;
-            String out = '';
-            int index = 0;
-            for (int i = 0; i < reply.length; i++) {
-              String tmp = reply.substring(i, i + 1);
-              if (tmp.compareTo(",") == 0) start = true;
-              if (tmp.compareTo(";") == 0) start = true;
-              if (!start) {
-                out += tmp;
-              }
+        }
+        if (sd.nameDevice == '119') {
+          bool start = false;
+          String out = '';
+          int index = 0;
+          if (!sd.readAnswer) {
+            sd.releAll = [];
+            sd.motor = [];
+          }
+          for (int i = 0; i < reply.length; i++) {
+            String tmp = reply.substring(i, i + 1);
+            if (tmp.compareTo(",") == 0) start = true;
+            if (tmp.compareTo(";") == 0) start = true;
+            if (!start) {
+              out += tmp;
+            }
+            if (!sd.readAnswer) {
               if (start) {
                 out = out.substring(0, out.length);
                 if (index == 0) {
@@ -484,6 +495,7 @@ void handleClient(Socket client, SmartDevice sd) {
     if (kDebugMode) {
       print("server done");
       client.close();
+      sd.readAnswerCheck = false;
     }
   });
 }

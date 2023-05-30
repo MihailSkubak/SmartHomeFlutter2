@@ -308,5 +308,10 @@
     "label": "Complete", 
     "originalLabel": "Complete", 
     "comment": "Complete"
+  },
+  "speak":{
+    "label": "Speak...", 
+    "originalLabel": "Speak...", 
+    "comment": "Speak..."
   }
 }

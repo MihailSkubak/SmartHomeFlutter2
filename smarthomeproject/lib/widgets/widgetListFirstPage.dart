@@ -770,26 +770,29 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                               0.0),
                                                                           child: IconButton(
                                                                               onPressed: () async {
-                                                                                setState(() {
-                                                                                  pushCommandForTermostat = !pushCommandForTermostat;
-                                                                                  valueChoiseIndexForTermostat = -1;
-                                                                                });
-                                                                                if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
-                                                                                  if (widget.sd.termostat == 0) {
-                                                                                    //GET /Q:12.0 HTTP/1.1
-                                                                                    await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                                if (!widget.sd.readAnswerCheck) {
+                                                                                  setState(() {
+                                                                                    pushCommandForTermostat = !pushCommandForTermostat;
+                                                                                    valueChoiseIndexForTermostat = -1;
+                                                                                    widget.sd.readAnswer = true;
+                                                                                  });
+                                                                                  if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                    if (widget.sd.termostat == 0) {
+                                                                                      //GET /Q:12.0 HTTP/1.1
+                                                                                      await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
+                                                                                      await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                                    } else {
+                                                                                      await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
+                                                                                      await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
+                                                                                    }
                                                                                   } else {
-                                                                                    await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
-                                                                                  }
-                                                                                } else {
-                                                                                  if (widget.sd.humidityTermostat == 0) {
-                                                                                    await sendCommand("GET /E:non HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
-                                                                                  } else {
-                                                                                    await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
-                                                                                    await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                                    if (widget.sd.humidityTermostat == 0) {
+                                                                                      await sendCommand("GET /E:non HTTP/1.1", widget.sd);
+                                                                                      await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
+                                                                                    } else {
+                                                                                      await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
+                                                                                      await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                                    }
                                                                                   }
                                                                                 }
                                                                               },
@@ -851,15 +854,15 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                             (value) {
                                                                           setState(
                                                                               () {
-                                                                            pushCommandForTermostat =
-                                                                                true;
-                                                                            valueChoiseIndexForTermostat =
-                                                                                index;
-                                                                            if (widget.sd.listChoiseMainNumber[index] ==
-                                                                                widget.sd.termostatNumber.toString()) {
-                                                                              widget.sd.termostat = value;
-                                                                            } else {
-                                                                              widget.sd.humidityTermostat = value;
+                                                                            if (!widget.sd.readAnswerCheck) {
+                                                                              widget.sd.readAnswer = true;
+                                                                              pushCommandForTermostat = true;
+                                                                              valueChoiseIndexForTermostat = index;
+                                                                              if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                widget.sd.termostat = value;
+                                                                              } else {
+                                                                                widget.sd.humidityTermostat = value;
+                                                                              }
                                                                             }
                                                                           });
                                                                         },
@@ -883,248 +886,213 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                     : false,
                                                             onChanged: (value) {
                                                               setState(() {
-                                                                if (value) {
-                                                                  if (widget.sd
-                                                                              .listChoiseMainType[
-                                                                          index] ==
-                                                                      'rele') {
-                                                                    widget.sd
-                                                                        .releAll[int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[
-                                                                        index])!] = 1;
-                                                                    if (int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[index])! >=
-                                                                        10) {
-                                                                      sendCommand(
-                                                                          "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    } else {
-                                                                      sendCommand(
-                                                                          "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    }
-                                                                  } else if (widget
+                                                                if (!widget.sd
+                                                                    .readAnswerCheck) {
+                                                                  widget.sd
+                                                                          .readAnswer =
+                                                                      true;
+                                                                  if (value) {
+                                                                    if (widget.sd.listChoiseMainType[
+                                                                            index] ==
+                                                                        'rele') {
+                                                                      widget.sd
+                                                                          .releAll[int.tryParse(widget
                                                                               .sd
-                                                                              .listChoiseMainType[
-                                                                          index] ==
-                                                                      'motor') {
-                                                                    if (widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] ==
-                                                                        2) {
-                                                                      //Not calibrated
-                                                                      listCalibrationMotorFromAllList(
-                                                                          widget
-                                                                              .sd,
-                                                                          context,
-                                                                          int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])!);
-                                                                    } else {
+                                                                              .listChoiseMainNumber[
+                                                                          index])!] = 1;
                                                                       if (int.tryParse(widget
                                                                               .sd
                                                                               .listChoiseMainNumber[index])! >=
                                                                           10) {
-                                                                        widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] = 1;
                                                                         sendCommand(
-                                                                            "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
                                                                             widget.sd);
                                                                       } else {
-                                                                        widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] = 1;
                                                                         sendCommand(
-                                                                            "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
                                                                             widget.sd);
                                                                       }
-                                                                    }
-                                                                  } else if (widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'termostat' ||
-                                                                      widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'humidityTermostat') {
-                                                                    if (widget.sd.listChoiseMainType[
+                                                                    } else if (widget.sd.listChoiseMainType[
                                                                             index] ==
-                                                                        'termostat') {
-                                                                      widget.sd
-                                                                          .termostat = 0;
-                                                                      sendCommand(
-                                                                          "GET /Q:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                      sendCommand(
-                                                                          "GET /QN:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                    } else if (widget
-                                                                            .sd
-                                                                            .listChoiseMainType[index] ==
-                                                                        'humidityTermostat') {
-                                                                      widget.sd
-                                                                          .humidityTermostat = 0;
-                                                                      sendCommand(
-                                                                          "GET /E:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                      sendCommand(
-                                                                          "GET /EN:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                    }
-                                                                    widget.sd
-                                                                        .releAll[int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[
-                                                                        index])!] = 1;
-                                                                    if (int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[index])! >=
-                                                                        10) {
-                                                                      sendCommand(
-                                                                          "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    } else {
-                                                                      sendCommand(
-                                                                          "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    }
-                                                                  }
-                                                                } else {
-                                                                  if (widget.sd
-                                                                              .listChoiseMainType[
-                                                                          index] ==
-                                                                      'rele') {
-                                                                    widget.sd
-                                                                        .releAll[int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[
-                                                                        index])!] = 0;
-                                                                    if (int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[index])! >=
-                                                                        10) {
-                                                                      sendCommand(
-                                                                          "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    } else {
-                                                                      sendCommand(
-                                                                          "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    }
-                                                                  } else if (widget
+                                                                        'motor') {
+                                                                      if (widget
                                                                               .sd
-                                                                              .listChoiseMainType[
-                                                                          index] ==
-                                                                      'motor') {
-                                                                    if (widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] ==
-                                                                        2) {
-                                                                      //Not calibrated
-                                                                      listCalibrationMotorFromAllList(
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                          2) {
+                                                                        //Not calibrated
+                                                                        listCalibrationMotorFromAllList(
+                                                                            widget.sd,
+                                                                            context,
+                                                                            int.tryParse(widget.sd.listChoiseMainNumber[index])!);
+                                                                      } else {
+                                                                        if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                            10) {
                                                                           widget
-                                                                              .sd,
-                                                                          context,
-                                                                          int.tryParse(widget
                                                                               .sd
-                                                                              .listChoiseMainNumber[index])!);
-                                                                    } else {
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                          sendCommand(
+                                                                              "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                              widget.sd);
+                                                                        } else {
+                                                                          widget
+                                                                              .sd
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                          sendCommand(
+                                                                              "/M=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                              widget.sd);
+                                                                        }
+                                                                      }
+                                                                    } else if (widget.sd.listChoiseMainType[index] ==
+                                                                            'termostat' ||
+                                                                        widget.sd.listChoiseMainType[index] ==
+                                                                            'humidityTermostat') {
+                                                                      if (widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'termostat') {
+                                                                        widget
+                                                                            .sd
+                                                                            .termostat = 0;
+                                                                        sendCommand(
+                                                                            "GET /Q:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                        sendCommand(
+                                                                            "GET /QN:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                      } else if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[index] ==
+                                                                          'humidityTermostat') {
+                                                                        widget
+                                                                            .sd
+                                                                            .humidityTermostat = 0;
+                                                                        sendCommand(
+                                                                            "GET /E:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                        sendCommand(
+                                                                            "GET /EN:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                      }
+                                                                      widget.sd
+                                                                          .releAll[int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[
+                                                                          index])!] = 1;
                                                                       if (int.tryParse(widget
                                                                               .sd
                                                                               .listChoiseMainNumber[index])! >=
                                                                           10) {
-                                                                        widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] = 0;
                                                                         sendCommand(
-                                                                            "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
                                                                             widget.sd);
                                                                       } else {
-                                                                        widget
-                                                                            .sd
-                                                                            .motor[int.tryParse(widget
-                                                                                .sd.listChoiseMainNumber[
-                                                                            index])!] = 0;
                                                                         sendCommand(
-                                                                            "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
                                                                             widget.sd);
                                                                       }
                                                                     }
-                                                                  } else if (widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'termostat' ||
-                                                                      widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'humidityTermostat') {
+                                                                  } else {
                                                                     if (widget.sd.listChoiseMainType[
                                                                             index] ==
-                                                                        'termostat') {
+                                                                        'rele') {
                                                                       widget.sd
-                                                                          .termostat = 0;
-                                                                      sendCommand(
-                                                                          "GET /Q:non HTTP/1.1",
+                                                                          .releAll[int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[
+                                                                          index])!] = 0;
+                                                                      if (int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])! >=
+                                                                          10) {
+                                                                        sendCommand(
+                                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      } else {
+                                                                        sendCommand(
+                                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      }
+                                                                    } else if (widget.sd.listChoiseMainType[
+                                                                            index] ==
+                                                                        'motor') {
+                                                                      if (widget
+                                                                              .sd
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                          2) {
+                                                                        //Not calibrated
+                                                                        listCalibrationMotorFromAllList(
+                                                                            widget.sd,
+                                                                            context,
+                                                                            int.tryParse(widget.sd.listChoiseMainNumber[index])!);
+                                                                      } else {
+                                                                        if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                            10) {
                                                                           widget
-                                                                              .sd);
-                                                                      sendCommand(
-                                                                          "GET /QN:non HTTP/1.1",
+                                                                              .sd
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                          sendCommand(
+                                                                              "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                              widget.sd);
+                                                                        } else {
                                                                           widget
-                                                                              .sd);
-                                                                    } else if (widget
+                                                                              .sd
+                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                          sendCommand(
+                                                                              "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                              widget.sd);
+                                                                        }
+                                                                      }
+                                                                    } else if (widget.sd.listChoiseMainType[index] ==
+                                                                            'termostat' ||
+                                                                        widget.sd.listChoiseMainType[index] ==
+                                                                            'humidityTermostat') {
+                                                                      if (widget.sd.listChoiseMainType[
+                                                                              index] ==
+                                                                          'termostat') {
+                                                                        widget
                                                                             .sd
-                                                                            .listChoiseMainType[index] ==
-                                                                        'humidityTermostat') {
+                                                                            .termostat = 0;
+                                                                        sendCommand(
+                                                                            "GET /Q:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                        sendCommand(
+                                                                            "GET /QN:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                      } else if (widget
+                                                                              .sd
+                                                                              .listChoiseMainType[index] ==
+                                                                          'humidityTermostat') {
+                                                                        widget
+                                                                            .sd
+                                                                            .humidityTermostat = 0;
+                                                                        sendCommand(
+                                                                            "GET /E:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                        sendCommand(
+                                                                            "GET /EN:non HTTP/1.1",
+                                                                            widget.sd);
+                                                                      }
                                                                       widget.sd
-                                                                          .humidityTermostat = 0;
-                                                                      sendCommand(
-                                                                          "GET /E:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                      sendCommand(
-                                                                          "GET /EN:non HTTP/1.1",
-                                                                          widget
-                                                                              .sd);
-                                                                    }
-                                                                    widget.sd
-                                                                        .releAll[int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[
-                                                                        index])!] = 0;
-                                                                    if (int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[index])! >=
-                                                                        10) {
-                                                                      sendCommand(
-                                                                          "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
-                                                                    } else {
-                                                                      sendCommand(
-                                                                          "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                          widget
-                                                                              .sd);
+                                                                          .releAll[int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[
+                                                                          index])!] = 0;
+                                                                      if (int.tryParse(widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber[index])! >=
+                                                                          10) {
+                                                                        sendCommand(
+                                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      } else {
+                                                                        sendCommand(
+                                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                            widget.sd);
+                                                                      }
                                                                     }
                                                                   }
+                                                                  widget.sd
+                                                                          .readAnswer =
+                                                                      false;
                                                                 }
                                                               });
                                                             },
@@ -1153,11 +1121,20 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                       setState(() {});
                     },
                   ),*/
-                        const Padding(padding: EdgeInsets.only(top: 15)),
-                        Text(
-                          '“ ${widget.sd.textSpeech} ”',
-                          style: const TextStyle(fontFamily: 'DancingScript'),
-                        ),
+                        Container(
+                            transform:
+                                Matrix4.translationValues(0.0, 20.0, 0.0),
+                            width: MediaQuery.of(context).size.width - 20,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            child: Center(
+                                child: Text(
+                              widget.sd.textSpeech == ''
+                                  ? 'speak.label'.tr()
+                                  : '“ ${widget.sd.textSpeech} ”',
+                              style:
+                                  const TextStyle(fontFamily: 'DancingScript'),
+                            ))),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -1210,75 +1187,78 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                       ? Colors.blue
                                       : Colors.red,
                                   onPressed: () async {
-                                    setState(() {
-                                      listenSpeak(widget.sd, (value) {
-                                        widget.sd.textSpeech = value;
-                                      }, (value) {
-                                        widget.sd.isListening = value;
+                                    if (!widget.sd.readAnswerCheck) {
+                                      setState(() {
+                                        widget.sd.readAnswer = true;
+                                        listenSpeak(widget.sd, (value) {
+                                          widget.sd.textSpeech = value;
+                                        }, (value) {
+                                          widget.sd.isListening = value;
+                                        });
                                       });
-                                    });
-                                    for (int i = 0;
-                                        i < widget.sd.nameCommandVoice.length;
-                                        i++) {
-                                      if (widget.sd.nameCommandVoice[i] ==
-                                          widget.sd.textSpeech) {
-                                        if (widget.sd.typeCommandVoice[i] ==
-                                            'Rele') {
-                                          if (int.tryParse(widget
-                                                  .sd.numberCommandVoice[i])! >
-                                              9) {
-                                            if (widget
-                                                    .sd.onOffCommandVoice[i] ==
-                                                'off') {
-                                              await sendCommand(
-                                                  "/RELE=OFFF${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
+                                      for (int i = 0;
+                                          i < widget.sd.nameCommandVoice.length;
+                                          i++) {
+                                        if (widget.sd.nameCommandVoice[i] ==
+                                            widget.sd.textSpeech) {
+                                          if (widget.sd.typeCommandVoice[i] ==
+                                              'Rele') {
+                                            if (int.tryParse(widget.sd
+                                                    .numberCommandVoice[i])! >
+                                                9) {
+                                              if (widget.sd
+                                                      .onOffCommandVoice[i] ==
+                                                  'off') {
+                                                await sendCommand(
+                                                    "/RELE=OFFF${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              } else {
+                                                await sendCommand(
+                                                    "/RELE=ONN${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              }
                                             } else {
-                                              await sendCommand(
-                                                  "/RELE=ONN${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
-                                            }
-                                          } else {
-                                            if (widget
-                                                    .sd.onOffCommandVoice[i] ==
-                                                'off') {
-                                              await sendCommand(
-                                                  "/RELE=OFF${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
-                                            } else {
-                                              await sendCommand(
-                                                  "/RELE=ON${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
+                                              if (widget.sd
+                                                      .onOffCommandVoice[i] ==
+                                                  'off') {
+                                                await sendCommand(
+                                                    "/RELE=OFF${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              } else {
+                                                await sendCommand(
+                                                    "/RELE=ON${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              }
                                             }
                                           }
-                                        }
-                                        if (widget.sd.typeCommandVoice[i] ==
-                                            'Motor') {
-                                          if (int.tryParse(widget
-                                                  .sd.numberCommandVoice[i])! >
-                                              9) {
-                                            if (widget
-                                                    .sd.onOffCommandVoice[i] ==
-                                                'off') {
-                                              await sendCommand(
-                                                  "/M=OFFF${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
+                                          if (widget.sd.typeCommandVoice[i] ==
+                                              'Motor') {
+                                            if (int.tryParse(widget.sd
+                                                    .numberCommandVoice[i])! >
+                                                9) {
+                                              if (widget.sd
+                                                      .onOffCommandVoice[i] ==
+                                                  'off') {
+                                                await sendCommand(
+                                                    "/M=OFFF${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              } else {
+                                                await sendCommand(
+                                                    "/M=ONN${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              }
                                             } else {
-                                              await sendCommand(
-                                                  "/M=ONN${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
-                                            }
-                                          } else {
-                                            if (widget
-                                                    .sd.onOffCommandVoice[i] ==
-                                                'off') {
-                                              await sendCommand(
-                                                  "/M=OFF${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
-                                            } else {
-                                              await sendCommand(
-                                                  "/M=ON${widget.sd.numberCommandVoice[i]}",
-                                                  widget.sd);
+                                              if (widget.sd
+                                                      .onOffCommandVoice[i] ==
+                                                  'off') {
+                                                await sendCommand(
+                                                    "/M=OFF${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              } else {
+                                                await sendCommand(
+                                                    "/M=ON${widget.sd.numberCommandVoice[i]}",
+                                                    widget.sd);
+                                              }
                                             }
                                           }
                                         }

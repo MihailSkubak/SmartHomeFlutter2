@@ -308,5 +308,10 @@
       "label": "Завершить", 
       "originalLabel": "Complete", 
       "comment": "Complete"
+    },
+    "speak":{
+      "label": "Говорите...", 
+      "originalLabel": "Speak...", 
+      "comment": "Speak..."
     }
   }
