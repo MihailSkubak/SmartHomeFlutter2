@@ -690,15 +690,16 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                   title: Text(widget.sd
                                                           .listChoiseMainName[
                                                       index]),
-                                                  leading: widget.sd
-                                                                  .listChoiseMainType[
-                                                              index] ==
+                                                  leading: widget.sd.listChoiseMainType[index] ==
                                                           'termostat'
                                                       ? Image.asset(
                                                           'images/termostat.png',
                                                           width: 50,
                                                           height: 50,
-                                                        )
+                                                          color: widget.theme
+                                                                  .switchValueTheme()
+                                                              ? Colors.white60
+                                                              : Colors.black)
                                                       : widget.sd.listChoiseMainType[
                                                                   index] ==
                                                               'humidityTermostat'
@@ -711,25 +712,25 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                       index] ==
                                                                   'motor'
                                                               ? Image.asset(
-                                                                  widget.sd.motor[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])!] ==
+                                                                  widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
                                                                           1
                                                                       ? 'images/curtains_open.png'
                                                                       : 'images/curtains_close.png',
                                                                   width: 50,
                                                                   height: 50,
-                                                                )
-                                                              : Image.asset(
-                                                                  widget.sd.releAll[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])!] ==
-                                                                          1
-                                                                      ? 'images/bulb_on.png'
-                                                                      : 'images/bulb_off.png',
+                                                                  color: widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] != 1
+                                                                      ? widget.theme.switchValueTheme()
+                                                                          ? Colors.white60
+                                                                          : Colors.black
+                                                                      : null)
+                                                              : Image.asset(widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1 ? 'images/bulb_on.png' : 'images/bulb_off.png',
                                                                   width: 50,
                                                                   height: 50,
-                                                                ),
+                                                                  color: widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] != 1
+                                                                      ? widget.theme.switchValueTheme()
+                                                                          ? Colors.white60
+                                                                          : Colors.black
+                                                                      : null),
                                                   trailing: SizedBox(
                                                       width: widget.sd.listChoiseMainNumber[
                                                                       index] ==
@@ -1126,7 +1127,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                 Matrix4.translationValues(0.0, 20.0, 0.0),
                             width: MediaQuery.of(context).size.width - 20,
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)),
+                                border: Border.all(
+                                    color: widget.theme.switchValueTheme()
+                                        ? Colors.white
+                                        : Colors.black)),
                             child: Center(
                                 child: Text(
                               widget.sd.textSpeech == ''
@@ -1189,6 +1193,9 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                   onPressed: () async {
                                     if (!widget.sd.readAnswerCheck) {
                                       setState(() {
+                                        if (!widget.sd.isListening) {
+                                          widget.sd.textSpeech = '';
+                                        }
                                         widget.sd.readAnswer = true;
                                         listenSpeak(widget.sd, (value) {
                                           widget.sd.textSpeech = value;
@@ -1233,31 +1240,45 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                           }
                                           if (widget.sd.typeCommandVoice[i] ==
                                               'Motor') {
-                                            if (int.tryParse(widget.sd
-                                                    .numberCommandVoice[i])! >
-                                                9) {
-                                              if (widget.sd
-                                                      .onOffCommandVoice[i] ==
-                                                  'off') {
-                                                await sendCommand(
-                                                    "/M=OFFF${widget.sd.numberCommandVoice[i]}",
-                                                    widget.sd);
-                                              } else {
-                                                await sendCommand(
-                                                    "/M=ONN${widget.sd.numberCommandVoice[i]}",
-                                                    widget.sd);
-                                              }
+                                            if (widget.sd.motor[int.tryParse(
+                                                    widget.sd
+                                                            .numberCommandVoice[
+                                                        i])!] ==
+                                                2) {
+                                              //Not calibrated
+                                              // ignore: use_build_context_synchronously
+                                              listCalibrationMotorFromAllList(
+                                                  widget.sd,
+                                                  context,
+                                                  int.tryParse(widget.sd
+                                                      .numberCommandVoice[i])!);
                                             } else {
-                                              if (widget.sd
-                                                      .onOffCommandVoice[i] ==
-                                                  'off') {
-                                                await sendCommand(
-                                                    "/M=OFF${widget.sd.numberCommandVoice[i]}",
-                                                    widget.sd);
+                                              if (int.tryParse(widget.sd
+                                                      .numberCommandVoice[i])! >
+                                                  9) {
+                                                if (widget.sd
+                                                        .onOffCommandVoice[i] ==
+                                                    'off') {
+                                                  await sendCommand(
+                                                      "/M=OFFF${widget.sd.numberCommandVoice[i]}",
+                                                      widget.sd);
+                                                } else {
+                                                  await sendCommand(
+                                                      "/M=ONN${widget.sd.numberCommandVoice[i]}",
+                                                      widget.sd);
+                                                }
                                               } else {
-                                                await sendCommand(
-                                                    "/M=ON${widget.sd.numberCommandVoice[i]}",
-                                                    widget.sd);
+                                                if (widget.sd
+                                                        .onOffCommandVoice[i] ==
+                                                    'off') {
+                                                  await sendCommand(
+                                                      "/M=OFF${widget.sd.numberCommandVoice[i]}",
+                                                      widget.sd);
+                                                } else {
+                                                  await sendCommand(
+                                                      "/M=ON${widget.sd.numberCommandVoice[i]}",
+                                                      widget.sd);
+                                                }
                                               }
                                             }
                                           }

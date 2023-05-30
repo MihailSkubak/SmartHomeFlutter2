@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:smarthomeproject/algorytm/globalValue.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 import 'package:smarthomeproject/widgets/customDialog.dart';
 

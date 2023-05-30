@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smarthomeproject/algorytm/globalValue.dart';
 import 'package:smarthomeproject/algorytm/order.dart';
 import 'package:smarthomeproject/algorytm/smartDevice.dart';
 // ignore: depend_on_referenced_packages

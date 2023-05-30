@@ -35,7 +35,11 @@ class NavDrawer extends StatelessWidget {
       }
       if (i == 3) {
         listName.add('weather-forecast.label'.tr());
-        listValue.add('${sd.weather} %');
+        if (sd.weather < 0) {
+          listValue.add('${sd.weather * -1} %');
+        } else {
+          listValue.add('${sd.weather} %');
+        }
       }
       if (i == 4) {
         listName.add('temperature-in-the-house.label'.tr());
