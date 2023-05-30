@@ -23,6 +23,7 @@ sendCommand(String command, SmartDevice sd) async {
     Socket socked = await Socket.connect('192.168.0.${sd.nameDevice}', 80);
     socked.write(command);
     try {
+      sd.readAnswerCheck = true;
       sd.readAnswer = false;
       handleClient(socked, sd);
     } catch (e) {
