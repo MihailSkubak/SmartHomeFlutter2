@@ -718,11 +718,9 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                       : 'images/curtains_close.png',
                                                                   width: 50,
                                                                   height: 50,
-                                                                  color: widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] != 1
-                                                                      ? widget.theme.switchValueTheme()
+                                                                  color: widget.theme.switchValueTheme()
                                                                           ? Colors.white60
-                                                                          : Colors.black
-                                                                      : null)
+                                                                          : Colors.black)
                                                               : Image.asset(widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1 ? 'images/bulb_on.png' : 'images/bulb_off.png',
                                                                   width: 50,
                                                                   height: 50,

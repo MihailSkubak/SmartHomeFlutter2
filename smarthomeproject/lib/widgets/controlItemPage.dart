@@ -537,8 +537,16 @@ class ControlItemPageState extends State<ControlItemPage> {
                                                               1
                                                           ? 'images/curtains_open.png'
                                                           : 'images/curtains_close.png',
-                                                      height: 150,
-                                                      width: 150,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.185, //150
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.185,
                                                     )
                                                   : Image.asset(
                                                       widget.sd.releAll[int.tryParse(widget
@@ -549,8 +557,16 @@ class ControlItemPageState extends State<ControlItemPage> {
                                                               1
                                                           ? 'images/bulb_on.png'
                                                           : 'images/bulb_off.png',
-                                                      height: 150,
-                                                      width: 150,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.185,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.185,
                                                     ),
                                           widget.sd.listChoiseMainTypeControlItem[
                                                       indexFromAllList(
