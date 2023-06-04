@@ -700,27 +700,28 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                   .switchValueTheme()
                                                               ? Colors.white60
                                                               : Colors.black)
-                                                      : widget.sd.listChoiseMainType[
-                                                                  index] ==
+                                                      : widget.sd.listChoiseMainType[index] ==
                                                               'humidityTermostat'
                                                           ? Image.asset(
                                                               'images/humdity_term.png',
                                                               width: 45,
                                                               height: 45,
                                                             )
-                                                          : widget.sd.listChoiseMainType[
-                                                                      index] ==
+                                                          : widget.sd.listChoiseMainType[index] ==
                                                                   'motor'
                                                               ? Image.asset(
-                                                                  widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
-                                                                          1
+                                                                  widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1
                                                                       ? 'images/curtains_open.png'
                                                                       : 'images/curtains_close.png',
                                                                   width: 50,
                                                                   height: 50,
-                                                                  color: widget.theme.switchValueTheme()
-                                                                          ? Colors.white60
-                                                                          : Colors.black)
+                                                                  color: widget
+                                                                          .theme
+                                                                          .switchValueTheme()
+                                                                      ? Colors
+                                                                          .white60
+                                                                      : Colors
+                                                                          .black)
                                                               : Image.asset(widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1 ? 'images/bulb_on.png' : 'images/bulb_off.png',
                                                                   width: 50,
                                                                   height: 50,
@@ -1204,8 +1205,12 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                       for (int i = 0;
                                           i < widget.sd.nameCommandVoice.length;
                                           i++) {
-                                        if (widget.sd.nameCommandVoice[i] ==
-                                            widget.sd.textSpeech) {
+                                        if (widget.sd.nameCommandVoice[i]
+                                                .toLowerCase()
+                                                .trim() ==
+                                            widget.sd.textSpeech
+                                                .toLowerCase()
+                                                .trim()) {
                                           if (widget.sd.typeCommandVoice[i] ==
                                               'Rele') {
                                             if (int.tryParse(widget.sd
