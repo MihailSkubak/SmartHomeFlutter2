@@ -24,7 +24,7 @@ class CalibrationPage extends StatefulWidget {
 
 class CalibrationPageState extends State<CalibrationPage> {
   final _scrollController = ScrollController();
-  int choiseCalibration = 0;
+  int choiseCalibration = 1;
 
   CalibrationPageState() {
     Timer.periodic(const Duration(milliseconds: 1000), (timer) async {
@@ -73,6 +73,11 @@ class CalibrationPageState extends State<CalibrationPage> {
   void initState() {
     super.initState();
     startListVoiceCommandCheck();
+    if (widget.sd.motor.isEmpty) {
+      choiseCalibration = 1;
+    } else {
+      choiseCalibration = 0;
+    }
   }
 
   @override
@@ -86,18 +91,26 @@ class CalibrationPageState extends State<CalibrationPage> {
               length: 2,
               child: Scaffold(
                   appBar: AppBar(
-                      bottom: TabBar(
-                        tabs: [
-                          Tab(child: Image.asset('images/curtains_open.png')),
-                          const Tab(
-                              icon: Icon(Icons.settings_voice_sharp, size: 40)),
-                        ],
-                        onTap: (value) {
-                          setState(() {
-                            choiseCalibration = value;
-                          });
-                        },
-                      ),
+                      bottom: widget.sd.motor.isNotEmpty
+                          ? TabBar(
+                              indicatorColor: Colors.white,
+                              indicatorWeight: 5,
+                              tabs: [
+                                Tab(
+                                    child: Image.asset(
+                                        'images/curtains_open.png',
+                                        color: Colors.white)),
+                                const Tab(
+                                    icon: Icon(Icons.settings_voice_sharp,
+                                        color: Colors.white, size: 40)),
+                              ],
+                              onTap: (value) {
+                                setState(() {
+                                  choiseCalibration = value;
+                                });
+                              },
+                            )
+                          : null,
                       title: Text(
                         "calibration.label".tr(),
                       ),

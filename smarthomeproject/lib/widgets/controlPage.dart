@@ -78,27 +78,47 @@ class ControlPageState extends State<ControlPage> {
     } else {
       img = 'images/my_room.jpg';
     }*/
-    return Image.asset(
-      'images/my_room.jpg',
+    return Container(
       width: isLandscape
           ? MediaQuery.of(context).size.width / 4
           : MediaQuery.of(context).size.width / 2,
       height: isLandscape
           ? MediaQuery.of(context).size.width / 4
           : MediaQuery.of(context).size.width / 2,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      child: Image.asset(
+        'images/my_room.jpg',
+        width: isLandscape
+            ? MediaQuery.of(context).size.width / 4
+            : MediaQuery.of(context).size.width / 2,
+        height: isLandscape
+            ? MediaQuery.of(context).size.width / 4
+            : MediaQuery.of(context).size.width / 2,
+      ),
     );
   }
 
   Widget choiseImgFile(File imageFile) {
-    return Image.file(
+    return Container(
       width: isLandscape
           ? MediaQuery.of(context).size.width / 4
           : MediaQuery.of(context).size.width / 2,
       height: isLandscape
           ? MediaQuery.of(context).size.width / 4
           : MediaQuery.of(context).size.width / 2,
-      imageFile,
-      fit: BoxFit.cover,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      child: Image.file(
+        width: isLandscape
+            ? MediaQuery.of(context).size.width / 4
+            : MediaQuery.of(context).size.width / 2,
+        height: isLandscape
+            ? MediaQuery.of(context).size.width / 4
+            : MediaQuery.of(context).size.width / 2,
+        imageFile,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
@@ -106,101 +126,97 @@ class ControlPageState extends State<ControlPage> {
   Widget build(BuildContext context) {
     isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     return Consumer<ThemeNotifier>(
-        builder: (context, theme, _) => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: theme.getTheme(),
-              title: 'control.label'.tr(),
-              home: Scaffold(
-                appBar: AppBar(
-                    title: Text('control.label'.tr()),
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 30,
-                      ),
-                    )),
-                body: GridView.count(
-                  crossAxisCount: isLandscape ? 4 : 2,
-                  children:
-                      List.generate(widget.sd.listControl.length + 1, (index) {
-                    return widget.sd.listControl.isEmpty ||
-                            index >= widget.sd.listControl.length
-                        ? Center(
-                            child: InkWell(
-                                onTap: () {
-                                  listCreateEditControl(
-                                      widget.sd, context, false, index);
-                                },
-                                child: Stack(
-                                  children: [
-                                    choiseImg(),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black, width: 5)),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                          color: Colors.white,
-                                          child: const Icon(
-                                            Icons.add,
-                                            size: 50,
-                                            color: Colors.blue,
-                                          )),
-                                    ),
-                                  ],
-                                )))
-                        : Center(
-                            child: InkWell(
-                                onLongPress: () {
-                                  listCreateEditControl(
-                                      widget.sd, context, true, index);
-                                },
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ControlItemPage(
-                                        sd: widget.sd,
-                                        indexItem: index,
-                                        nameItem: widget.sd.listControl[index],
-                                        theme: widget.theme,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Stack(
-                                  children: [
-                                    widget.sd.imageListForControlPath[index] ==
-                                            'empty'
-                                        ? choiseImg()
-                                        : choiseImgFile(File(widget.sd
-                                            .imageListForControlPath[index])),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black, width: 5)),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                          color: Colors.white,
-                                          child: Text(
-                                            widget.sd.listControl[index],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue[900]),
-                                          )),
-                                    ),
-                                  ],
-                                )));
-                  }),
+      builder: (context, theme, _) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: theme.getTheme(),
+        title: 'control.label'.tr(),
+        home: Scaffold(
+          appBar: AppBar(
+              title: Text('control.label'.tr()),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 30,
                 ),
-              ),
-            ));
+              )),
+          body: Container(
+            padding: const EdgeInsets.all(10),
+            child: GridView.count(
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              crossAxisCount: isLandscape ? 4 : 2,
+              children:
+                  List.generate(widget.sd.listControl.length + 1, (index) {
+                return widget.sd.listControl.isEmpty ||
+                        index >= widget.sd.listControl.length
+                    ? Center(
+                        child: InkWell(
+                            onTap: () {
+                              listCreateEditControl(
+                                  widget.sd, context, false, index);
+                            },
+                            child: Stack(
+                              children: [
+                                choiseImg(),
+                                Center(
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: const Icon(
+                                        Icons.add,
+                                        size: 50,
+                                        color: Colors.blue,
+                                      )),
+                                ),
+                              ],
+                            )))
+                    : Center(
+                        child: InkWell(
+                            onLongPress: () {
+                              listCreateEditControl(
+                                  widget.sd, context, true, index);
+                            },
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ControlItemPage(
+                                    sd: widget.sd,
+                                    indexItem: index,
+                                    nameItem: widget.sd.listControl[index],
+                                    theme: widget.theme,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                widget.sd.imageListForControlPath[index] ==
+                                        'empty'
+                                    ? choiseImg()
+                                    : choiseImgFile(File(widget
+                                        .sd.imageListForControlPath[index])),
+                                Center(
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: Text(
+                                        widget.sd.listControl[index],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blue[900]),
+                                      )),
+                                ),
+                              ],
+                            )));
+              }),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

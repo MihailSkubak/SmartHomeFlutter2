@@ -102,6 +102,9 @@ void listChoiceDialog(
     if (sd.listChoiseMainType[index] == 'humidityTermostat') {
       radioButtonHumidityTermostat = true;
     }
+    if (sd.motor.isNotEmpty) {
+      radioButtonMotor = true;
+    }
   }
   showDialog(
       context: context,
@@ -129,103 +132,112 @@ void listChoiceDialog(
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonRele = !radioButtonRele;
-                                        if (radioButtonRele) {
-                                          radioButtonMotor = false;
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonTermostat = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonRele == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('electricity.label'.tr())
-                                    ])),
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonMotor = !radioButtonMotor;
-                                        if (radioButtonMotor) {
-                                          radioButtonRele = false;
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonTermostat = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonMotor == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('curtains.label'.tr())
-                                    ])),
+                                sd.motor.isEmpty
+                                    ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            radioButtonRele = !radioButtonRele;
+                                            if (radioButtonRele) {
+                                              radioButtonMotor = false;
+                                              radioButtonHumidityTermostat =
+                                                  false;
+                                              radioButtonTermostat = false;
+                                            }
+                                          });
+                                        },
+                                        child: Column(children: [
+                                          Icon(
+                                            radioButtonRele == true
+                                                ? Icons
+                                                    .check_circle_outline_outlined
+                                                : Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                          Text('electricity.label'.tr())
+                                        ]))
+                                    : InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            radioButtonMotor =
+                                                !radioButtonMotor;
+                                            if (radioButtonMotor) {
+                                              radioButtonRele = false;
+                                              radioButtonHumidityTermostat =
+                                                  false;
+                                              radioButtonTermostat = false;
+                                            }
+                                          });
+                                        },
+                                        child: Column(children: [
+                                          Icon(
+                                            radioButtonMotor == true
+                                                ? Icons
+                                                    .check_circle_outline_outlined
+                                                : Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                          Text('curtains.label'.tr())
+                                        ])),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonTermostat =
-                                            !radioButtonTermostat;
-                                        if (radioButtonTermostat) {
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonMotor = false;
-                                          radioButtonRele = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonTermostat == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('thermostat.label'.tr())
-                                    ])),
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonHumidityTermostat =
-                                            !radioButtonHumidityTermostat;
-                                        if (radioButtonHumidityTermostat) {
-                                          radioButtonTermostat = false;
-                                          radioButtonMotor = false;
-                                          radioButtonRele = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonHumidityTermostat == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('humidity.label'.tr())
-                                    ])),
-                              ],
-                            )
+                            sd.motor.isEmpty
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              radioButtonTermostat =
+                                                  !radioButtonTermostat;
+                                              if (radioButtonTermostat) {
+                                                radioButtonHumidityTermostat =
+                                                    false;
+                                                radioButtonMotor = false;
+                                                radioButtonRele = false;
+                                              }
+                                            });
+                                          },
+                                          child: Column(children: [
+                                            Icon(
+                                              radioButtonTermostat == true
+                                                  ? Icons
+                                                      .check_circle_outline_outlined
+                                                  : Icons.circle_outlined,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                            Text('thermostat.label'.tr())
+                                          ])),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              radioButtonHumidityTermostat =
+                                                  !radioButtonHumidityTermostat;
+                                              if (radioButtonHumidityTermostat) {
+                                                radioButtonTermostat = false;
+                                                radioButtonMotor = false;
+                                                radioButtonRele = false;
+                                              }
+                                            });
+                                          },
+                                          child: Column(children: [
+                                            Icon(
+                                              radioButtonHumidityTermostat ==
+                                                      true
+                                                  ? Icons
+                                                      .check_circle_outline_outlined
+                                                  : Icons.circle_outlined,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                            Text('humidity.label'.tr())
+                                          ])),
+                                    ],
+                                  )
+                                : Column()
                             /*IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -1075,6 +1087,9 @@ void listCommandVoiceDialog(
     if (sd.typeCommandVoice[index] == 'Rele') radioButtonRele = true;
     if (sd.typeCommandVoice[index] == 'Motor') radioButtonMotor = true;
   }
+  if (sd.motor.isNotEmpty) {
+    radioButtonMotor = true;
+  }
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1098,44 +1113,47 @@ void listCommandVoiceDialog(
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    radioButtonRele = !radioButtonRele;
-                                    if (radioButtonRele) {
-                                      radioButtonMotor = false;
-                                    }
-                                  });
-                                },
-                                child: Column(children: [
-                                  Icon(
-                                    radioButtonRele == true
-                                        ? Icons.check_circle_outline_outlined
-                                        : Icons.circle_outlined,
-                                    size: 30,
-                                    color: Colors.blue,
-                                  ),
-                                  Text('electricity.label'.tr())
-                                ])),
-                            InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    radioButtonMotor = !radioButtonMotor;
-                                    if (radioButtonMotor) {
-                                      radioButtonRele = false;
-                                    }
-                                  });
-                                },
-                                child: Column(children: [
-                                  Icon(
-                                    radioButtonMotor == true
-                                        ? Icons.check_circle_outline_outlined
-                                        : Icons.circle_outlined,
-                                    size: 30,
-                                    color: Colors.blue,
-                                  ),
-                                  Text('curtains.label'.tr())
-                                ])),
+                            sd.motor.isEmpty
+                                ? InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonRele = !radioButtonRele;
+                                        if (radioButtonRele) {
+                                          radioButtonMotor = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonRele == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('electricity.label'.tr())
+                                    ]))
+                                : InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        radioButtonMotor = !radioButtonMotor;
+                                        if (radioButtonMotor) {
+                                          radioButtonRele = false;
+                                        }
+                                      });
+                                    },
+                                    child: Column(children: [
+                                      Icon(
+                                        radioButtonMotor == true
+                                            ? Icons
+                                                .check_circle_outline_outlined
+                                            : Icons.circle_outlined,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text('curtains.label'.tr())
+                                    ])),
                             /*IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -2349,6 +2367,9 @@ void listChoiceDialogControlItem(SmartDevice sd, BuildContext context,
       radioButtonHumidityTermostat = true;
     }
   }
+  if (sd.motor.isNotEmpty) {
+    radioButtonMotor = true;
+  }
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -2375,103 +2396,112 @@ void listChoiceDialogControlItem(SmartDevice sd, BuildContext context,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonRele = !radioButtonRele;
-                                        if (radioButtonRele) {
-                                          radioButtonMotor = false;
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonTermostat = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonRele == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('electricity.label'.tr())
-                                    ])),
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonMotor = !radioButtonMotor;
-                                        if (radioButtonMotor) {
-                                          radioButtonRele = false;
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonTermostat = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonMotor == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('curtains.label'.tr())
-                                    ])),
+                                sd.motor.isEmpty
+                                    ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            radioButtonRele = !radioButtonRele;
+                                            if (radioButtonRele) {
+                                              radioButtonMotor = false;
+                                              radioButtonHumidityTermostat =
+                                                  false;
+                                              radioButtonTermostat = false;
+                                            }
+                                          });
+                                        },
+                                        child: Column(children: [
+                                          Icon(
+                                            radioButtonRele == true
+                                                ? Icons
+                                                    .check_circle_outline_outlined
+                                                : Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                          Text('electricity.label'.tr())
+                                        ]))
+                                    : InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            radioButtonMotor =
+                                                !radioButtonMotor;
+                                            if (radioButtonMotor) {
+                                              radioButtonRele = false;
+                                              radioButtonHumidityTermostat =
+                                                  false;
+                                              radioButtonTermostat = false;
+                                            }
+                                          });
+                                        },
+                                        child: Column(children: [
+                                          Icon(
+                                            radioButtonMotor == true
+                                                ? Icons
+                                                    .check_circle_outline_outlined
+                                                : Icons.circle_outlined,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
+                                          Text('curtains.label'.tr())
+                                        ])),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonTermostat =
-                                            !radioButtonTermostat;
-                                        if (radioButtonTermostat) {
-                                          radioButtonHumidityTermostat = false;
-                                          radioButtonMotor = false;
-                                          radioButtonRele = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonTermostat == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('thermostat.label'.tr())
-                                    ])),
-                                InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        radioButtonHumidityTermostat =
-                                            !radioButtonHumidityTermostat;
-                                        if (radioButtonHumidityTermostat) {
-                                          radioButtonTermostat = false;
-                                          radioButtonMotor = false;
-                                          radioButtonRele = false;
-                                        }
-                                      });
-                                    },
-                                    child: Column(children: [
-                                      Icon(
-                                        radioButtonHumidityTermostat == true
-                                            ? Icons
-                                                .check_circle_outline_outlined
-                                            : Icons.circle_outlined,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      ),
-                                      Text('humidity.label'.tr())
-                                    ])),
-                              ],
-                            )
+                            sd.motor.isEmpty
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              radioButtonTermostat =
+                                                  !radioButtonTermostat;
+                                              if (radioButtonTermostat) {
+                                                radioButtonHumidityTermostat =
+                                                    false;
+                                                radioButtonMotor = false;
+                                                radioButtonRele = false;
+                                              }
+                                            });
+                                          },
+                                          child: Column(children: [
+                                            Icon(
+                                              radioButtonTermostat == true
+                                                  ? Icons
+                                                      .check_circle_outline_outlined
+                                                  : Icons.circle_outlined,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                            Text('thermostat.label'.tr())
+                                          ])),
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              radioButtonHumidityTermostat =
+                                                  !radioButtonHumidityTermostat;
+                                              if (radioButtonHumidityTermostat) {
+                                                radioButtonTermostat = false;
+                                                radioButtonMotor = false;
+                                                radioButtonRele = false;
+                                              }
+                                            });
+                                          },
+                                          child: Column(children: [
+                                            Icon(
+                                              radioButtonHumidityTermostat ==
+                                                      true
+                                                  ? Icons
+                                                      .check_circle_outline_outlined
+                                                  : Icons.circle_outlined,
+                                              size: 30,
+                                              color: Colors.blue,
+                                            ),
+                                            Text('humidity.label'.tr())
+                                          ])),
+                                    ],
+                                  )
+                                : Column(),
                             /*IconButton(
                                 onPressed: () {
                                   setState(() {

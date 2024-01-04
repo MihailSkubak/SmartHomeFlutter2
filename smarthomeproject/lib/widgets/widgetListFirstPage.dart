@@ -241,6 +241,120 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
     detail = details;
   }
 
+  Widget widgetListMainForCurtains() {
+    if (widget.sd.listChoiseMainType.isEmpty) {
+      widget.sd.listChoiseMainName = ['Curtains'];
+      widget.sd.listChoiseMainType = ['motor'];
+      widget.sd.listChoiseMainNumber = ['0'];
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Container(
+        decoration: BoxDecoration(
+            color: widget.theme.switchValueTheme()
+                ? Colors.black
+                : const Color.fromARGB(255, 219, 211, 211),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        clipBehavior: Clip.hardEdge,
+        child: ListTile(
+          title: Text(widget.sd.listChoiseMainName[0]),
+          leading: Image.asset(
+              widget.sd.motor[
+                          int.tryParse(widget.sd.listChoiseMainNumber[0])!] ==
+                      1
+                  ? 'images/curtains_open.png'
+                  : 'images/curtains_close.png',
+              width: 50,
+              height: 50,
+              color: widget.theme.switchValueTheme()
+                  ? Colors.white60
+                  : Colors.black),
+          trailing: SizedBox(
+              width: 59,
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CupertinoSwitch(
+                    value: widget.sd.motor[int.tryParse(
+                                widget.sd.listChoiseMainNumber[0])!] ==
+                            1
+                        ? true
+                        : false,
+                    onChanged: (value) {
+                      setState(() {
+                        if (!widget.sd.readAnswerCheck) {
+                          widget.sd.readAnswer = true;
+                          if (value) {
+                            if (widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] ==
+                                2) {
+                              //Not calibrated
+                              listCalibrationMotorFromAllList(
+                                  widget.sd,
+                                  context,
+                                  int.tryParse(
+                                      widget.sd.listChoiseMainNumber[0])!);
+                            } else {
+                              if (int.tryParse(
+                                      widget.sd.listChoiseMainNumber[0])! >=
+                                  10) {
+                                widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] = 1;
+                                sendCommand(
+                                    "/M=ONN${widget.sd.listChoiseMainNumber[0]}",
+                                    widget.sd);
+                              } else {
+                                widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] = 1;
+                                sendCommand(
+                                    "/M=ON${widget.sd.listChoiseMainNumber[0]}",
+                                    widget.sd);
+                              }
+                            }
+                          } else {
+                            if (widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] ==
+                                2) {
+                              //Not calibrated
+                              listCalibrationMotorFromAllList(
+                                  widget.sd,
+                                  context,
+                                  int.tryParse(
+                                      widget.sd.listChoiseMainNumber[0])!);
+                            } else {
+                              if (int.tryParse(
+                                      widget.sd.listChoiseMainNumber[0])! >=
+                                  10) {
+                                widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] = 0;
+                                sendCommand(
+                                    "/M=OFFF${widget.sd.listChoiseMainNumber[0]}",
+                                    widget.sd);
+                              } else {
+                                widget.sd.motor[int.tryParse(
+                                    widget.sd.listChoiseMainNumber[0])!] = 0;
+                                sendCommand(
+                                    "/M=OFF${widget.sd.listChoiseMainNumber[0]}",
+                                    widget.sd);
+                              }
+                            }
+                            widget.sd.readAnswer = false;
+                          }
+                        }
+                      });
+                    },
+                  ),
+                ],
+              )),
+          onLongPress: () {
+            listChoiceDialog(widget.sd, context, true, 0);
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -266,7 +380,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
           },
           child: Card(
               elevation: 5,
-              child: widget.sd.pressure == 0
+              child: widget.sd.pressure == 0 && widget.sd.motor.isEmpty
                   ? ListTile(
                       leading: Image.asset('images/smart_home_item.png',
                           width: 70, height: 70),
@@ -401,355 +515,377 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                           padding: EdgeInsets.only(bottom: 10),
                         ),
                         widget.sd.pressure != 0
-                            ? Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Row(children: [
-                                    const Icon(
-                                      Icons.speed_rounded,
-                                      size: 30,
-                                      color: Colors.blue,
-                                    ),
-                                    Text(
-                                        ' ${widget.sd.pressure}${'mm.label'.tr()}')
-                                  ]),
-                                  Row(children: [
-                                    widget.sd.weather > 0 &&
-                                            widget.sd.temperatura <= 1.5
-                                        ? SvgPicture.asset(
-                                            'images/snowflake.svg',
-                                            color: Colors.blue,
-                                            height: 25,
-                                            width: 25,
-                                          )
-                                        : Icon(
-                                            widget.sd.weather > 0 &&
-                                                    widget.sd.temperatura > 1.5
-                                                ? Icons.cloudy_snowing
-                                                : widget.sd.weather < 0
-                                                    ? Icons.wb_sunny_rounded
-                                                    : Icons.cloud_sync_rounded,
-                                            size: 30,
-                                            color: Colors.blue,
-                                          ),
-                                    widget.sd.weather < 0
-                                        ? Text(
-                                            ' ${(widget.sd.weather * -1).toString()} %')
-                                        : Text(
-                                            ' ${widget.sd.weather.toString()} %')
-                                  ]),
-                                ],
-                              )
-                            : const SizedBox(height: 0, width: 0),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                        ),
-                        Container(
-                            height: 1,
-                            width: MediaQuery.of(context).size.width - 40,
-                            decoration: BoxDecoration(
-                                color: Colors.yellow[100],
-                                border: const Border(
-                                  top: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
-                                ))),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Row(children: [
-                              const Icon(
-                                Icons.thermostat,
-                                size: 30,
-                                color: Colors.blue,
-                              ),
-                              Text(
-                                  '${widget.sd.temperaturaHome.toStringAsFixed(1)}°C  ')
-                            ]),
-                            Row(children: [
-                              const Icon(
-                                Icons.water_drop,
-                                size: 30,
-                                color: Colors.blue,
-                              ),
-                              Text(
-                                  '${widget.sd.humidityHome.toStringAsFixed(1)} %')
-                            ])
-                          ],
-                        ),
-                        Column(children: <Widget>[
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.sd.releAll.isEmpty
-                                  ? 0
-                                  : widget.sd.listChoiseMainName.isEmpty
-                                      ? 1
-                                      : widget.sd.listChoiseMainName.length >= 6
-                                          ? widget.sd.listChoiseMainName.length
-                                          : widget.sd.listChoiseMainName
-                                                  .length +
-                                              1,
-                              scrollDirection: Axis.vertical,
-                              controller: _scrollController,
-                              itemBuilder: (context, index) {
-                                return index ==
-                                        widget.sd.listChoiseMainName.length
-                                    ? Card(
-                                        elevation: 5,
-                                        child: ListTile(
-                                          title: const Center(
-                                            child: Icon(
-                                              Icons.add,
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(children: [
+                                      const Icon(
+                                        Icons.speed_rounded,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                      Text(
+                                        ' ${widget.sd.pressure}${'mm.label'.tr()}',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    ]),
+                                    Row(children: [
+                                      widget.sd.weather > 0 &&
+                                              widget.sd.temperatura <= 1.5
+                                          ? SvgPicture.asset(
+                                              'images/snowflake.svg',
+                                              color: Colors.blue,
+                                              height: 25,
+                                              width: 25,
+                                            )
+                                          : Icon(
+                                              widget.sd.weather > 0 &&
+                                                      widget.sd.temperatura >
+                                                          1.5
+                                                  ? Icons.cloudy_snowing
+                                                  : widget.sd.weather < 0
+                                                      ? Icons.wb_sunny_rounded
+                                                      : Icons
+                                                          .cloud_sync_rounded,
                                               size: 30,
                                               color: Colors.blue,
                                             ),
-                                          ),
-                                          onTap: () {
-                                            listChoiceDialog(
-                                                widget.sd, context, false, 0);
-                                          },
-                                        ),
-                                      )
-                                    : Card(
-                                        elevation: 5,
-                                        child: Container(
-                                            decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5))),
-                                            clipBehavior: Clip.hardEdge,
-                                            child: Slidable(
-                                                key: Key(widget.sd
-                                                    .listChoiseMainName[index]),
-                                                actionPane:
-                                                    const SlidableScrollActionPane(),
-                                                secondaryActions: [
-                                                  IconSlideAction(
-                                                    caption:
-                                                        "delete.label".tr(),
-                                                    color: Colors.red,
-                                                    icon: Icons.delete,
-                                                    onTap: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return AlertDialog(
-                                                              title: Text(
-                                                                  "are-you-sure-you-want-to-delete-this-item.label"
-                                                                      .tr()),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  style: TextButton
-                                                                      .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .blue,
-                                                                    textStyle:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
+                                      widget.sd.weather < 0
+                                          ? Text(
+                                              ' ${(widget.sd.weather * -1).toString()} %',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            )
+                                          : Text(
+                                              ' ${widget.sd.weather.toString()} %',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            )
+                                    ]),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(height: 0, width: 0),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: widget.sd.motor.isEmpty ? 5 : 0),
+                        ),
+                        Visibility(
+                          visible: widget.sd.motor.isEmpty,
+                          child: Container(
+                            height: 1,
+                            width: MediaQuery.of(context).size.width - 40,
+                            decoration: BoxDecoration(
+                              color: Colors.yellow[100],
+                              border: const Border(
+                                top: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: widget.sd.motor.isEmpty ? 5 : 0),
+                        ),
+                        Visibility(
+                          visible: widget.sd.motor.isEmpty,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  const Icon(
+                                    Icons.thermostat,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text(
+                                    '${widget.sd.temperaturaHome.toStringAsFixed(1)}°C  ',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  )
+                                ]),
+                                Row(children: [
+                                  const Icon(
+                                    Icons.water_drop,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  ),
+                                  Text(
+                                    '${widget.sd.humidityHome.toStringAsFixed(1)} %',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  )
+                                ])
+                              ],
+                            ),
+                          ),
+                        ),
+                        Column(children: <Widget>[
+                          widget.sd.motor.isNotEmpty
+                              ? widgetListMainForCurtains()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: widget.sd.releAll.isEmpty
+                                      ? 0
+                                      : widget.sd.listChoiseMainName.isEmpty
+                                          ? 1
+                                          : widget.sd.listChoiseMainName
+                                                      .length >=
+                                                  10
+                                              ? widget
+                                                  .sd.listChoiseMainName.length
+                                              : widget.sd.listChoiseMainName
+                                                      .length +
+                                                  1,
+                                  scrollDirection: Axis.vertical,
+                                  controller: _scrollController,
+                                  itemBuilder: (context, index) {
+                                    return index ==
+                                            widget.sd.listChoiseMainName.length
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: widget.theme
+                                                          .switchValueTheme()
+                                                      ? Colors.black
+                                                      : const Color.fromARGB(
+                                                          255, 219, 211, 211),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              child: ListTile(
+                                                title: const Center(
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 30,
+                                                    color: Colors.blue,
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  listChoiceDialog(widget.sd,
+                                                      context, false, 0);
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                bottom: 10),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: widget.theme
+                                                            .switchValueTheme()
+                                                        ? Colors.black
+                                                        : const Color.fromARGB(
+                                                            255, 219, 211, 211),
+                                                    borderRadius: const BorderRadius
+                                                            .all(
+                                                        Radius.circular(20))),
+                                                clipBehavior: Clip.hardEdge,
+                                                child: Slidable(
+                                                    key: Key(widget.sd
+                                                            .listChoiseMainName[
+                                                        index]),
+                                                    actionPane:
+                                                        const SlidableScrollActionPane(),
+                                                    secondaryActions: [
+                                                      IconSlideAction(
+                                                        caption:
+                                                            "delete.label".tr(),
+                                                        color: Colors.red,
+                                                        icon: Icons.delete,
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  title: Text(
+                                                                      "are-you-sure-you-want-to-delete-this-item.label"
+                                                                          .tr()),
+                                                                  actions: <
+                                                                      Widget>[
+                                                                    TextButton(
+                                                                      style: TextButton
+                                                                          .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.blue,
+                                                                        textStyle:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Text(
+                                                                        'no.label'
+                                                                            .tr(),
+                                                                        style: const TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
                                                                     ),
-                                                                  ),
-                                                                  child: Text(
-                                                                    'no.label'
-                                                                        .tr(),
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                                TextButton(
-                                                                  style: TextButton
-                                                                      .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .blue,
-                                                                    textStyle:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                  ),
-                                                                  child: Text(
-                                                                    'yes.label'
-                                                                        .tr(),
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    setState(
-                                                                        () {
-                                                                      if (widget
-                                                                              .sd
-                                                                              .listChoiseMainType[index] ==
-                                                                          'termostat') {
-                                                                        if (widget
-                                                                            .sd
-                                                                            .listChoiseMainTypeControlItem
-                                                                            .isNotEmpty) {
-                                                                          if (!widget
-                                                                              .sd
-                                                                              .listChoiseMainTypeControlItem
-                                                                              .contains('termostat')) {
-                                                                            widget.sd.termostatNumber =
-                                                                                -1;
+                                                                    TextButton(
+                                                                      style: TextButton
+                                                                          .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.blue,
+                                                                        textStyle:
+                                                                            const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Text(
+                                                                        'yes.label'
+                                                                            .tr(),
+                                                                        style: const TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        setState(
+                                                                            () {
+                                                                          if (widget.sd.listChoiseMainType[index] ==
+                                                                              'termostat') {
+                                                                            if (widget.sd.listChoiseMainTypeControlItem.isNotEmpty) {
+                                                                              if (!widget.sd.listChoiseMainTypeControlItem.contains('termostat')) {
+                                                                                widget.sd.termostatNumber = -1;
+                                                                              }
+                                                                            } else {
+                                                                              widget.sd.termostatNumber = -1;
+                                                                            }
                                                                           }
-                                                                        } else {
+                                                                          if (widget.sd.listChoiseMainType[index] ==
+                                                                              'humidityTermostat') {
+                                                                            if (widget.sd.listChoiseMainTypeControlItem.isNotEmpty) {
+                                                                              if (!widget.sd.listChoiseMainTypeControlItem.contains('humidityTermostat')) {
+                                                                                widget.sd.humidityTermostatNumber = -1;
+                                                                              }
+                                                                            } else {
+                                                                              widget.sd.humidityTermostatNumber = -1;
+                                                                            }
+                                                                          }
                                                                           widget
                                                                               .sd
-                                                                              .termostatNumber = -1;
-                                                                        }
-                                                                      }
-                                                                      if (widget
-                                                                              .sd
-                                                                              .listChoiseMainType[index] ==
-                                                                          'humidityTermostat') {
-                                                                        if (widget
-                                                                            .sd
-                                                                            .listChoiseMainTypeControlItem
-                                                                            .isNotEmpty) {
-                                                                          if (!widget
-                                                                              .sd
-                                                                              .listChoiseMainTypeControlItem
-                                                                              .contains('humidityTermostat')) {
-                                                                            widget.sd.humidityTermostatNumber =
-                                                                                -1;
-                                                                          }
-                                                                        } else {
+                                                                              .listChoiseMainName
+                                                                              .removeAt(index);
                                                                           widget
                                                                               .sd
-                                                                              .humidityTermostatNumber = -1;
-                                                                        }
-                                                                      }
-                                                                      widget.sd
-                                                                          .listChoiseMainName
-                                                                          .removeAt(
-                                                                              index);
-                                                                      widget.sd
-                                                                          .listChoiseMainType
-                                                                          .removeAt(
-                                                                              index);
-                                                                      widget.sd
-                                                                          .listChoiseMainNumber
-                                                                          .removeAt(
-                                                                              index);
-                                                                    });
-                                                                    SharedPreferences
-                                                                        prefs =
-                                                                        await SharedPreferences
-                                                                            .getInstance();
-                                                                    prefs.setStringList(
-                                                                        '${widget.sd.nameDevice}-listChoiseMain.name',
-                                                                        widget
-                                                                            .sd
-                                                                            .listChoiseMainName);
-                                                                    prefs.setStringList(
-                                                                        '${widget.sd.nameDevice}-listChoiseMain.type',
-                                                                        widget
-                                                                            .sd
-                                                                            .listChoiseMainType);
-                                                                    prefs.setStringList(
-                                                                        '${widget.sd.nameDevice}-listChoiseMain.number',
-                                                                        widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber);
-                                                                    prefs.setInt(
-                                                                        '${widget.sd.nameDevice}-termostatNumber',
-                                                                        widget
-                                                                            .sd
-                                                                            .termostatNumber);
-                                                                    prefs.setInt(
-                                                                        '${widget.sd.nameDevice}-humidityTermostatNumber',
-                                                                        widget
-                                                                            .sd
-                                                                            .humidityTermostatNumber);
-                                                                    // ignore: use_build_context_synchronously
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
-                                                          });
-                                                    },
-                                                  )
-                                                ],
-                                                child: ListTile(
-                                                  title: Text(widget.sd
-                                                          .listChoiseMainName[
-                                                      index]),
-                                                  leading: widget.sd.listChoiseMainType[index] ==
-                                                          'termostat'
-                                                      ? Image.asset(
-                                                          'images/termostat.png',
-                                                          width: 50,
-                                                          height: 50,
-                                                          color: widget.theme
-                                                                  .switchValueTheme()
-                                                              ? Colors.white60
-                                                              : Colors.black)
-                                                      : widget.sd.listChoiseMainType[index] ==
-                                                              'humidityTermostat'
+                                                                              .listChoiseMainType
+                                                                              .removeAt(index);
+                                                                          widget
+                                                                              .sd
+                                                                              .listChoiseMainNumber
+                                                                              .removeAt(index);
+                                                                        });
+                                                                        SharedPreferences
+                                                                            prefs =
+                                                                            await SharedPreferences.getInstance();
+                                                                        prefs.setStringList(
+                                                                            '${widget.sd.nameDevice}-listChoiseMain.name',
+                                                                            widget.sd.listChoiseMainName);
+                                                                        prefs.setStringList(
+                                                                            '${widget.sd.nameDevice}-listChoiseMain.type',
+                                                                            widget.sd.listChoiseMainType);
+                                                                        prefs.setStringList(
+                                                                            '${widget.sd.nameDevice}-listChoiseMain.number',
+                                                                            widget.sd.listChoiseMainNumber);
+                                                                        prefs.setInt(
+                                                                            '${widget.sd.nameDevice}-termostatNumber',
+                                                                            widget.sd.termostatNumber);
+                                                                        prefs.setInt(
+                                                                            '${widget.sd.nameDevice}-humidityTermostatNumber',
+                                                                            widget.sd.humidityTermostatNumber);
+                                                                        // ignore: use_build_context_synchronously
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              });
+                                                        },
+                                                      )
+                                                    ],
+                                                    child: ListTile(
+                                                      title: Text(
+                                                        widget.sd
+                                                                .listChoiseMainName[
+                                                            index],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                      leading: widget.sd.listChoiseMainType[index] ==
+                                                              'termostat'
                                                           ? Image.asset(
-                                                              'images/humdity_term.png',
-                                                              width: 45,
-                                                              height: 45,
-                                                            )
+                                                              'images/termostat.png',
+                                                              width: 50,
+                                                              height: 50,
+                                                              color: widget.theme
+                                                                      .switchValueTheme()
+                                                                  ? Colors
+                                                                      .white60
+                                                                  : Colors
+                                                                      .black)
                                                           : widget.sd.listChoiseMainType[index] ==
-                                                                  'motor'
+                                                                  'humidityTermostat'
                                                               ? Image.asset(
-                                                                  widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1
-                                                                      ? 'images/curtains_open.png'
-                                                                      : 'images/curtains_close.png',
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  color: widget
-                                                                          .theme
-                                                                          .switchValueTheme()
-                                                                      ? Colors
-                                                                          .white60
-                                                                      : Colors
-                                                                          .black)
-                                                              : Image.asset(widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1 ? 'images/bulb_on.png' : 'images/bulb_off.png',
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  color: widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] != 1
-                                                                      ? widget.theme.switchValueTheme()
+                                                                  'images/humdity_term.png',
+                                                                  width: 45,
+                                                                  height: 45,
+                                                                )
+                                                              : widget.sd.listChoiseMainType[index] ==
+                                                                      'motor'
+                                                                  ? Image.asset(
+                                                                      widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1
+                                                                          ? 'images/curtains_open.png'
+                                                                          : 'images/curtains_close.png',
+                                                                      width: 50,
+                                                                      height:
+                                                                          50,
+                                                                      color: widget
+                                                                              .theme
+                                                                              .switchValueTheme()
                                                                           ? Colors.white60
-                                                                          : Colors.black
-                                                                      : null),
-                                                  trailing: SizedBox(
-                                                      width: widget.sd.listChoiseMainNumber[
-                                                                      index] ==
-                                                                  widget.sd
-                                                                      .termostatNumber
-                                                                      .toString() ||
-                                                              widget.sd.listChoiseMainNumber[
-                                                                      index] ==
-                                                                  widget.sd
-                                                                      .humidityTermostatNumber
-                                                                      .toString()
-                                                          ? 228 //179
-                                                          : 59,
-                                                      height: 40,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          widget.sd.listChoiseMainNumber[
+                                                                          : Colors.black)
+                                                                  : Image.asset(widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] == 1 ? 'images/bulb_on.png' : 'images/bulb_off.png',
+                                                                      width: 50,
+                                                                      height: 50,
+                                                                      color: widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] != 1
+                                                                          ? widget.theme.switchValueTheme()
+                                                                              ? Colors.white60
+                                                                              : Colors.black
+                                                                          : null),
+                                                      trailing: SizedBox(
+                                                          width: widget.sd.listChoiseMainNumber[
                                                                           index] ==
                                                                       widget.sd
                                                                           .termostatNumber
@@ -759,353 +895,278 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                                                       widget.sd
                                                                           .humidityTermostatNumber
                                                                           .toString()
-                                                              ? Row(children: [
-                                                                  pushCommandForTermostat &&
-                                                                          valueChoiseIndexForTermostat ==
-                                                                              index
-                                                                      ? Container(
-                                                                          transform: Matrix4.translationValues(
-                                                                              0.0,
-                                                                              -8.0,
-                                                                              0.0),
-                                                                          child: IconButton(
-                                                                              onPressed: () async {
-                                                                                if (!widget.sd.readAnswerCheck) {
+                                                              ? 228 //179
+                                                              : 59,
+                                                          height: 40,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              widget.sd.listChoiseMainNumber[
+                                                                              index] ==
+                                                                          widget
+                                                                              .sd
+                                                                              .termostatNumber
+                                                                              .toString() ||
+                                                                      widget.sd.listChoiseMainNumber[
+                                                                              index] ==
+                                                                          widget
+                                                                              .sd
+                                                                              .humidityTermostatNumber
+                                                                              .toString()
+                                                                  ? Row(
+                                                                      children: [
+                                                                          pushCommandForTermostat && valueChoiseIndexForTermostat == index
+                                                                              ? Container(
+                                                                                  transform: Matrix4.translationValues(0.0, -8.0, 0.0),
+                                                                                  child: IconButton(
+                                                                                      onPressed: () async {
+                                                                                        if (!widget.sd.readAnswerCheck) {
+                                                                                          setState(() {
+                                                                                            pushCommandForTermostat = !pushCommandForTermostat;
+                                                                                            valueChoiseIndexForTermostat = -1;
+                                                                                            widget.sd.readAnswer = true;
+                                                                                          });
+                                                                                          if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                            if (widget.sd.termostat == 0) {
+                                                                                              //GET /Q:12.0 HTTP/1.1
+                                                                                              await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
+                                                                                              await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
+                                                                                            } else {
+                                                                                              await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
+                                                                                              await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
+                                                                                            }
+                                                                                          } else {
+                                                                                            if (widget.sd.humidityTermostat == 0) {
+                                                                                              await sendCommand("GET /E:non HTTP/1.1", widget.sd);
+                                                                                              await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
+                                                                                            } else {
+                                                                                              await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
+                                                                                              await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      },
+                                                                                      icon: const Icon(Icons.check_box_outlined, color: Colors.red, size: 40)))
+                                                                              : const SizedBox(),
+                                                                          Container(
+                                                                              decoration: BoxDecoration(
+                                                                                color: Colors.blue[200],
+                                                                                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                                                boxShadow: [
+                                                                                  BoxShadow(
+                                                                                    color: Colors.grey.withOpacity(0.5),
+                                                                                    spreadRadius: 5,
+                                                                                    blurRadius: 7,
+                                                                                    offset: const Offset(0, 3), // changes position of shadow
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              width: 120,
+                                                                              height: 37,
+                                                                              child: SpinBox(
+                                                                                iconColor: MaterialStateProperty.all<Color>(widget.theme.switchValueTheme() ? Colors.white : Colors.black),
+                                                                                cursorColor: Colors.blue,
+                                                                                decoration: const InputDecoration(
+                                                                                  contentPadding: EdgeInsets.only(top: 50),
+                                                                                ),
+                                                                                spacing: 3,
+                                                                                decimals: 1,
+                                                                                step: 0.1,
+                                                                                min: 0.0,
+                                                                                max: 100.0,
+                                                                                value: widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString() ? widget.sd.termostat : widget.sd.humidityTermostat,
+                                                                                onChanged: (value) {
                                                                                   setState(() {
-                                                                                    pushCommandForTermostat = !pushCommandForTermostat;
-                                                                                    valueChoiseIndexForTermostat = -1;
-                                                                                    widget.sd.readAnswer = true;
+                                                                                    if (!widget.sd.readAnswerCheck) {
+                                                                                      widget.sd.readAnswer = true;
+                                                                                      pushCommandForTermostat = true;
+                                                                                      valueChoiseIndexForTermostat = index;
+                                                                                      if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
+                                                                                        widget.sd.termostat = value;
+                                                                                      } else {
+                                                                                        widget.sd.humidityTermostat = value;
+                                                                                      }
+                                                                                    }
                                                                                   });
-                                                                                  if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
-                                                                                    if (widget.sd.termostat == 0) {
-                                                                                      //GET /Q:12.0 HTTP/1.1
-                                                                                      await sendCommand("GET /Q:non HTTP/1.1", widget.sd);
-                                                                                      await sendCommand("GET /QN:non HTTP/1.1", widget.sd);
-                                                                                    } else {
-                                                                                      await sendCommand("GET /Q:${widget.sd.termostat} HTTP/1.1", widget.sd);
-                                                                                      await sendCommand("GET /QN:${widget.sd.termostatNumber} HTTP/1.1", widget.sd);
-                                                                                    }
-                                                                                  } else {
-                                                                                    if (widget.sd.humidityTermostat == 0) {
-                                                                                      await sendCommand("GET /E:non HTTP/1.1", widget.sd);
-                                                                                      await sendCommand("GET /EN:non HTTP/1.1", widget.sd);
-                                                                                    } else {
-                                                                                      await sendCommand("GET /E:${widget.sd.humidityTermostat} HTTP/1.1", widget.sd);
-                                                                                      await sendCommand("GET /EN:${widget.sd.humidityTermostatNumber} HTTP/1.1", widget.sd);
-                                                                                    }
-                                                                                  }
-                                                                                }
-                                                                              },
-                                                                              icon: const Icon(Icons.check_box_outlined, color: Colors.red, size: 40)))
-                                                                      : const SizedBox(),
-                                                                  Container(
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .blue[200],
-                                                                        borderRadius:
-                                                                            const BorderRadius.all(Radius.circular(5.0)),
-                                                                        boxShadow: [
-                                                                          BoxShadow(
-                                                                            color:
-                                                                                Colors.grey.withOpacity(0.5),
-                                                                            spreadRadius:
-                                                                                5,
-                                                                            blurRadius:
-                                                                                7,
-                                                                            offset:
-                                                                                const Offset(0, 3), // changes position of shadow
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      width:
-                                                                          120,
-                                                                      height:
-                                                                          37,
-                                                                      child:
-                                                                          SpinBox(
-                                                                        iconColor: MaterialStateProperty.all<
-                                                                            Color>(widget.theme
-                                                                                .switchValueTheme()
-                                                                            ? Colors.white
-                                                                            : Colors.black),
-                                                                        cursorColor:
-                                                                            Colors.blue,
-                                                                        decoration:
-                                                                            const InputDecoration(
-                                                                          contentPadding:
-                                                                              EdgeInsets.only(top: 50),
-                                                                        ),
-                                                                        spacing:
-                                                                            3,
-                                                                        decimals:
-                                                                            1,
-                                                                        step:
-                                                                            0.1,
-                                                                        min:
-                                                                            0.0,
-                                                                        max:
-                                                                            100.0,
-                                                                        value: widget.sd.listChoiseMainNumber[index] ==
-                                                                                widget.sd.termostatNumber.toString()
-                                                                            ? widget.sd.termostat
-                                                                            : widget.sd.humidityTermostat,
-                                                                        onChanged:
-                                                                            (value) {
-                                                                          setState(
-                                                                              () {
-                                                                            if (!widget.sd.readAnswerCheck) {
-                                                                              widget.sd.readAnswer = true;
-                                                                              pushCommandForTermostat = true;
-                                                                              valueChoiseIndexForTermostat = index;
-                                                                              if (widget.sd.listChoiseMainNumber[index] == widget.sd.termostatNumber.toString()) {
-                                                                                widget.sd.termostat = value;
-                                                                              } else {
-                                                                                widget.sd.humidityTermostat = value;
-                                                                              }
+                                                                                },
+                                                                              ))
+                                                                        ])
+                                                                  : const SizedBox(),
+                                                              CupertinoSwitch(
+                                                                value: widget.sd.listChoiseMainType[
+                                                                            index] ==
+                                                                        'motor'
+                                                                    ? widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                            1
+                                                                        ? true
+                                                                        : false
+                                                                    : widget.sd.releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                            1
+                                                                        ? true
+                                                                        : false,
+                                                                onChanged:
+                                                                    (value) {
+                                                                  setState(() {
+                                                                    if (!widget
+                                                                        .sd
+                                                                        .readAnswerCheck) {
+                                                                      widget.sd
+                                                                              .readAnswer =
+                                                                          true;
+                                                                      if (value) {
+                                                                        if (widget.sd.listChoiseMainType[index] ==
+                                                                            'rele') {
+                                                                          widget
+                                                                              .sd
+                                                                              .releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                          if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                              10) {
+                                                                            sendCommand("/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            sendCommand("/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          }
+                                                                        } else if (widget.sd.listChoiseMainType[index] ==
+                                                                            'motor') {
+                                                                          if (widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                              2) {
+                                                                            //Not calibrated
+                                                                            listCalibrationMotorFromAllList(
+                                                                                widget.sd,
+                                                                                context,
+                                                                                int.tryParse(widget.sd.listChoiseMainNumber[index])!);
+                                                                          } else {
+                                                                            if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                                10) {
+                                                                              widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                              sendCommand("/M=ONN${widget.sd.listChoiseMainNumber[index]}", widget.sd);
+                                                                            } else {
+                                                                              widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                              sendCommand("/M=ON${widget.sd.listChoiseMainNumber[index]}", widget.sd);
                                                                             }
-                                                                          });
-                                                                        },
-                                                                      ))
-                                                                ])
-                                                              : const SizedBox(),
-                                                          CupertinoSwitch(
-                                                            value: widget.sd.listChoiseMainType[
-                                                                        index] ==
-                                                                    'motor'
-                                                                ? widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[
-                                                                            index])!] ==
-                                                                        1
-                                                                    ? true
-                                                                    : false
-                                                                : widget.sd.releAll[int.tryParse(widget
-                                                                            .sd
-                                                                            .listChoiseMainNumber[index])!] ==
-                                                                        1
-                                                                    ? true
-                                                                    : false,
-                                                            onChanged: (value) {
-                                                              setState(() {
-                                                                if (!widget.sd
-                                                                    .readAnswerCheck) {
-                                                                  widget.sd
-                                                                          .readAnswer =
-                                                                      true;
-                                                                  if (value) {
-                                                                    if (widget.sd.listChoiseMainType[
-                                                                            index] ==
-                                                                        'rele') {
-                                                                      widget.sd
-                                                                          .releAll[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[
-                                                                          index])!] = 1;
-                                                                      if (int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])! >=
-                                                                          10) {
-                                                                        sendCommand(
-                                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      } else {
-                                                                        sendCommand(
-                                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      }
-                                                                    } else if (widget.sd.listChoiseMainType[
-                                                                            index] ==
-                                                                        'motor') {
-                                                                      if (widget
-                                                                              .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
-                                                                          2) {
-                                                                        //Not calibrated
-                                                                        listCalibrationMotorFromAllList(
-                                                                            widget.sd,
-                                                                            context,
-                                                                            int.tryParse(widget.sd.listChoiseMainNumber[index])!);
-                                                                      } else {
-                                                                        if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
-                                                                            10) {
+                                                                          }
+                                                                        } else if (widget.sd.listChoiseMainType[index] ==
+                                                                                'termostat' ||
+                                                                            widget.sd.listChoiseMainType[index] ==
+                                                                                'humidityTermostat') {
+                                                                          if (widget.sd.listChoiseMainType[index] ==
+                                                                              'termostat') {
+                                                                            widget.sd.termostat =
+                                                                                0;
+                                                                            sendCommand("GET /Q:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            sendCommand("GET /QN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          } else if (widget.sd.listChoiseMainType[index] ==
+                                                                              'humidityTermostat') {
+                                                                            widget.sd.humidityTermostat =
+                                                                                0;
+                                                                            sendCommand("GET /E:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            sendCommand("GET /EN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          }
                                                                           widget
                                                                               .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
-                                                                          sendCommand(
-                                                                              "/M=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                              widget.sd);
-                                                                        } else {
+                                                                              .releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
+                                                                          if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                              10) {
+                                                                            sendCommand("/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            sendCommand("/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          }
+                                                                        }
+                                                                      } else {
+                                                                        if (widget.sd.listChoiseMainType[index] ==
+                                                                            'rele') {
                                                                           widget
                                                                               .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 1;
-                                                                          sendCommand(
-                                                                              "/M=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                              widget.sd);
+                                                                              .releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                          if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                              10) {
+                                                                            sendCommand("/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            sendCommand("/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          }
+                                                                        } else if (widget.sd.listChoiseMainType[index] ==
+                                                                            'motor') {
+                                                                          if (widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
+                                                                              2) {
+                                                                            //Not calibrated
+                                                                            listCalibrationMotorFromAllList(
+                                                                                widget.sd,
+                                                                                context,
+                                                                                int.tryParse(widget.sd.listChoiseMainNumber[index])!);
+                                                                          } else {
+                                                                            if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                                10) {
+                                                                              widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                              sendCommand("/M=OFFF${widget.sd.listChoiseMainNumber[index]}", widget.sd);
+                                                                            } else {
+                                                                              widget.sd.motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                              sendCommand("/M=OFF${widget.sd.listChoiseMainNumber[index]}", widget.sd);
+                                                                            }
+                                                                          }
+                                                                        } else if (widget.sd.listChoiseMainType[index] ==
+                                                                                'termostat' ||
+                                                                            widget.sd.listChoiseMainType[index] ==
+                                                                                'humidityTermostat') {
+                                                                          if (widget.sd.listChoiseMainType[index] ==
+                                                                              'termostat') {
+                                                                            widget.sd.termostat =
+                                                                                0;
+                                                                            sendCommand("GET /Q:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            sendCommand("GET /QN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          } else if (widget.sd.listChoiseMainType[index] ==
+                                                                              'humidityTermostat') {
+                                                                            widget.sd.humidityTermostat =
+                                                                                0;
+                                                                            sendCommand("GET /E:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                            sendCommand("GET /EN:non HTTP/1.1",
+                                                                                widget.sd);
+                                                                          }
+                                                                          widget
+                                                                              .sd
+                                                                              .releAll[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
+                                                                          if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
+                                                                              10) {
+                                                                            sendCommand("/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          } else {
+                                                                            sendCommand("/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
+                                                                                widget.sd);
+                                                                          }
                                                                         }
                                                                       }
-                                                                    } else if (widget.sd.listChoiseMainType[index] ==
-                                                                            'termostat' ||
-                                                                        widget.sd.listChoiseMainType[index] ==
-                                                                            'humidityTermostat') {
-                                                                      if (widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'termostat') {
-                                                                        widget
-                                                                            .sd
-                                                                            .termostat = 0;
-                                                                        sendCommand(
-                                                                            "GET /Q:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                        sendCommand(
-                                                                            "GET /QN:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                      } else if (widget
-                                                                              .sd
-                                                                              .listChoiseMainType[index] ==
-                                                                          'humidityTermostat') {
-                                                                        widget
-                                                                            .sd
-                                                                            .humidityTermostat = 0;
-                                                                        sendCommand(
-                                                                            "GET /E:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                        sendCommand(
-                                                                            "GET /EN:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                      }
                                                                       widget.sd
-                                                                          .releAll[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[
-                                                                          index])!] = 1;
-                                                                      if (int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])! >=
-                                                                          10) {
-                                                                        sendCommand(
-                                                                            "/RELE=ONN${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      } else {
-                                                                        sendCommand(
-                                                                            "/RELE=ON${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      }
+                                                                              .readAnswer =
+                                                                          false;
                                                                     }
-                                                                  } else {
-                                                                    if (widget.sd.listChoiseMainType[
-                                                                            index] ==
-                                                                        'rele') {
-                                                                      widget.sd
-                                                                          .releAll[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[
-                                                                          index])!] = 0;
-                                                                      if (int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])! >=
-                                                                          10) {
-                                                                        sendCommand(
-                                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      } else {
-                                                                        sendCommand(
-                                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      }
-                                                                    } else if (widget.sd.listChoiseMainType[
-                                                                            index] ==
-                                                                        'motor') {
-                                                                      if (widget
-                                                                              .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] ==
-                                                                          2) {
-                                                                        //Not calibrated
-                                                                        listCalibrationMotorFromAllList(
-                                                                            widget.sd,
-                                                                            context,
-                                                                            int.tryParse(widget.sd.listChoiseMainNumber[index])!);
-                                                                      } else {
-                                                                        if (int.tryParse(widget.sd.listChoiseMainNumber[index])! >=
-                                                                            10) {
-                                                                          widget
-                                                                              .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
-                                                                          sendCommand(
-                                                                              "/M=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                              widget.sd);
-                                                                        } else {
-                                                                          widget
-                                                                              .sd
-                                                                              .motor[int.tryParse(widget.sd.listChoiseMainNumber[index])!] = 0;
-                                                                          sendCommand(
-                                                                              "/M=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                              widget.sd);
-                                                                        }
-                                                                      }
-                                                                    } else if (widget.sd.listChoiseMainType[index] ==
-                                                                            'termostat' ||
-                                                                        widget.sd.listChoiseMainType[index] ==
-                                                                            'humidityTermostat') {
-                                                                      if (widget.sd.listChoiseMainType[
-                                                                              index] ==
-                                                                          'termostat') {
-                                                                        widget
-                                                                            .sd
-                                                                            .termostat = 0;
-                                                                        sendCommand(
-                                                                            "GET /Q:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                        sendCommand(
-                                                                            "GET /QN:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                      } else if (widget
-                                                                              .sd
-                                                                              .listChoiseMainType[index] ==
-                                                                          'humidityTermostat') {
-                                                                        widget
-                                                                            .sd
-                                                                            .humidityTermostat = 0;
-                                                                        sendCommand(
-                                                                            "GET /E:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                        sendCommand(
-                                                                            "GET /EN:non HTTP/1.1",
-                                                                            widget.sd);
-                                                                      }
-                                                                      widget.sd
-                                                                          .releAll[int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[
-                                                                          index])!] = 0;
-                                                                      if (int.tryParse(widget
-                                                                              .sd
-                                                                              .listChoiseMainNumber[index])! >=
-                                                                          10) {
-                                                                        sendCommand(
-                                                                            "/RELE=OFFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      } else {
-                                                                        sendCommand(
-                                                                            "/RELE=OFF${widget.sd.listChoiseMainNumber[index]}",
-                                                                            widget.sd);
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                  widget.sd
-                                                                          .readAnswer =
-                                                                      false;
-                                                                }
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      )),
-                                                  onLongPress: () {
-                                                    listChoiceDialog(widget.sd,
-                                                        context, true, index);
-                                                  },
-                                                ))),
-                                      );
-                              })
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ],
+                                                          )),
+                                                      onLongPress: () {
+                                                        listChoiceDialog(
+                                                            widget.sd,
+                                                            context,
+                                                            true,
+                                                            index);
+                                                      },
+                                                    ))),
+                                          );
+                                  })
                         ]),
                         /*TextButton(
                     child: const Text("On", style: TextStyle(fontSize: 20.0)),
@@ -1174,8 +1235,10 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                               "control.label"
                                                   .tr(), // zmiana nazwy
                                               textAlign: TextAlign.center,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.blue,
+                                              ),
                                             )),
                                       ]))),
                               AvatarGlow(
@@ -1186,6 +1249,7 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                 endRadius: 75.0,
                                 repeat: true,
                                 child: FloatingActionButton(
+                                  heroTag: "btn${widget.sd.nameDevice}",
                                   backgroundColor: widget.sd.isListening
                                       ? Colors.blue
                                       : Colors.red,
@@ -1321,8 +1385,9 @@ class ListDeviceWidgetState extends State<ListDeviceWidget> {
                                               "calibration.label"
                                                   .tr(), // zmiana nazwy
                                               textAlign: TextAlign.center,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.blue),
                                             )),
                                       ]))),
                             ])
