@@ -9,7 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthomeproject/algorytm/globalValue.dart' as globals;
 
-void main() async {
+void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   final sharedPrefs = await SharedPreferences.getInstance();
